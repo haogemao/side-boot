@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:tiles="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>管理台</title>
+<!-- <link href="../css/normalize.css" th:href="@{/css/normalize.css}" rel="stylesheet">
+<link href="../css/bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+<link href="../css/jquery/jquery-ui.css" th:href="@{/css/jquery/jquery-ui.css}" rel="stylesheet"> -->
+<link href="../css/template/main.css" th:href="@{/css/template/main.css}" rel="stylesheet">
+<link href="../css/template/alertify.core.css" th:href="@{/css/template/alertify.core.css}" rel="stylesheet" id="toggleCSS">
+<link href="../css/template/icomoon/style.css" th:href="@{/css/template/icomoon/style.css}" rel="stylesheet">
+
+
+<script type="text/javascript" src="../js/jquery/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+<script type="text/javascript" src="../js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" src="../js/vue/vue.min.js" th:src="@{/js/vue/vue.min.js}"></script>
+<script type="text/javascript" src="..js/template/js/alertify.min.js" th:src="@{/js/template/js/alertify.min.js}"></script>
+<script type="text/javascript" src="../js/main/main.js" th:src="@{/js/main/main.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+   /*<![CDATA[*/
+   ctxPath = /*[[@{/}]]*/ '';
+   /*]]>*/
+</script>
+</head>
+<body>
+	<header>
+      <a href="#" class="logo">
+        <img src="../images/img/logo/logo.png" th:attr="src=@{/images/img/logo/logo.png}" alt="Logo"/>
+      </a>
+      <div class="btn-group">
+        <button class="btn btn-primary" th:text="${session.user_info.adminName}"></button>
+        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
+          <span class="caret">
+          </span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a href="#">
+              编辑个人信息
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              账号设置
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Logout
+            </a>
+          </li>
+        </ul>
+      </div>
+      <ul class="mini-nav">
+        <li>
+          <a href="#">
+            <div class="fs1" aria-hidden="true" data-icon="&#xe040;" th:icon="@{&#xe040;}"></div>
+            <!-- <span class="info-label badge badge-warning">
+              3
+            </span> -->
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <div class="fs1" aria-hidden="true" data-icon="&#xe04c;" th:icon="@{&#xe04c;}"></div>
+            <!-- <span class="info-label badge badge-info">
+              5
+            </span> -->
+          </a>
+        </li>
+      </ul>
+    </header>
+    
+    <!-- 主要内容 start -->
+    <div class="container-fluid">
+    	<div class="dashboard-container">
+    		<div class="top-nav">
+    			<ul>
+    				<li th:each="parent, parentsStatus : ${parents}" >
+    					<a href="#" th:attr="data-menuId=${parent.menuId.menuId}" class="selected" th:if="${parentsStatus.index==0}" th:utext="|<div class='fs1' aria-hidden='true' data-icon='${parent.menuId.icon}'></div>${parent.menuId.menuName}|"></a>
+    					<a href="#" th:attr="data-menuId=${parent.menuId.menuId}" th:if="${parentsStatus.index!=0}" th:utext="|<div class='fs1' aria-hidden='true' data-icon='${parent.menuId.icon}'></div>${parent.menuId.menuName}|"></a>
+    				</li>
+    			</ul>
+    			<div class="clearfix"></div>
+    		</div>
+    		<div class="sub-nav">
+    			<ul>
+    				<li th:each="firstChild, firstChildsStatus : ${firstChilds}">
+    					<a href="#" class="heading" th:if="${firstChildsStatus.index==0}" th:utext="${firstChild.menuId.menuName}" th:attr="data-path=${firstChild.menuId.menuPath}" ></a>
+    					<a href="#" th:if="${firstChildsStatus.index!=0}" th:utext="${firstChild.menuId.menuName}" th:attr="data-path=${firstChild.menuId.menuPath}" ></a>
+    				</li>
+    			</ul>
+    		</div>
+    		<div>
+   				<iframe id="content_frame" style="border: 0px; width:100%; height:auto; min-height:695px; overflow-x:hidden; overflow-y:scroll;" src="#">
+   					
+   				</iframe>
+    		</div>
+    	</div>
+    </div>
+    <!-- 主要内容 end -->
+    
+    <footer>
+      <p>
+        &copy; gmc 2018
+      </p>
+    </footer>
+    
+</body>
+</html>
