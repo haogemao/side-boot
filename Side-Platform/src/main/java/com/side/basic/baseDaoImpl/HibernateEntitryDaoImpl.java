@@ -48,6 +48,10 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 //		return entityManager.unwrap(Session.class);
 	}
 	
+	protected void closeSession() {
+		super.getSessionFactory().openSession().close();
+	}
+	
 	/**
 	 * 查询单个实体
 	 * 
@@ -78,6 +82,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		if (maxResult > 0) {
 			criteria.setMaxResults(maxResult);
 		}
+		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
@@ -94,6 +99,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		if (maxResult > 0) {
 			criteria.setMaxResults(maxResult);
 		}
+		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
@@ -143,6 +149,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	//@Transactional
 	public void delete(Object entity) {
 		super.getHibernateTemplate().delete(this.getCurrentSession().merge(entity));
+		this.closeSession(); //关闭session
 	}
 
 	/**
@@ -175,8 +182,10 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		}
 		if (Long.class.isAssignableFrom(obj.getClass())) {
 			long count = (Long) obj;
+			this.closeSession(); //关闭session
 			return (int) (count);
 		} else if (Integer.class.isAssignableFrom(obj.getClass())) {
+			this.closeSession(); //关闭session
 			return (Integer) obj;
 		}
 		throw new ClassCastException(obj.getClass().getName());
@@ -217,13 +226,17 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T find(DetachedCriteriaTS<T> criteria) {
-		return (T) criteria.getExecutableCriteria(getCurrentSession()).setMaxResults(1).uniqueResult();
+		Criteria criteriaTS = criteria.getExecutableCriteria(getCurrentSession());
+		this.closeSession(); //关闭session
+		return (T) criteriaTS.setMaxResults(1).uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findAll(DetachedCriteriaTS<T> detachedCriteria) {
+//		List<T> list = (List<T>) super.getHibernateTemplate().findByCriteria(detachedCriteria.getCriteria());
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getCurrentSession());
+		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
