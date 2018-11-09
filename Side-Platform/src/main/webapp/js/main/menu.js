@@ -1,4 +1,5 @@
 $(function(){
+
 	var app = new Vue({
 		
 		el : '#contianer',
@@ -30,7 +31,7 @@ $(function(){
 				menuType : "",
 				icon : "",
 				parentMenu : "",
-				isParent : ""
+				isParent : 0
 			},
 			menuList : [],
 			childList : [],
@@ -48,10 +49,6 @@ $(function(){
 					if(response.data.data != null){
 						app.menuList = new Array();
 						app.menuList = eval(response.data.data);
-						// var datas = eval(response.data.data);
-						// for(var i = 0; i < datas.length; i++){
-						// 	app.menuList.push(datas[i]);
-						// }
 					}
 				}
 			}).catch(response => {
@@ -73,10 +70,6 @@ $(function(){
 						if(response.data.data != null){
 							app.menuList = new Array();
 							app.menuList = eval(response.data.data);
-							// var datas = eval(response.data.data);
-							// for(var i = 0; i < datas.length; i++){
-							// 	app.menuList.push(datas[i]);
-							// }
 						}
 					}
 				}).catch(response => {
@@ -85,7 +78,25 @@ $(function(){
 				
 			},
 			childSelect : function(){
-				alertify.error("当前输入框的值:" + this.child_search);
+				this.menuObject.key = app.child_search;
+				this.menuObject.isParent = 1;
+				axios({
+					method : 'get',
+					url : ctxPath + 'menu/search',
+					params : {key : this.menuObject.key,
+							  isParent : this.menuObject.isParent,
+							  parentId : app.parentId
+					}
+				}).then(function(response){
+					if(response.data.success){
+						if(response.data.data != null){
+							app.childList = new Array();
+							app.childList = eval(response.data.data);
+						}
+					}
+				}).catch(response => {
+					alertify.error("查询发送异常，请联系管理员");
+				});
 			},
 			select : function(menuId, event){//父级菜单选择触发事件				
 				app.parentId = menuId;
@@ -99,17 +110,13 @@ $(function(){
 						if(response.data.data != null){
 							app.childList = new Array();
 							app.childList = eval(response.data.data);
-						// var datas = eval(response.data.data);
-						// for(var i = 0; i < datas.length; i++){
-						// 	app.menuList.push(datas[i]);
-						// }
 						}
 					}
 				}).catch(response => {
 					alertify.error("查询发送异常，请联系管理员");
 				});
 			},
-			childSelect : function(menuId){
+			childChoose : function(menuId){
 				app.childId = menuId;
 			},
 			addMenu : function(){
@@ -118,17 +125,29 @@ $(function(){
 				$("#parentModal").modal('show');
 				app.menuObject.isParent = 0;
 				app.childId = '';
+				app.menuObject.parentMenu = '';
+				app.parentId = '';
 			},
 			editMenu : function(){
 				if(app.parentId == undefined || app.parentId == ''){
 					alertify.alert("请选择需要编辑的记录");
 					return;
 				} else {
+					// update init form data
+					for(var i = 0; i < app.menuList.length; i ++){
+						var menu = app.menuList[i];
+						if(menu.menuId == app.parentId){
+							app.menuObject = copy(menu);
+							break;
+						}
+					}
+
 					$("#first_control").hide();
 					$("#last_control").show();
 					$("#parentModal").modal('show');
 					app.menuObject.isParent = 0;
 					app.childId = '';
+					app.menuObject.parentMenu = app.parentId;
 				}
 			},
 			delMenu : function(){
@@ -154,10 +173,19 @@ $(function(){
 				}
 			},
 			editChild : function(){
-				if(app.parentId == undefined || app.parentId == ''){
+				if(app.childId == undefined || app.childId == ''){
 					alertify.alert("请选择需要编辑的记录");
 					return;
 				} else {
+
+					for(var i = 0; i < app.childList.length; i ++){
+						var menu = app.childList[i];
+						if(menu.menuId == app.childId){
+							app.menuObject = copy(menu);
+							break;
+						}
+					}
+
 					$("#parentModal").modal('show');
 					$("#first_control").show();
 					app.parentMenu = app.parentId;
@@ -167,7 +195,7 @@ $(function(){
 				}
 			},
 			delChild : function(){
-				if(app.parentId == undefined || app.parentId == ''){
+				if(app.childId == undefined || app.childId == ''){
 					alertify.alert("请选择需要删除的记录");
 					return;
 				} else {
@@ -186,14 +214,25 @@ $(function(){
 				//发送请求
 				axios({
 					method : 'get',
-					url : ctxPath + 'menu/addMenuService',
+					url : ctxPath + 'menu/editMenuService',
 					params : this.menuObject
 				}).then(function(response){
 					if(response.data.success){
 						if(response.data.data != null){
-							app.childList = new Array();
-							app.childList = eval(response.data.data);
-							$("#parentModal").modal('hide');
+							if(app.parentId != undefined && app.parentId != '' && (app.childId != undefined && app.childId != '')){//二级菜单修改
+								app.childList = new Array();
+								app.childList = eval(response.data.data);
+								$("#parentModal").modal('hide');
+							} else if(app.parentId != undefined && app.parentId != '' && (app.childId == undefined || app.childId == '')){//二级菜单新增
+								app.childList = new Array();
+								app.childList = eval(response.data.data);
+								$("#parentModal").modal('hide');
+							}else { //父级菜单新增修改
+								app.menuList = new Array();
+								app.menuList = eval(response.data.data);
+								$("#parentModal").modal('hide');
+							}
+							
 						}
 					}
 				}).catch(response => {
@@ -225,8 +264,19 @@ $(function(){
         app._data.menuObject.icon = "",
         app._data.menuObject.parentMenu = "",
         app._data.menuObject.isParent = 0,
-        app._data.menuObject.key = null;
+		app._data.menuObject.key = null;
+		app._data.parentId = "",
+		app._data.childId = ""
         $("#parentModal").modal('show');
-    });
+	});
+	
+	//对象复制
+	function copy(obj){
+		var newobj = {};
+		for ( var attr in obj) {
+			newobj[attr] = obj[attr];
+		}
+		return newobj;
+	}
 
 });
