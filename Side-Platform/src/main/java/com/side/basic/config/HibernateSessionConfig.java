@@ -111,6 +111,11 @@ public class HibernateSessionConfig {
         return sessionFactory;
     }
     
+    /**
+     * hibernate延迟加载
+     * @param sessionFactory
+     * @return
+     */
     @Bean
     public FilterRegistrationBean<OpenSessionInViewFilter> registerOpenEntityManagerInViewFilterBean() {
         FilterRegistrationBean<OpenSessionInViewFilter> registrationBean = new FilterRegistrationBean<OpenSessionInViewFilter>();
@@ -121,11 +126,6 @@ public class HibernateSessionConfig {
         return registrationBean;
     }
     
-    /**
-     * hibernate延迟加载
-     * @param sessionFactory
-     * @return
-     */
 //    @Bean
 //    public OpenSessionInViewInterceptor openSessionInViewInterceptor(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
 //        OpenSessionInViewInterceptor interceptor = new OpenSessionInViewInterceptor();
