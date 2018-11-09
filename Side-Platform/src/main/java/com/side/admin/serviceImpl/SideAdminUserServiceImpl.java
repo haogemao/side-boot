@@ -35,6 +35,7 @@ public class SideAdminUserServiceImpl extends SideBasicServiceImpl<AdminUser> im
 		if(!StringUtils.isNullOrEmpty(adminCode)) {
 			criteria.add(Restrictions.eq("adminCode", adminCode));
 			adminUser = sideAdminUserDao.find(criteria);
+			System.out.println("用户名:" + adminUser.getAccount().getAccName() + "&密码:" + adminUser.getAccount().getAccPassword());
 		}
 		
 		return adminUser;
