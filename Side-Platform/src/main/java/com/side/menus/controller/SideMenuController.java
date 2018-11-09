@@ -68,9 +68,9 @@ public class SideMenuController {
 		
 	}
 	
-	@RequestMapping("addMenuService")
+	@RequestMapping("editMenuService")
 	@ResponseBody
-	public Map<String, Object> menuAdd(MenuDto dto, HttpSession session){
+	public Map<String, Object> menuEdit(MenuDto dto, HttpSession session){
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<SideMenus> mode;
@@ -80,6 +80,12 @@ public class SideMenuController {
 				dto.setCurrentUser(String.valueOf(user.getAdminId()));
 			}
 			sideMenuService.editMenuByDto(dto);
+			
+			dto.setKey("");
+			dto.setMenuCode("");
+			dto.setMenuName("");
+			dto.setMenuPath("");
+			dto.setParentId(String.valueOf(dto.getParentMenu()));
 			
 			mode = sideMenuService.findMenuByKey(dto);
 			result.put("success", true);
@@ -96,13 +102,6 @@ public class SideMenuController {
 			result.put("data", null);
 			return result;
 		}
-	}
-	
-	@RequestMapping("editMenuService")
-	@ResponseBody
-	public Map<String, String> menuEdit(MenuDto dto){
-		
-		return null;
 	}
 	
 	@RequestMapping("delMenuService")

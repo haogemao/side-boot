@@ -13,14 +13,17 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.support.OpenSessionInViewFilter;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -55,6 +58,7 @@ public class HibernateSessionConfig {
 
         Map<String, Object> jpaProperties = new HashMap<String, Object>();
         jpaProperties.put("spring.jpa.database", env.getProperty("spring.jpa.database"));
+        jpaProperties.put("spring.jpa.open-in-view", env.getProperty("spring.jpa.open-in-view"));
         jpaProperties.put("hibernate.show_sql", env.getProperty("spring.jpa.show-sql"));
         jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
         jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
@@ -107,17 +111,34 @@ public class HibernateSessionConfig {
         return sessionFactory;
     }
     
+    @Bean
+    public FilterRegistrationBean<OpenSessionInViewFilter> registerOpenEntityManagerInViewFilterBean() {
+        FilterRegistrationBean<OpenSessionInViewFilter> registrationBean = new FilterRegistrationBean<OpenSessionInViewFilter>();
+        OpenSessionInViewFilter filter = new OpenSessionInViewFilter();
+        filter.setSessionFactoryBeanName("sessionFactory");
+        registrationBean.setFilter(filter);
+        registrationBean.setOrder(5);
+        return registrationBean;
+    }
+    
     /**
      * hibernate延迟加载
      * @param sessionFactory
      * @return
      */
-    @Bean
-    public OpenSessionInViewInterceptor openSessionInViewInterceptor(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
-        OpenSessionInViewInterceptor interceptor = new OpenSessionInViewInterceptor();
-        interceptor.setSessionFactory(sessionFactory);
-        return interceptor;
-    }
+//    @Bean
+//    public OpenSessionInViewInterceptor openSessionInViewInterceptor(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+//        OpenSessionInViewInterceptor interceptor = new OpenSessionInViewInterceptor();
+//        interceptor.setSessionFactory(sessionFactory);
+//        return interceptor;
+//    }
+//    
+//    @Bean
+//    public OpenEntityManagerInViewFilter openEntityManagerInViewFilte() {
+//    	OpenEntityManagerInViewFilter interceptor = new OpenEntityManagerInViewFilter();
+//    	interceptor.setEntityManagerFactoryBeanName("entityManagerFactory");
+//    	return interceptor;
+//    }
     
 //    public Properties hibernateProperties() {
 //        Properties props = new Properties();

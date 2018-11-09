@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.side.basic.SideException.SideCustException;
 import com.side.basic.baseServiceImpl.SideBasicServiceImpl;
 import com.side.basic.common.utils.DetachedCriteriaTS;
-import com.side.basic.common.utils.PageMode;
 import com.side.menus.IDao.ISideMenuDao;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.dto.MenuDto;
@@ -77,7 +76,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 							Restrictions.ilike("menuName", dto.getKey(), MatchMode.ANYWHERE), 
 							Restrictions.ilike("menuPath", dto.getKey(), MatchMode.ANYWHERE)));
 			}
-			if (dto.getIsParent() != null && dto.getIsParent() == 0) {
+			if (dto.getIsParent() != null) {
 				criteria.add(Restrictions.eq("isParent", dto.getIsParent()));
 			}
 		}

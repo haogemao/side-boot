@@ -20,6 +20,7 @@ import com.side.basic.common.utils.PageMode;
  *
  */
 @Service("sideBasicService")
+@Transactional
 public class SideBasicServiceImpl<T> implements ISideBasicService<T> {
 
 	@Autowired

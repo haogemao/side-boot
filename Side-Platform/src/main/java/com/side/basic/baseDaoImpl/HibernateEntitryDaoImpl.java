@@ -19,8 +19,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Primary;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.side.basic.IbaseDao.HibernateEntitryDao;
 import com.side.basic.common.utils.DetachedCriteriaTS;
@@ -43,13 +45,13 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		super.setSessionFactory(sessionFactory);
 	}
 	
-	protected Session getCurrentSession()  {
-		return super.getSessionFactory().openSession();
-//		return entityManager.unwrap(Session.class);
-	}
+	private Session session = null;
 	
-	protected void closeSession() {
-		super.getSessionFactory().openSession().close();
+	protected Session getCurrentSession()  {
+//		session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+//		session = super.getSessionFactory().openSession();
+//		return session;
+		return entityManager.unwrap(Session.class);
 	}
 	
 	/**
@@ -82,7 +84,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		if (maxResult > 0) {
 			criteria.setMaxResults(maxResult);
 		}
-		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
@@ -99,7 +100,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		if (maxResult > 0) {
 			criteria.setMaxResults(maxResult);
 		}
-		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
@@ -120,8 +120,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	 */
 	//@Transactional
 	public void saveOrUpdate(Object entity) {
-//		Session session = this.getCurrentSession();
-//		super.getHibernateTemplate().saveOrUpdate(session.merge(entity));
 		super.getHibernateTemplate().saveOrUpdate(entity);
 	}
 
@@ -149,7 +147,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	//@Transactional
 	public void delete(Object entity) {
 		super.getHibernateTemplate().delete(this.getCurrentSession().merge(entity));
-		this.closeSession(); //关闭session
 	}
 
 	/**
@@ -161,9 +158,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	//@Transactional
 	public <T> void deleteAll(Collection<T> entities) {
 		if (entities != null && entities.size() > 0) {
-			// for (T t : entities) {
-			// getHibernateTemplate().delete(t);
-			// }
 			getHibernateTemplate().deleteAll(entities);
 		}
 	}
@@ -182,10 +176,8 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		}
 		if (Long.class.isAssignableFrom(obj.getClass())) {
 			long count = (Long) obj;
-			this.closeSession(); //关闭session
 			return (int) (count);
 		} else if (Integer.class.isAssignableFrom(obj.getClass())) {
-			this.closeSession(); //关闭session
 			return (Integer) obj;
 		}
 		throw new ClassCastException(obj.getClass().getName());
@@ -227,7 +219,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	@Override
 	public <T> T find(DetachedCriteriaTS<T> criteria) {
 		Criteria criteriaTS = criteria.getExecutableCriteria(getCurrentSession());
-		this.closeSession(); //关闭session
 		return (T) criteriaTS.setMaxResults(1).uniqueResult();
 	}
 
@@ -236,7 +227,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	public <T> List<T> findAll(DetachedCriteriaTS<T> detachedCriteria) {
 //		List<T> list = (List<T>) super.getHibernateTemplate().findByCriteria(detachedCriteria.getCriteria());
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getCurrentSession());
-		this.closeSession(); //关闭session
 		return criteria.list();
 	}
 
