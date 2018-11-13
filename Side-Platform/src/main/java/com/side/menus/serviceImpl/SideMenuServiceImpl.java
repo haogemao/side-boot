@@ -100,6 +100,9 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 				menu.setMenuType(Integer.parseInt(dto.getMenuType()));
 				menu.setLastUpdateBy(Integer.parseInt(dto.getCurrentUser()));
 				menu.setLastUpdateDate(dto.getDate());
+				if(StringUtils.isNotEmpty(dto.getIcon())) {
+					menu.setIcon(dto.getIcon());
+				}
 			} else {
 				menu = new SideMenus();
 				menu.setMenuName(dto.getMenuName());
