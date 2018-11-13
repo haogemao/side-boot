@@ -113,7 +113,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-on:click="childSelect(child.menuId)" v-if="0 < childList.length" v-for="child in childList">
+										<tr v-on:click="childChoose(child.menuId)" v-if="0 < childList.length" v-for="child in childList">
 											<td th:hidden="true">
 												<input type="hidden" v-model="child.menuId">
 											</td>
@@ -208,7 +208,7 @@
 									<input type="text" name="menuIcon" id="menuIcon" placeholder="选择图标" v-model="menuObject.menuIcon" data-target="#iconModal" data-toggle="modal">
 									<ul>
 										<li>
-											<span id="exemple" class="fs1" aria-hidden="true" data-icon=""></span>
+											<span id="exemple" class="fs1" aria-hidden="true" th:attr="data-icon='${}'"></span>
 										</li>
 									</ul>
 								</div>
