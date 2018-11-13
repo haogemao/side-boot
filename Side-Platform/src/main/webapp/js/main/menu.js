@@ -145,6 +145,7 @@ $(function(){
 					$("#first_control").hide();
 					$("#last_control").show();
 					$("#parentModal").modal('show');
+					$("#exemple").attr("data-icon", app.menuObject.icon)
 					app.menuObject.isParent = 0;
 					app.childId = '';
 					app.menuObject.parentMenu = app.parentId;
