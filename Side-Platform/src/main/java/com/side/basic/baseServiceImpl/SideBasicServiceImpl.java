@@ -5,6 +5,7 @@ package com.side.basic.baseServiceImpl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,6 +89,18 @@ public class SideBasicServiceImpl<T> implements ISideBasicService<T> {
 	public <T> T get(Class<T> entityClass, Serializable id) {
 		// TODO Auto-generated method stub
 		return hibernateEntitryDao.get(entityClass, id);
+	}
+
+	@Override
+	public PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize, Class<T> clazz) {
+		// TODO Auto-generated method stub
+		return hibernateEntitryDao.findBySQL(sql, params, pageNumber, pageSize, clazz);
+	}
+
+	@Override
+	public T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz) {
+		// TODO Auto-generated method stub
+		return hibernateEntitryDao.findObjBySQL(sql, params, clazz);
 	}
 
 }

@@ -4,25 +4,27 @@
 package com.side.basic.baseDaoImpl;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
+import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Primary;
-import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.side.basic.IbaseDao.HibernateEntitryDao;
 import com.side.basic.common.utils.DetachedCriteriaTS;
@@ -45,7 +47,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		super.setSessionFactory(sessionFactory);
 	}
 	
-	private Session session = null;
+//	private Session session = null;
 	
 	protected Session getCurrentSession()  {
 //		session = getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -228,6 +230,82 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 //		List<T> list = (List<T>) super.getHibernateTemplate().findByCriteria(detachedCriteria.getCriteria());
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getCurrentSession());
 		return criteria.list();
+	}
+
+	@Override
+	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize,
+			Class<T> clazz) {
+		List<T> list = null;
+		int count  = 0;
+		PageMode<T> pageMode = null;
+		NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+		
+		if(params != null && params.size() > 0) {
+			int i = 1;
+			for(String key : params.keySet()) {
+				query.setParameter(i, params.get(key));
+				i++;
+			}
+		}
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		
+		list = query.getResultList();
+		count = findCountBySQL(sql, params);
+		if(list != null && list.size() > 0) {
+			pageMode = new PageMode<>(list, pageNumber, pageSize, count);
+		}
+
+		return pageMode;
+	}
+
+	@Override
+	public <T> T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz) {
+		
+		NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+		if(params != null && params.size() > 0) {
+			int i = 1;
+			for(String key : params.keySet()) {
+				query.setParameter(i, params.get(key));
+				i++;
+			}
+		}
+		return query.uniqueResult();
+		
+	}
+	
+	private <T> int findCountBySQL(String sql, Map<String, String> params) {
+		Object myCount = null;
+		StringBuffer sb = new StringBuffer("select count(1) from (");
+		if(StringUtils.isNotEmpty(sql)) {
+			sb.append(sql);
+		}
+		sb.append(") t ");
+		
+		NativeQuery query = getCurrentSession().createNativeQuery(sb.toString());
+		
+		if(params != null && params.size() > 0) {
+			int i = 1;
+			for(String key : params.keySet()) {
+				query.setParameter(i, params.get(key));
+				i++;
+			}
+		}
+		
+		if(query.getResultList() != null && query.getResultList().size() > 0) {
+			myCount = query.getResultList().get(0);
+		}
+		
+		if (Long.class.isAssignableFrom(myCount.getClass())) {
+			long count = (Long) myCount;
+			return (int) (count);
+		} else if (Integer.class.isAssignableFrom(myCount.getClass())) {
+			return (Integer) myCount;
+		} else if (BigInteger.class.isAssignableFrom(myCount.getClass())) {
+			String temp = String.valueOf(myCount);
+			return Integer.parseInt(temp);
+		}
+		throw new ClassCastException(myCount.getClass().getName());
 	}
 
 }

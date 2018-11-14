@@ -5,6 +5,7 @@ package com.side.basic.IbaseService;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import com.side.basic.common.utils.DetachedCriteriaTS;
 import com.side.basic.common.utils.PageMode;
@@ -88,4 +89,22 @@ public interface ISideBasicService<T> {
 	 */
 	@SuppressWarnings("hiding")
 	public <T> T get(Class<T> entityClass, Serializable id);
+	
+	/**
+	 * 根据sql查询列表
+	 * @param sql
+	 * @param params
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize, Class<T> clazz);
+	
+	/**
+	 * 根据sql查询单个对象
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	public T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz);
 }

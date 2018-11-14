@@ -6,6 +6,7 @@ package com.side.basic.IbaseDao;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.side.basic.common.utils.DetachedCriteriaTS;
 import com.side.basic.common.utils.PageMode;
@@ -100,4 +101,25 @@ public interface HibernateEntitryDao {
 	 * @return
 	 */
 	public <T> PageMode<T> findForPage(DetachedCriteriaTS<T> criteria, int pageNumber, int pageSize);
+	
+	/**
+	 * 根据sql查询数据
+	 * @param sql
+	 * @param params
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param clazz
+	 * @return
+	 */
+	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize, Class<T> clazz);
+	
+	/**
+	 * 根据sql查询对象
+	 * @param sql
+	 * @param params
+	 * @param clazz
+	 * @return
+	 */
+	public <T> T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz);
+	
 }
