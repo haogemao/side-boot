@@ -3,6 +3,9 @@
  */
 package com.side.role.roleServiceImpl;
 
+import java.util.List;
+
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,6 +16,7 @@ import com.side.basic.baseServiceImpl.SideBasicServiceImpl;
 import com.side.basic.common.utils.DetachedCriteriaTS;
 import com.side.role.IRoleDao.IRoleDao;
 import com.side.role.IRoleService.IRoleService;
+import com.side.role.dto.RoleDto;
 import com.side.role.pojo.SideRole;
 
 /**
@@ -39,5 +43,18 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 		}
 		
 		return role;
+	}
+
+	@Override
+	public List<SideRole> findRoleByKey(RoleDto dto) {
+		
+		DetachedCriteriaTS<SideRole> criteria = new DetachedCriteriaTS<SideRole>(SideRole.class);
+		
+		if(!StringUtils.isNullOrEmpty(dto.getKey())) {
+			criteria.add(Restrictions.or(Restrictions.like("roleName", dto.getKey(), MatchMode.ANYWHERE), 
+										 Restrictions.like("roleCode", dto.getKey(), MatchMode.ANYWHERE)));
+		}
+		
+		return roleDao.findAll(criteria);
 	}
 }

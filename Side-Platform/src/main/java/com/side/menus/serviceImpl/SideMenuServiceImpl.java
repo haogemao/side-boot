@@ -131,8 +131,16 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 	@Override
 	@Transactional
 	public void delMenuByDto(MenuDto dto) throws SideCustException {
-		// TODO Auto-generated method stub
-		
+		if(StringUtils.isNotBlank(dto.getMenuId())) {
+			SideMenus menu = sideMenuDao.get(SideMenus.class, Integer.valueOf(dto.getMenuCode()));
+			if(menu != null) {
+				sideMenuDao.delete(menu);
+			} else {
+				throw new SideCustException("没有此菜单");
+			}
+		} else {
+			throw new SideCustException("参数有误");
+		}
 	}
 	
 }

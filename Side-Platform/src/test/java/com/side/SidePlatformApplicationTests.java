@@ -67,11 +67,11 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void userTestCase() {
 		SideUsers user = null;
-		user = sideUserService.findUserByCode("000001");
+		user = sideUserService.findUserByCode("000002");
 		if(user == null) {
 			user = new SideUsers();
-			user.setUserCode("000001");
-			user.setUserName("高铭潮");
+			user.setUserCode("000002");
+			user.setUserName("测试人员");
 			user.setLevel(1);
 			user.setCreateBy(1);
 			user.setCreateDate(new Date());
@@ -81,22 +81,22 @@ public class SidePlatformApplicationTests {
 	
 	@Test
 	public void adminTestCase() {
-		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("000001");
+		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("000002");
 		Account account = new Account();
 		try {
 			if(admin == null) {
 				admin = new AdminUser();
-				admin.setAdminCode("00001");
-				admin.setAdminName("系统管理员");
+				admin.setAdminCode("00002");
+				admin.setAdminName("系统测试员");
 				admin.setAdminStatus(1);
 				admin.setCreateBy(1);
 				admin.setCreateDate(new Date());
 				admin.setAccount(account);
 				
-				account.setAccCode("000001");
-				account.setAccName("高铭潮");
+				account.setAccCode("000002");
+				account.setAccName("测试人员");
 				account.setAccStatus(1);
-				account.setAccPassword(UtilMD5.MD5("Angel_870223"));
+				account.setAccPassword(UtilMD5.MD5("123456"));
 				account.setCreateBy(1);
 				account.setCreateDate(new Date());
 				account.setUserId(admin);
