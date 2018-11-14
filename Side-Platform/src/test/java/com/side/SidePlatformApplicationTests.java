@@ -1,9 +1,10 @@
 package com.side;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.mysql.jdbc.StringUtils;
 import com.side.admin.IService.ISideAccountService;
 import com.side.admin.IService.ISideAdminUserService;
 import com.side.admin.pojo.Account;
@@ -22,6 +22,7 @@ import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
 import com.side.authorization.pojo.SideUserRole;
 import com.side.basic.common.utils.DetachedCriteriaTS;
+import com.side.basic.common.utils.PageMode;
 import com.side.basic.common.utils.UtilMD5;
 import com.side.basic.config.DataSourceConfig;
 import com.side.basic.config.HibernateSessionConfig;
@@ -209,6 +210,30 @@ public class SidePlatformApplicationTests {
 			childMenus.setCreateBy(1);
 			childMenus.setCreateDate(new Date());
 			menuService.update(childMenus);
+		}
+	}
+	
+	@Test
+	public void sqlTestCase() {
+		String sql = "select * from side_menus where menuCode=?";
+		Map<String, String> params = new HashMap<String, String>();
+		int pageNumber = 1;
+		int pageSize = 10;
+		params.put("menuCode", "userManager");
+		PageMode<SideMenus> pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize, SideMenus.class);
+		if(pageMode != null) {
+			System.out.println("pageMode.records size : " + pageMode.getRecords().size());
+		}
+	}
+	
+	@Test
+	public void sqlObjTestCase() {
+		String sql = "select * from side_menus where menuCode=?";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("menuCode", "userManager");
+		SideMenus sideMenu = menuService.findObjBySQL(sql, params, SideMenus.class);
+		if(sideMenu != null) {
+			System.out.println("sideMenu.menuCode : " + sideMenu.getMenuCode());
 		}
 	}
 }

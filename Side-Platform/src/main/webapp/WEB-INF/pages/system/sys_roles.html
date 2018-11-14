@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	xmlns:tiles="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<link href="../css/template/main.css" th:href="@{/css/template/main.css}" rel="stylesheet">
+<link href="../css/template/alertify.core.css" th:href="@{/css/template/alertify.core.css}" rel="stylesheet" id="toggleCSS">
+<link href="../css/template/icomoon/style.css" th:href="@{/css/template/icomoon/style.css}" rel="stylesheet">
+
+<script type="text/javascript" src="../js/jquery/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
+<script type="text/javascript" src="../js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+<script type="text/javascript" src="..js/template/js/alertify.min.js" th:src="@{/js/template/js/alertify.min.js}"></script>
+<script type="text/javascript" src="../js/template/js/jquery.scrollUp.js" th:src="@{/js/template/js/jquery.scrollUp.js}"></script>
+<script type="text/javascript" src="../js/template/js/jquery.dataTables.js" th:src="@{/js/template/js/jquery.dataTables.js}"></script>
+<script type="text/javascript" src="../js/vue/vue.js" th:src="@{/js/vue/vue.js}"></script>
+<script type="text/javascript" src="../js/axios/axios.js" th:src="@{/js/axios/axios.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+   /*<![CDATA[*/
+   ctxPath = /*[[@{/}]]*/ '';
+   /*]]>*/
+</script>
+
+<title>系统角色管理</title>
+
+</head>
+<body style="background-color: #FFFFFF;">
+	<div id="contianer" class="dashboard-wrapper">
+		<div class="left-sidebar">
+			<div class="row-fluid">
+				<div class="span5">
+					<div class="widget">
+						<div class="widget-header">
+							<div class="title"><span>角色列表</span></div>
+						</div>
+						<div class="widget-body">
+							<div id="dt_example" class="example_alt_pagination">
+								<div class="dataTables_wrapper" id="data-table_wrapper" role="gird">
+									<div class="dataTables_length">
+										<button type="button" class="btn btn-small btn-success bottom-margin" v-on:click="addMenu">新增</button>
+										<button type="button" class="btn btn-small btn-warning2 bottom-margin" v-on:click="editMenu">修改</button>
+										<button type="button" class="btn btn-small btn-danger bottom-margin" v-on:click="delMenu">删除</button>
+									</div>
+									<!-- 查询条件 -->
+									<div class="dataTables_filter" id="data-table_filter">
+										<label>
+											查询:
+											<input type="text" v-model="parent_search" v-on:keyup="parentSelect" aria-controls="data-table">
+										</label>
+									</div>
+									<!-- 表格主题 -->
+									<table style="margin-bottom: 20px;" class="table table-condensed table-striped table-bordered table-hover no-margin">
+									<thead>
+										<tr>
+											<th th:hidden="true">
+												角色ID
+											</th>
+											<th>角色编码</th>
+											<th>角色名称</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-on:click="select(menu.menuId, $event)" v-if="0 < menuList.length" v-for="menu in menuList">
+											<td th:hidden="true">
+												<input type="hidden" ref="pid" v-model="menu.menuId">
+											</td>
+											<td style="width: 120px;">
+												{{menu.menuCode}}
+											</td>
+											<td>
+												{{menu.menuName}}
+											</td>
+										</tr>
+									</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 新增编辑弹出框 -->
+			<div class="modal hide fade" id="parentModal" tabindex="-1" style="display: none;" role="dialog" aria-labelledby="parentModalLabel">
+				<div class="widget no-margin" role="document">
+					<div class="widget-header">
+						<div class="title">菜单编辑</div>
+						<div class="tools">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						</div>
+					</div>
+					<div class="widget-body">
+						<form id="editForm" class="form-horizontal no-margin" action="">
+							<div id="first_control" class="control-group warning" style="display: none;">
+								<label class="control-label">上级菜单</label>
+								<div class="controls">
+									<input type="text" disabled="disabled" name="parentMenu" id="parentMenu" v-model="menuObject.parentMenu">
+								</div>
+							</div>
+							<div class="control-group warning">
+								<label class="control-label">菜单编码</label>
+								<div class="controls">
+									<input type="text" name="menuCode" id="menuCode" v-model="menuObject.menuCode">
+								</div>
+							</div>
+							<div class="control-group warning">
+								<label class="control-label">菜单名称</label>
+								<div class="controls">
+									<input type="text" name="menuName" id="menuName" v-model="menuObject.menuName">
+								</div>
+							</div>
+							<div class="control-group warning">
+								<label class="control-label">菜单类型</label>
+								<div class="controls">
+									<select name="menuType" id="menuType" v-model="menuObject.menuType">
+										<option value="0">菜单</option>
+										<option value="1">功能按钮</option>
+									</select>
+								</div>
+							</div>
+							<div class="control-group warning">
+								<label class="control-label">菜单地址</label>
+								<div class="controls">
+									<input type="text" name="menuPath" id="menuPath" v-model="menuObject.menuPath">
+								</div>
+							</div>
+							<div class="control-group warning">
+								<label class="control-label">排序</label>
+								<div class="controls">
+									<select name="menuSort" id="menuSort" v-model="menuObject.menuSort">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									</select>
+								</div>
+							</div>
+							<hr>
+							<div class="next-prev-btn-container pull-right">
+								<button type="button" class="button" v-on:click="submit">提交</button>
+								<button type="button" class="button" data-dismiss="modal">取消</button>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<script type="text/javascript" th:inline="javascript" src="../js/main/menu.js" th:src="@{/js/main/role.js}"></script>
+	
+</body>
+</html>
