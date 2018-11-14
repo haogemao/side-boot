@@ -103,4 +103,16 @@ public class SideBasicServiceImpl<T> implements ISideBasicService<T> {
 		return hibernateEntitryDao.findObjBySQL(sql, params, clazz);
 	}
 
+	@Override
+	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
+		// TODO Auto-generated method stub
+		return hibernateEntitryDao.findBySQL(sql, params, pageNumber, pageSize);
+	}
+
+	@Override
+	public Object findObjBySQL(String sql, Map<String, String> params) {
+		// TODO Auto-generated method stub
+		return hibernateEntitryDao.findObjBySQL(sql, params);
+	}
+
 }

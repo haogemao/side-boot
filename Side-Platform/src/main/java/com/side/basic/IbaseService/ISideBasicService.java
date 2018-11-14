@@ -96,6 +96,7 @@ public interface ISideBasicService<T> {
 	 * @param params
 	 * @param pageNumber
 	 * @param pageSize
+	 * @param clazz
 	 * @return
 	 */
 	public PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize, Class<T> clazz);
@@ -104,7 +105,26 @@ public interface ISideBasicService<T> {
 	 * 根据sql查询单个对象
 	 * @param sql
 	 * @param params
+	 * @param clazz
 	 * @return
 	 */
 	public T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz);
+	
+	/**
+	 * 根据sql查询列表
+	 * @param sql
+	 * @param params
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize);
+	
+	/**
+	 * 根据sql查询单个对象
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	public Object findObjBySQL(String sql, Map<String, String> params);
 }

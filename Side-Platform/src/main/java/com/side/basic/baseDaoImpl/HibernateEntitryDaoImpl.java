@@ -308,4 +308,45 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		throw new ClassCastException(myCount.getClass().getName());
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
+		List list = null;
+		int count  = 0;
+		PageMode pageMode = null;
+		NativeQuery query = getCurrentSession().createNativeQuery(sql);
+		
+		if(params != null && params.size() > 0) {
+			int i = 1;
+			for(String key : params.keySet()) {
+				query.setParameter(i, params.get(key));
+				i++;
+			}
+		}
+		query.setFirstResult((pageNumber - 1) * pageSize);
+		query.setMaxResults(pageSize);
+		
+		list = query.getResultList();
+		count = findCountBySQL(sql, params);
+		if(list != null && list.size() > 0) {
+			pageMode = new PageMode(list, pageNumber, pageSize, count);
+		}
+
+		return pageMode;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Object findObjBySQL(String sql, Map<String, String> params) {
+		NativeQuery query = getCurrentSession().createNativeQuery(sql);
+		if(params != null && params.size() > 0) {
+			int i = 1;
+			for(String key : params.keySet()) {
+				query.setParameter(i, params.get(key));
+				i++;
+			}
+		}
+		return query.uniqueResult();
+	}
+
 }

@@ -122,4 +122,22 @@ public interface HibernateEntitryDao {
 	 */
 	public <T> T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz);
 	
+	/**
+	 * 根据sql查询数据集合
+	 * @param sql
+	 * @param params
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return
+	 */
+	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize);
+	
+	/**
+	 * 根据sql查询对象
+	 * @param sql
+	 * @param params
+	 * @return
+	 */
+	public Object findObjBySQL(String sql, Map<String, String> params);
+	
 }
