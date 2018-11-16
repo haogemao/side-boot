@@ -11,10 +11,10 @@ import org.springframework.context.annotation.ComponentScan;
 public class SidePlatformApplication {
 
 	public static void main(String[] args) {
-		System.out.println("================启动工程=================");
+		System.out.println("================project startup=================");
 		
 		SpringApplication.run(SidePlatformApplication.class, args);
 		
-		System.out.println("================工程已启动=================");
+		System.out.println("================project startup over=================");
 	}
 }

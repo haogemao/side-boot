@@ -220,7 +220,7 @@ public class SidePlatformApplicationTests {
 		int pageNumber = 1;
 		int pageSize = 10;
 		params.put("menuCode", "userManager");
-		PageMode<SideMenus> pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize, SideMenus.class);
+		PageMode pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize);
 		if(pageMode != null) {
 			System.out.println("pageMode.records size : " + pageMode.getRecords().size());
 		}
@@ -231,9 +231,9 @@ public class SidePlatformApplicationTests {
 		String sql = "select * from side_menus where menuCode=?";
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("menuCode", "userManager");
-		SideMenus sideMenu = menuService.findObjBySQL(sql, params, SideMenus.class);
+		Object sideMenu = menuService.findObjBySQL(sql, params);
 		if(sideMenu != null) {
-			System.out.println("sideMenu.menuCode : " + sideMenu.getMenuCode());
+			System.out.println("sideMenu.menuCode : ");
 		}
 	}
 }

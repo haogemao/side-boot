@@ -274,6 +274,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private <T> int findCountBySQL(String sql, Map<String, String> params) {
 		Object myCount = null;
 		StringBuffer sb = new StringBuffer("select count(1) from (");
