@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -68,7 +69,7 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void userTestCase() {
 		SideUsers user = null;
-		user = sideUserService.findUserByCode("000002");
+		user = sideUserService.findUserByCode("00001");
 		if(user == null) {
 			user = new SideUsers();
 			user.setUserCode("000002");
@@ -82,7 +83,7 @@ public class SidePlatformApplicationTests {
 	
 	@Test
 	public void adminTestCase() {
-		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("000002");
+		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("00001");
 		Account account = new Account();
 		try {
 			if(admin == null) {
@@ -103,6 +104,11 @@ public class SidePlatformApplicationTests {
 				account.setUserId(admin);
 				
 				sideAdminUserService.save(admin);
+			} else {
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				admin.getAccount().setAccPassword(encoder.encode("123456"));
+				System.out.println("密码:" + encoder.encode("123456"));
+				sideAdminUserService.update(admin);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -235,5 +241,11 @@ public class SidePlatformApplicationTests {
 		if(sideMenu != null) {
 			System.out.println("sideMenu.menuCode : ");
 		}
+	}
+	
+	@Test
+	public void test3() {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		System.out.println("加密后:" + encoder.encode("secret"));
 	}
 }
