@@ -1,6 +1,0 @@
-FROM appserver:0.1
-MAINTAINER gaomingchao
-VOLUME /tmp
-RUN yum install mysql-server
-
-ENTRYPOINT ["java","-jar","/platform.jar"]

@@ -52,7 +52,6 @@ public class LoginController {
 
 	@RequestMapping(value="login", name="login", path="login", method=RequestMethod.GET)
 	public String toLogin(ModelMap mode) {
-		System.out.println("进入登录界面");
 		return "index/login";
 	}
 	

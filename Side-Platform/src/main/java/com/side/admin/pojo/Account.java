@@ -33,7 +33,7 @@ public class Account implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Long id;
+	private Long accountId;
 	
 	@Column(length=32, nullable=false)
 	private String accCode;
@@ -71,14 +71,6 @@ public class Account implements Serializable {
 	
 	@Column(nullable=false)
 	private Integer accStatus;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getAccCode() {
 		return accCode;
@@ -174,6 +166,14 @@ public class Account implements Serializable {
 
 	public void setAccStatus(Integer accStatus) {
 		this.accStatus = accStatus;
+	}
+
+	public Long getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
 	}
 	
 }

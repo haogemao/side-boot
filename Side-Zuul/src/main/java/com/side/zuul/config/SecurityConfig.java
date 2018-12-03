@@ -34,7 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.antMatcher("/side/**").authorizeRequests().anyRequest()
+		http.antMatcher("/side/**").authorizeRequests()
+		.antMatchers("/side/restLoginAPI/**" ,"side/restMenuAPI/**", "/oauth/**").permitAll()
+		.anyRequest()
 		.authenticated().and().csrf()
 		.csrfTokenRepository(csrfTokenRepository()).and()
 		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)

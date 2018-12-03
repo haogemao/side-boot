@@ -26,7 +26,7 @@ import com.side.menus.pojo.SideMenus;
 
 /**
  * @author gmc
- *
+ * 
  */
 
 @Controller
@@ -85,7 +85,9 @@ public class SideMenuController {
 			dto.setMenuCode("");
 			dto.setMenuName("");
 			dto.setMenuPath("");
-			dto.setParentId(String.valueOf(dto.getParentMenu()));
+			if(dto.getParentMenu() != null) {
+				dto.setParentId(String.valueOf(dto.getParentMenu()));
+			}
 			
 			mode = sideMenuService.findMenuByKey(dto);
 			result.put("success", true);

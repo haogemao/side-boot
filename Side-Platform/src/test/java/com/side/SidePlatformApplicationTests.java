@@ -246,6 +246,6 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void test3() {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println("加密后:" + encoder.encode("secret"));
+		System.out.println("加密后:" + UtilMD5.MD5("123456"));
 	}
 }
