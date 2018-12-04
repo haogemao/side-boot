@@ -35,19 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.antMatcher("/side/**").authorizeRequests()
-		.antMatchers("/side/restLoginAPI/**" ,"side/restMenuAPI/**", "/oauth/**").permitAll()
+		.antMatchers("/side/restLoginAPI/**" ,"/side/restMenuAPI/**", "/oauth/**").permitAll()
 		.anyRequest()
 		.authenticated().and().csrf()
 		.csrfTokenRepository(csrfTokenRepository()).and()
-		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-		.logout().logoutUrl("/side/logout").permitAll()
-		.logoutSuccessUrl("/dologin");
+		.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
 	}
-	
-//	@Override
-//    public void configure(WebSecurity web) throws Exception {
-//		 web.ignoring().antMatchers("/side/login");
-//    }
 	
 	private Filter csrfHeaderFilter() {
 		return new OncePerRequestFilter() {
