@@ -198,7 +198,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		}
 		
 		@SuppressWarnings("unchecked")
-		DetachedCriteriaTS<T> criteria2 = (DetachedCriteriaTS<T>) SerializationUtils.clone(criteria);
+//		DetachedCriteriaTS<T> criteria2 = (DetachedCriteriaTS<T>) SerializationUtils.clone(criteria);
 		int count = count(criteria);
 
 		if (count <= 0) {
@@ -208,7 +208,8 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 			return new PageMode<T>();
 		}
 		
-		List<T> list = find(criteria2, (pageNumber - 1) * pageSize, pageSize);
+//		List<T> list = find(criteria2, (pageNumber - 1) * pageSize, pageSize);
+		List<T> list = find(criteria, (pageNumber - 1) * pageSize, pageSize);
 
 		if (list == null) {
 			return new PageMode<T>();
