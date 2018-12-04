@@ -33,7 +33,7 @@ import com.side.basic.common.security.SideUserServiceDetails;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	@Qualifier("comboPooledDataSource")
+	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	@Autowired
@@ -73,10 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		 web.ignoring().antMatchers("/css/**", "/js/**","/images/**", "/easyui1.4/**", "/media/**", "/fonts/**", "/webjars/**", "/common/**", "/style/**", "/callcenter/**");
      }
 	 
-	 @Bean
-		public PasswordEncoder passwordEncoder() {
-		    return new BCryptPasswordEncoder();
-		}
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 	
 //	@Override
 //    public void configure(AuthenticationManagerBuilder auth) {
