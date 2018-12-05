@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
@@ -78,4 +79,9 @@ public class DetachedCriteriaTS<T> implements Serializable{
 	public Criteria getExecutableCriteria(final Session session) {
 		return criteria.getExecutableCriteria(session);
 	}
+	
+	public DetachedCriteria setResultTransformer() {
+		return criteria.setResultTransformer(CriteriaSpecification.ALIAS_TO_ENTITY_MAP);
+	}
+	
 }

@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.side.admin.pojo.AdminUser;
 import com.side.basic.SideException.SideCustException;
 import com.side.basic.common.josn.JsonTools;
+import com.side.basic.common.utils.DetachedCriteriaTS;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.dto.MenuDto;
 import com.side.menus.pojo.SideMenus;
@@ -55,6 +53,7 @@ public class RestMenusController {
 				dto.setParentId(String.valueOf(dto.getParentMenu()));
 			}
 			
+//			DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 			mode = sideMenuService.findMenuByKey(dto);
 			result.put("success", true);
 			result.put("data", JsonTools.obj2Json(mode));

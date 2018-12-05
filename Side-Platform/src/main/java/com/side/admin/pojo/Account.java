@@ -41,7 +41,7 @@ public class Account implements Serializable {
 	@Column(length=100, nullable=false)
 	private String accName;
 	
-	@Column(length=32, nullable=false)
+	@Column(length=100, nullable=false)
 	private String accPassword;
 	
 	@Column(length=20, nullable=true)

@@ -159,10 +159,6 @@
 		    <version>2.4.2</version>
 		</dependency>
 		
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-lang3</artifactId>
-		</dependency>
 		
 		<dependency>
 		    <groupId>com.google.zxing</groupId>
@@ -176,11 +172,11 @@
 		    <version>3.2.1</version>
 		</dependency>
 		
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-pool2</artifactId>
 		    <version>2.4.2</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 		    <groupId>com.sun.activation</groupId>
@@ -205,7 +201,16 @@
 		    <artifactId>jaxb-impl</artifactId>
 		    <version>2.3.0</version>
 		</dependency>
-		
+
+		<!-- <dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.1</version>
+		</dependency>  -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

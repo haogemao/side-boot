@@ -244,8 +244,11 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void test3() {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		System.out.println("加密后:" + UtilMD5.MD5("123456"));
+	public void findPageTest() {
+		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
+		PageMode<SideMenus> list = menuService.findForList(criteria, 1, 2);
+		if(list != null) {
+			System.out.println("总页数："+list.getPageCount());
+		}
 	}
 }
