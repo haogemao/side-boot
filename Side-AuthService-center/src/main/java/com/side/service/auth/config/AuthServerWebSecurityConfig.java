@@ -35,21 +35,15 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable()
-		.authorizeRequests()/*.antMatchers("/oauth/**").permitAll()*/
+		http.authorizeRequests()
 		.anyRequest()
 		.authenticated()
 		.and()
 		.formLogin().loginPage("/login")
-//		.successForwardUrl("/side/dologin")
 		.permitAll()
 		.usernameParameter("userCode")
 		.passwordParameter("password")
-		.and().headers().frameOptions().disable()
-		.and().logout().permitAll();
-//		http.formLogin().loginPage("/login").permitAll()
-//			.and().authorizeRequests()
-//			.anyRequest().authenticated();
+		.and().headers().frameOptions().disable();
 	}
 	
 	@Override
