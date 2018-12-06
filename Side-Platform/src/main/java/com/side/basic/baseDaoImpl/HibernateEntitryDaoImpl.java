@@ -17,12 +17,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.orm.hibernate5.SessionFactoryUtils;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +56,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	protected Session getCurrentSession()  {
 //		session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		session = super.getSessionFactory().openSession();
-//		return session;
+//		return this.currentSession();
 		return entityManager.unwrap(Session.class);
 	}
 	
@@ -148,7 +152,8 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	 */
 	//@Transactional
 	public void delete(Object entity) {
-		super.getHibernateTemplate().delete(this.getCurrentSession().merge(entity));
+		getHibernateTemplate().delete(this.currentSession().merge(entity));
+//		this.currentSession().delete(this.currentSession().merge(entity));
 	}
 
 	/**
@@ -160,7 +165,10 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	//@Transactional
 	public <T> void deleteAll(Collection<T> entities) {
 		if (entities != null && entities.size() > 0) {
-			getHibernateTemplate().deleteAll(entities);
+			for(Object entity : entities) {
+				getHibernateTemplate().delete(this.currentSession().merge(entity));
+			}
+			
 		}
 	}
 

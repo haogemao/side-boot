@@ -63,6 +63,7 @@ public class HibernateSessionConfig {
         jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
         jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.properties.hibernate.dialect"));
         jpaProperties.put("hibernate.current_session_context_class", env.getProperty("spring.jpa.properties.hibernate.current_session_context_class"));
+//        jpaProperties.put("spring.jpa.properties.hibernate.enable_lazy_load_no_trans", env.getProperty("spring.jpa.properties.hibernate.enable_lazy_load_no_trans"));
         
         /*----------------hibernate-redis二级缓存配置（单机模式） start-----------------*/
         jpaProperties.put("hibernate.cache.use_second_level_cache", env.getProperty("spring.jpa.properties.hibernate.cache.use_second_level_cache"));
@@ -122,16 +123,16 @@ public class HibernateSessionConfig {
         OpenSessionInViewFilter filter = new OpenSessionInViewFilter();
         filter.setSessionFactoryBeanName("sessionFactory");
         registrationBean.setFilter(filter);
-        registrationBean.setOrder(5);
+        registrationBean.setOrder(0);
         return registrationBean;
     }
     
-//    @Bean
-//    public OpenSessionInViewInterceptor openSessionInViewInterceptor(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
-//        OpenSessionInViewInterceptor interceptor = new OpenSessionInViewInterceptor();
-//        interceptor.setSessionFactory(sessionFactory);
-//        return interceptor;
-//    }
+    @Bean
+    public OpenSessionInViewInterceptor openSessionInViewInterceptor(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+        OpenSessionInViewInterceptor interceptor = new OpenSessionInViewInterceptor();
+        interceptor.setSessionFactory(sessionFactory);
+        return interceptor;
+    }
 //    
 //    @Bean
 //    public OpenEntityManagerInViewFilter openEntityManagerInViewFilte() {
