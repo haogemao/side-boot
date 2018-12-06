@@ -18,7 +18,8 @@ public class WebConfig extends WebMvcConfigurationSupport{
 
 	@Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("index/login");
+        registry.addViewController("/").setViewName("forward:/index/login");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
     } 
 
