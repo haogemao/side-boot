@@ -4,6 +4,7 @@
 package com.side.admin.serviceImpl;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
