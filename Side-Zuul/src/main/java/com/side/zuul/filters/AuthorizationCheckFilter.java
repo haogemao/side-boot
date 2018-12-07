@@ -3,14 +3,13 @@
 // */
 //package com.side.zuul.filters;
 //
-//import java.io.IOException;
-//
 //import javax.servlet.http.HttpServletRequest;
 //
 //import org.apache.commons.lang3.StringUtils;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 //import org.springframework.stereotype.Component;
 //
 //import com.netflix.zuul.ZuulFilter;
@@ -85,20 +84,19 @@
 //        
 //        String accessToken = request.getHeader("accessToken");
 //        
-//        try {
-//        	if (StringUtils.isEmpty(accessToken)) {
-//            	logger.info("当前请求头中不存在accessToken，转发认证中心鉴权");
-//            	
-//            	String body = null;
-//            	if(StringUtils.isNotEmpty(clientId) && StringUtils.isNotEmpty(secret) && StringUtils.isNotEmpty(grantType)) {
-//            		body = "clientId=" + clientId + "&secret=" + secret + "&grantType=" + grantType;
-//            	}
-//            	ctx.setResponseBody(body);
-//            	ctx.getResponse().sendRedirect(ssoLoginUrl);
-//            } else {
-//            	
-//            }
-//        } catch(IOException e) {
+//    	if (StringUtils.isEmpty(accessToken)) {
+//        	logger.info("当前请求头中不存在accessToken，转发认证中心鉴权");
+//        	
+//        	String body = null;
+//        	if(StringUtils.isNotEmpty(clientId) && StringUtils.isNotEmpty(secret) && StringUtils.isNotEmpty(grantType)) {
+//        		body = "clientId=" + clientId + "&secret=" + secret + "&grantType=" + grantType + "&redirect_url=" + request.getRequestURL();
+//        	}
+//        	request.setAttribute("clientId", clientId);
+//        	request.setAttribute("secret", secret);
+//        	request.setAttribute("grantType", grantType);
+//        	request.setAttribute("redirect_url", request.getRequestURL());
+//        	ctx.put(FilterConstants.REQUEST_URI_KEY, ssoLoginUrl);
+//        } else {
 //        	
 //        }
 //		
