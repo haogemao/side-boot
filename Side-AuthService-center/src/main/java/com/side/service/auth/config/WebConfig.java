@@ -5,7 +5,6 @@ package com.side.service.auth.config;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 

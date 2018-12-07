@@ -15,8 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.side.service.auth.common.UtilMD5;
+import com.side.service.auth.filter.MyOAuth2ClientAuthenticationProcessingFilter;
+import com.side.service.auth.handler.MySavedRequestAwareAuthenticationSuccessHandler;
 import com.side.service.auth.service.userDetailsService.MyDaoAuthenticationProvider;
 import com.side.service.auth.service.userDetailsService.UserDetailsServiceImpl;
 
@@ -39,10 +41,12 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.anyRequest()
 		.authenticated()
 		.and()
+//		.addFilterAfter(myOAuth2ClientAuthenticationProcessingFilter(), BasicAuthenticationFilter.class)
 		.formLogin().loginPage("/login")
 		.permitAll()
 		.usernameParameter("userCode")
 		.passwordParameter("password")
+		.successHandler(new MySavedRequestAwareAuthenticationSuccessHandler())
 		.and().headers().frameOptions().disable();
 	}
 	
@@ -67,6 +71,16 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+	
+	public MyOAuth2ClientAuthenticationProcessingFilter myOAuth2ClientAuthenticationProcessingFilter() {
+		MyOAuth2ClientAuthenticationProcessingFilter filter = new MyOAuth2ClientAuthenticationProcessingFilter("http://localhost:8801/side/doLogin");
+		filter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+            String authUrl = request.getParameter("redirect_url");
+            System.out.println("当前redirect_url参数:" + authUrl);
+            response.sendRedirect(authUrl);
+        });
+		return filter;
+	}
 
 	
 }

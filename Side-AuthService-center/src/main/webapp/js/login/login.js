@@ -45,7 +45,7 @@ $(function (){
 				success : function(result){
 					var access_token  = result.access_token;
 					if(access_token != null){
-						
+						window.location.href="http://localhost:8801/side/index?access_token="+access_token;
 					}
 					alertify.error("登录成功");
 				},
