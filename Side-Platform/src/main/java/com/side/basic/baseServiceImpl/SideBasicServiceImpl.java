@@ -115,4 +115,9 @@ public class SideBasicServiceImpl<T> implements ISideBasicService<T> {
 		return hibernateEntitryDao.findObjBySQL(sql, params);
 	}
 
+	@Override
+	public void executeObjBySql(String sql, Map<String, String> params) {
+		hibernateEntitryDao.executeSql(sql, params);
+	}
+
 }

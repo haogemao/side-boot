@@ -140,4 +140,11 @@ public interface HibernateEntitryDao {
 	 */
 	public Object findObjBySQL(String sql, Map<String, String> params);
 	
+	/**
+	 * 根据sql操作数据库
+	 * @param sql
+	 * @param params
+	 */
+	public void executeSql(String sql, Map<String, String> params);
+	
 }

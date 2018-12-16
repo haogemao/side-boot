@@ -127,4 +127,11 @@ public interface ISideBasicService<T> {
 	 * @return
 	 */
 	public Object findObjBySQL(String sql, Map<String, String> params);
+	
+	/**
+	 * 根据sql操作数据库对象
+	 * @param sql
+	 * @param params
+	 */
+	public void executeObjBySql(String sql, Map<String, String> params);
 }

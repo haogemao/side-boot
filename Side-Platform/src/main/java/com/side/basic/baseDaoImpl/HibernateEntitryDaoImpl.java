@@ -4,6 +4,7 @@
 package com.side.basic.baseDaoImpl;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
@@ -17,16 +18,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
-import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.query.NativeQuery;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.orm.hibernate5.SessionFactoryUtils;
+import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
@@ -56,8 +55,8 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	protected Session getCurrentSession()  {
 //		session = getHibernateTemplate().getSessionFactory().getCurrentSession();
 //		session = super.getSessionFactory().openSession();
-//		return this.currentSession();
-		return entityManager.unwrap(Session.class);
+		return this.currentSession();
+//		return entityManager.unwrap(Session.class);
 	}
 	
 	/**
@@ -152,8 +151,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	 */
 	//@Transactional
 	public void delete(Object entity) {
-		getHibernateTemplate().delete(this.currentSession().merge(entity));
-//		this.currentSession().delete(this.currentSession().merge(entity));
+		getHibernateTemplate().delete(getCurrentSession().merge(entity));
 	}
 
 	/**
@@ -166,7 +164,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	public <T> void deleteAll(Collection<T> entities) {
 		if (entities != null && entities.size() > 0) {
 			for(Object entity : entities) {
-				getHibernateTemplate().delete(this.currentSession().merge(entity));
+				getHibernateTemplate().delete(getCurrentSession().merge(entity));
 			}
 			
 		}
@@ -241,119 +239,164 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	@Override
 	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize,
 			Class<T> clazz) {
-		List<T> list = null;
-		int count  = 0;
-		PageMode<T> pageMode = null;
-		NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
-		
-		if(params != null && params.size() > 0) {
-			int i = 1;
-			for(String key : params.keySet()) {
-				query.setParameter(i, params.get(key));
-				i++;
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<PageMode<T>>() {
+			@Override
+			public PageMode<T> doInHibernate(Session session) throws HibernateException {
+				List<T> list = null;
+				int count  = 0;
+				PageMode<T> pageMode = null;
+				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+				
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+				query.setFirstResult((pageNumber - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				
+				list = query.getResultList();
+				count = findCountBySQL(sql, params);
+				if(list != null && list.size() > 0) {
+					pageMode = new PageMode<>(list, pageNumber, pageSize, count);
+				}
+				return pageMode;
 			}
-		}
-		query.setFirstResult((pageNumber - 1) * pageSize);
-		query.setMaxResults(pageSize);
-		
-		list = query.getResultList();
-		count = findCountBySQL(sql, params);
-		if(list != null && list.size() > 0) {
-			pageMode = new PageMode<>(list, pageNumber, pageSize, count);
-		}
-
-		return pageMode;
+		});
 	}
 
 	@Override
 	public <T> T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz) {
-		
-		NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
-		if(params != null && params.size() > 0) {
-			int i = 1;
-			for(String key : params.keySet()) {
-				query.setParameter(i, params.get(key));
-				i++;
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<T>() {
+			@Override
+			public T doInHibernate(Session session) throws HibernateException {
+				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+				return query.uniqueResult();
 			}
-		}
-		return query.uniqueResult();
+		});
 		
 	}
 	
 	@SuppressWarnings("rawtypes")
 	private <T> int findCountBySQL(String sql, Map<String, String> params) {
-		Object myCount = null;
-		StringBuffer sb = new StringBuffer("select count(1) from (");
-		if(StringUtils.isNotEmpty(sql)) {
-			sb.append(sql);
-		}
-		sb.append(") t ");
-		
-		NativeQuery query = getCurrentSession().createNativeQuery(sb.toString());
-		
-		if(params != null && params.size() > 0) {
-			int i = 1;
-			for(String key : params.keySet()) {
-				query.setParameter(i, params.get(key));
-				i++;
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Integer>() {
+			@Override
+			public Integer doInHibernate(Session session) throws HibernateException {
+				Object myCount = null;
+				StringBuffer sb = new StringBuffer("select count(1) from (");
+				if(StringUtils.isNotEmpty(sql)) {
+					sb.append(sql);
+				}
+				sb.append(") t ");
+				
+				NativeQuery query = getCurrentSession().createNativeQuery(sb.toString());
+				
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+				
+				if(query.getResultList() != null && query.getResultList().size() > 0) {
+					myCount = query.getResultList().get(0);
+				}
+				
+				if (Long.class.isAssignableFrom(myCount.getClass())) {
+					long count = (Long) myCount;
+					return (int) (count);
+				} else if (Integer.class.isAssignableFrom(myCount.getClass())) {
+					return (Integer) myCount;
+				} else if (BigInteger.class.isAssignableFrom(myCount.getClass())) {
+					String temp = String.valueOf(myCount);
+					return Integer.parseInt(temp);
+				} else if (BigDecimal.class.isAssignableFrom(myCount.getClass())) {
+					String temp = String.valueOf(myCount);
+					return Integer.parseInt(temp);
+				}
+				throw new ClassCastException(myCount.getClass().getName());
 			}
-		}
-		
-		if(query.getResultList() != null && query.getResultList().size() > 0) {
-			myCount = query.getResultList().get(0);
-		}
-		
-		if (Long.class.isAssignableFrom(myCount.getClass())) {
-			long count = (Long) myCount;
-			return (int) (count);
-		} else if (Integer.class.isAssignableFrom(myCount.getClass())) {
-			return (Integer) myCount;
-		} else if (BigInteger.class.isAssignableFrom(myCount.getClass())) {
-			String temp = String.valueOf(myCount);
-			return Integer.parseInt(temp);
-		}
-		throw new ClassCastException(myCount.getClass().getName());
+		});
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
-		List list = null;
-		int count  = 0;
-		PageMode pageMode = null;
-		NativeQuery query = getCurrentSession().createNativeQuery(sql);
-		
-		if(params != null && params.size() > 0) {
-			int i = 1;
-			for(String key : params.keySet()) {
-				query.setParameter(i, params.get(key));
-				i++;
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<PageMode>() {
+			@Override
+			public PageMode doInHibernate(Session session) throws HibernateException {
+				List list = null;
+				int count  = 0;
+				PageMode pageMode = null;
+				NativeQuery query = getCurrentSession().createNativeQuery(sql);
+				
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+				query.setFirstResult((pageNumber - 1) * pageSize);
+				query.setMaxResults(pageSize);
+				
+				list = query.getResultList();
+				count = findCountBySQL(sql, params);
+				if(list != null && list.size() > 0) {
+					pageMode = new PageMode(list, pageNumber, pageSize, count);
+				}
+				return pageMode;
 			}
-		}
-		query.setFirstResult((pageNumber - 1) * pageSize);
-		query.setMaxResults(pageSize);
-		
-		list = query.getResultList();
-		count = findCountBySQL(sql, params);
-		if(list != null && list.size() > 0) {
-			pageMode = new PageMode(list, pageNumber, pageSize, count);
-		}
-
-		return pageMode;
+		});
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public Object findObjBySQL(String sql, Map<String, String> params) {
-		NativeQuery query = getCurrentSession().createNativeQuery(sql);
-		if(params != null && params.size() > 0) {
-			int i = 1;
-			for(String key : params.keySet()) {
-				query.setParameter(i, params.get(key));
-				i++;
+		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Object>() {
+
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException {
+				NativeQuery query=session.createNativeQuery(sql);
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+                return query.uniqueResult();
 			}
-		}
-		return query.uniqueResult();
+		});
+	}
+
+	@Override
+	public void executeSql(String sql, Map<String, String> params) {
+		getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Object>() {
+			@Override
+			public Object doInHibernate(Session session) throws HibernateException {
+				@SuppressWarnings("rawtypes")
+				NativeQuery query=session.createNativeQuery(sql);
+				if(params != null && params.size() > 0) {
+					int i = 1;
+					for(String key : params.keySet()) {
+						query.setParameter(i, params.get(key));
+						i++;
+					}
+				}
+                return query.executeUpdate();
+			}
+		});
 	}
 
 }
