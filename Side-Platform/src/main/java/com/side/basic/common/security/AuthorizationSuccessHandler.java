@@ -18,8 +18,6 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
  */
 public class AuthorizationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 	
-	
-	
 	//验证成功，生成token
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
