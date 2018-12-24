@@ -24,7 +24,6 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 @EnableZuulProxy
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = "com.side.zuul.*")
 public class SideZuulApplication {
 
 	public static void main(String[] args) {
