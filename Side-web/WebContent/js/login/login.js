@@ -4,6 +4,8 @@
  */
 $(function (){
 	
+	var myData = {};
+	
 //	$(window).load(function(){
 //		if(loginMsg != null){
 //			reset();
@@ -27,7 +29,7 @@ $(function (){
 			myData.password = password;
 			
 			$.ajax({
-				url : "/auth-center/oauth/token",
+				url : "http://localhost:8801/auth-center/oauth/token",
 				type : "POST",
 				data : myData,
 				dataType : "json",
@@ -37,7 +39,7 @@ $(function (){
 					var access_token  = result.access_token;
 					if(access_token != null){
 						window.sessionStorage.setItem('access_token', access_token);
-						window.location.href="http://localhost:8801/Side-web/pages/index/main.html";
+						window.location.href="http://localhost:8080/Side-web/pages/index/main.html";
 					}
 					alertify.error("登录成功");
 				},

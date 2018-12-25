@@ -18,6 +18,7 @@
 <script type="text/javascript" src="./js/vue/vue.min.js" th:src="@{/js/vue/vue.min.js}"></script>
 <script type="text/javascript" src="./js/template/js/alertify.min.js" th:src="@{/js/template/js/alertify.min.js}"></script>
 <script type="text/javascript" src="./js/login/login.js" th:src="@{/js/login/login.js}"></script>
+<script type="text/javascript" src="./js/common/common.js" th:src="@{/js/common/common.js}"></script>
 
 </head>
 <body>
@@ -26,7 +27,7 @@
 		<div style="width:620px;height:320px;">
 			<div align="center" style="width:600px;height:250px;"></div>
 			<div style="padding:10px 10px 10px 10px" align="center" class="sign-in-container"> 
-				<form id="loginForm" th:attr="action=@{/login}" action="./login" method="post" class="form-horizontal login-wrapper">
+				<form id="loginForm" action="login" method="post" class="form-horizontal login-wrapper">
 					<div class="header">
                       <div class="row-fluid">
                         <div class="span12">
@@ -50,7 +51,7 @@
 					</div>
 					
 					<div class="actions">
-						<input type="submit" class="btn btn-warning2" value="Sign in">
+						<button id="submit" type="button" class="btn btn-warning2">Sign in</button>
 				      	<a class="link" href="#">Forgot Password?</a>
 				      	<div class="clearfix"></div>
 	  				</div>
