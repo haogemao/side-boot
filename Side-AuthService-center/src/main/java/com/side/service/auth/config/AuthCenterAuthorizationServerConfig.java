@@ -3,8 +3,6 @@
  */
 package com.side.service.auth.config;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -35,6 +32,7 @@ import com.side.service.auth.service.userDetailsService.UserDetailsServiceImpl;
 public class AuthCenterAuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
 
 	@Autowired
+	@Qualifier("authenticationManagerBean")
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -81,16 +79,16 @@ public class AuthCenterAuthorizationServerConfig extends AuthorizationServerConf
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(getJdbcTokenStore())
 				.authenticationManager(authenticationManager)
-				.accessTokenConverter(accessTokenConverter())
-				.reuseRefreshTokens(true).userDetailsService(userDetailsService);
+				.tokenEnhancer(accessTokenConverter())
+				.reuseRefreshTokens(false).userDetailsService(userDetailsService);
 				// 配置TokenServices参数
-		        DefaultTokenServices tokenServices = new DefaultTokenServices();
-		        tokenServices.setTokenStore(endpoints.getTokenStore());
-		        tokenServices.setSupportRefreshToken(true);
-		        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-		        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
-		        tokenServices.setAccessTokenValiditySeconds( (int) TimeUnit.DAYS.toSeconds(1)); // 1天
-		        endpoints.tokenServices(tokenServices);
+//		        DefaultTokenServices tokenServices = new DefaultTokenServices();
+//		        tokenServices.setTokenStore(endpoints.getTokenStore());
+//		        tokenServices.setSupportRefreshToken(true);
+//		        tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
+//		        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+//		        tokenServices.setAccessTokenValiditySeconds( (int) TimeUnit.DAYS.toSeconds(1)); // 1天
+//		        endpoints.tokenServices(tokenServices);
 	}
 	
 	//对称性加密
