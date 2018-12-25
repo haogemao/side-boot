@@ -1,10 +1,12 @@
 package com.side;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.criterion.Restrictions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +71,7 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void userTestCase() {
 		SideUsers user = null;
-		user = sideUserService.findUserByCode("00001");
+		user = sideUserService.findUserByCode("000002");
 		if(user == null) {
 			user = new SideUsers();
 			user.setUserCode("000002");
@@ -78,6 +80,8 @@ public class SidePlatformApplicationTests {
 			user.setCreateBy(1);
 			user.setCreateDate(new Date());
 			sideUserService.save(user);
+		} else {
+			System.out.println(user.getAccountId().getAccountName());
 		}
 	}
 	
@@ -204,7 +208,7 @@ public class SidePlatformApplicationTests {
 	
 	@Test
 	public void menuTestCase1() {
-		SideMenus parentMenu = menuService.get(SideMenus.class, 1);
+		SideMenus parentMenu = menuService.get(SideMenus.class, 3);
 		if(parentMenu != null) {
 			SideMenus childMenus = new SideMenus();
 			childMenus.setMenuCode("menuManager");
@@ -217,6 +221,14 @@ public class SidePlatformApplicationTests {
 			childMenus.setCreateDate(new Date());
 			menuService.update(childMenus);
 		}
+	}
+	
+	@Test
+	public void menuDelCase2() {
+		SideMenus parentMenu = menuService.get(SideMenus.class, 3);
+		DetachedCriteriaTS<SideMenus> detachedCriteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
+		detachedCriteria.add(Restrictions.eq("parentMenu", parentMenu));
+		menuService.deleteAll(menuService.findAll(detachedCriteria));
 	}
 	
 	@Test
@@ -233,6 +245,20 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
+	public void sqlTestCase2() {
+		String sql = "select * from side_menus where menuCode=?";
+		Map<String, String> params = new HashMap<String, String>();
+		int pageNumber = 1;
+		int pageSize = 10;
+		params.put("menuCode", "userManager");
+		PageMode pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize, SideMenus.class);
+		if(pageMode != null) {
+			System.out.println("pageMode.records size : " + pageMode.getRecords().size());
+		}
+	}
+	
+	
+	@Test
 	public void sqlObjTestCase() {
 		String sql = "select * from side_menus where menuCode=?";
 		Map<String, String> params = new HashMap<String, String>();
@@ -244,11 +270,30 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
+	public void sqlObjTestCase2() {
+		String sql = "update side_menus set remark=? where id=?";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("remark", "123456");
+		params.put("id", "1");
+		menuService.executeObjBySql(sql, params);
+	}
+	
+	@Test
 	public void findPageTest() {
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 		PageMode<SideMenus> list = menuService.findForList(criteria, 1, 2);
 		if(list != null) {
 			System.out.println("总页数："+list.getPageCount());
 		}
+	}
+	
+	@Test
+	public void transactionalTestCase() {
+		SideRole role1 = new SideRole(2);
+		
+		List<SideRole> roleList = new ArrayList<SideRole>();
+		roleList.add(role1);
+		
+		
 	}
 }
