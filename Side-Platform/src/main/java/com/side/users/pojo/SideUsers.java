@@ -132,4 +132,12 @@ public class SideUsers implements Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
+	public SideUserAccount getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(SideUserAccount accountId) {
+		this.accountId = accountId;
+	}
+
 }

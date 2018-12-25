@@ -34,52 +34,52 @@ public class SideMenus implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Integer menuId;
+	private Integer menuId; //菜单id
 	
 	@Column(length=32, nullable=false)
-	private String menuCode;
+	private String menuCode; //菜单编码
 	
 	@Column(length=100, nullable=false)
-	private String menuName;
+	private String menuName; //菜单名称
 	
 	@Column(length=200, nullable=true)
-	private String menuPath;
+	private String menuPath; //菜单路径
 	
 	@Column(nullable=false)
-	private Integer menuType;
+	private Integer menuType; //菜单类型 0-菜单，1-按钮
 	
 	@Column
-	private Integer menuSort;
+	private Integer menuSort; //菜单顺序
 	
 	@Column(length=500, nullable=true)
-	private String remark;
+	private String remark; //菜单备注
 	
 	@Column(length=32, nullable=true)
-	private String icon;
+	private String icon; //菜单图标
 	
 	@Column(nullable=false)
-	private Integer createBy;
+	private Integer createBy; //创建人
 	
 	@Column(nullable=false)
-	private Date createDate;
+	private Date createDate; //创建日期
 	
 	@Column
-	private Integer lastUpdateBy;
+	private Integer lastUpdateBy; //修改人
 	
 	@Column
-	private Date lastUpdateDate;
+	private Date lastUpdateDate; //修改日期
 	
 	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "parentMenu")
-	private SideMenus parentMenu;
+	private SideMenus parentMenu; //父级菜单
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "parentMenu", cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
-	private Set<SideMenus> childMenus;
+	private Set<SideMenus> childMenus; //子菜单
 	
 	@Column
-	private Integer isParent;
+	private Integer isParent; //是否父级
 	
 
 	public Integer getMenuId() {

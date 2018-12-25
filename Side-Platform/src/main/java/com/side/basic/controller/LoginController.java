@@ -3,6 +3,7 @@
  */
 package com.side.basic.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -61,24 +63,29 @@ public class LoginController {
 		return "index/login";
 	}
 	
-	@RequestMapping(value="dologin", name="dologin", path="dologin", method=RequestMethod.POST)
-	public String doLogin(ModelMap mode, HttpSession session) {
+	@RequestMapping(value="dologin", name="dologin", path="dologin", method=RequestMethod.GET)
+	public String doLogin(ModelMap mode, Principal principal, HttpSession session) {
 		
-		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<SideAuthorization> authorizations = null;
 		List<SideAuthorization> parents = null;
 		List<SideAuthorization> firstChilds = null;
+		
+		//获取用户名
+		String userName = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//获取角色
+		@SuppressWarnings("unchecked")
+		List<GrantedAuthority> roleList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		List<String> roles = new ArrayList<String>();
 		AdminUser user = null;
-		String userName = userDetails.getUsername();
 		
-		if(!userDetails.getAuthorities().isEmpty()) {
-			Iterator iterator =  userDetails.getAuthorities().iterator();
+		if(!roleList.isEmpty()) {
+			Iterator iterator =  roleList.iterator();
 			while(iterator.hasNext()) {
 				String roleCode = iterator.next().toString();
 				roles.add(roleCode);
 			}
 		}
+		//获取用户权限
 		if(!roles.isEmpty()) {
 			authorizations = authorizationService.findAuthorizationByRole(roles.get(0));
 			parents = getAllParentMenu(authorizations);

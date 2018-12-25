@@ -21,6 +21,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name="side_role")
 public class SideRole implements Serializable {
+	
+	public SideRole() {}
+	
+	public SideRole(String roleCode, String roleName, Integer roleStatus, Date createDate, Integer createBy) {
+		this.roleCode = roleCode;
+		this.roleName = roleName;
+		this.roleStatus = roleStatus;
+		this.createDate = createDate;
+		this.createBy = createBy;
+	}
+	
+	public SideRole(Integer roleId) {
+		this.roleId = roleId;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

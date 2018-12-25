@@ -10,6 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.resource.transaction.backend.jdbc.spi.JdbcResourceTransaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -27,6 +28,7 @@ import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 /**
  * @author gmc
@@ -133,57 +135,5 @@ public class HibernateSessionConfig {
         interceptor.setSessionFactory(sessionFactory);
         return interceptor;
     }
-//    
-//    @Bean
-//    public OpenEntityManagerInViewFilter openEntityManagerInViewFilte() {
-//    	OpenEntityManagerInViewFilter interceptor = new OpenEntityManagerInViewFilter();
-//    	interceptor.setEntityManagerFactoryBeanName("entityManagerFactory");
-//    	return interceptor;
-//    }
-    
-//    public Properties hibernateProperties() {
-//        Properties props = new Properties();
-//
-//        props.put(org.hibernate.cfg.Environment.FORMAT_SQL, "true");
-//        props.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
-//        props.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
-//
-//        props.put(org.hibernate.cfg.Environment.POOL_SIZE, 30);
-//
-//        props.setProperty(AUTOCOMMIT, "false");
-//        props.setProperty(RELEASE_CONNECTIONS, "after_transaction");
-//
-//        // Secondary Cache
-//        props.put(org.hibernate.cfg.Environment.USE_SECOND_LEVEL_CACHE, true);
-//        props.put(org.hibernate.cfg.Environment.USE_QUERY_CACHE, true);
-//        props.put(org.hibernate.cfg.Environment.CACHE_REGION_FACTORY, RedisRegionFactory.class.getName());
-//        props.put(org.hibernate.cfg.Environment.CACHE_REGION_PREFIX, "hibernate");
-//        props.put(org.hibernate.cfg.Environment.CACHE_PROVIDER_CONFIG, "conf/hibernate-redis.properties");
-//
-//        props.setProperty(org.hibernate.cfg.Environment.GENERATE_STATISTICS, "true");
-//        props.setProperty(org.hibernate.cfg.Environment.USE_STRUCTURED_CACHE, "true");
-//
-//        props.setProperty(org.hibernate.cfg.Environment.TRANSACTION_COORDINATOR_STRATEGY, JtaTransactionCoordinatorBuilderImpl.class.getName());
-//
-//
-//        return props;
-//      }
-    
-//    @Bean
-//    public SessionFactory sessionFactory() throws IOException {
-//      LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-//      factoryBean.setPackagesToScan("com.ces.*.pojo");
-//      factoryBean.setDataSource(dataSource);
-//      factoryBean.setHibernateProperties(hibernateProperties());
-//
-//      factoryBean.afterPropertiesSet();
-//
-//      return factoryBean.getObject();
-//    }
-//    
-//    @Bean
-//    public PlatformTransactionManager transactionManager(SessionFactory sf) throws IOException {
-//      return new HibernateTransactionManager(sf);
-//    }
     
 }

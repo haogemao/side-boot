@@ -3,6 +3,8 @@
  */
 package com.side.role.roleServiceImpl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.criterion.MatchMode;
@@ -10,6 +12,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mysql.jdbc.StringUtils;
 import com.side.basic.baseServiceImpl.SideBasicServiceImpl;
@@ -57,4 +61,5 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 		
 		return roleDao.findAll(criteria);
 	}
+	
 }
