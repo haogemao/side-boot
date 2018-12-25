@@ -42,9 +42,7 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.and()
 		.authorizeRequests()
 		.anyRequest()
-		.authenticated()
-		.and()
-		.csrf().disable();
+		.authenticated();
 	}
 	
 	@Override
