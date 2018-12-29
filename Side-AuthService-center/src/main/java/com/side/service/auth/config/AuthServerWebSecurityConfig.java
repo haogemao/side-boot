@@ -36,10 +36,6 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-		.formLogin().loginPage("/login").permitAll()
-		.usernameParameter("userCode")
-		.passwordParameter("password")
-		.and()
 		.authorizeRequests()
 		.anyRequest()
 		.authenticated();
@@ -47,7 +43,9 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		MyDaoAuthenticationProvider provider = new MyDaoAuthenticationProvider(userDetailsService, passwordEncoder());
+		MyDaoAuthenticationProvider provider = new MyDaoAuthenticationProvider(userDetailsService, new BCryptPasswordEncoder() {
+			
+		});
 		auth.authenticationProvider(provider);
 	}
 	
