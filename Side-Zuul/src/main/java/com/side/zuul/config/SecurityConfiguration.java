@@ -17,8 +17,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 //import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
@@ -46,9 +48,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/auth-center/**", "/side/**").permitAll()
-        	.anyRequest().authenticated();
+        http.authorizeRequests().antMatchers("/**").permitAll()
+        	.anyRequest().authenticated()
+        	.and()
+            .csrf().requireCsrfProtectionMatcher(csrfRequestMatcher()).csrfTokenRepository(csrfTokenRepository())
+            .and()
+            .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
+    
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//       web.ignoring().antMatchers("/js/**", "/images/**", "/css/**", "/common/**", "/pages/**");
+//    }
     
     private RequestMatcher csrfRequestMatcher() {
         return new RequestMatcher() {
