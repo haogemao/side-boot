@@ -56,11 +56,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class);
     }
     
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//       web.ignoring().antMatchers("/js/**", "/images/**", "/css/**", "/common/**", "/pages/**");
-//    }
-    
     private RequestMatcher csrfRequestMatcher() {
         return new RequestMatcher() {
             // Always allow the HTTP GET method
