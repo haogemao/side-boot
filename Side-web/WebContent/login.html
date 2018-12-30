@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>平台登录页</title>
-<link href="./css/normalize.css" th:href="@{/css/normalize.css}" rel="stylesheet">
-<link href="./css/bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
-<link href="./css/jquery/jquery-ui.css" th:href="@{/css/jquery/jquery-ui.css}" rel="stylesheet">
-<link href="./css/template/main.css" th:href="@{/css/template/main.css}" rel="stylesheet">
-<link href="./css/template/alertify.core.css" th:href="@{/css/template/alertify.core.css}" rel="stylesheet" id="toggleCSS">
+<link href="./css/normalize.css" rel="stylesheet">
+<link href="./css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="./css/jquery/jquery-ui.css" rel="stylesheet">
+<link href="./css/template/main.css" rel="stylesheet">
+<link href="./css/template/alertify.core.css" rel="stylesheet" id="toggleCSS">
 
-<script type="text/javascript" src="./js/jquery/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
-<script type="text/javascript" src="./js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
-<script type="text/javascript" src="./js/vue/vue.min.js" th:src="@{/js/vue/vue.min.js}"></script>
-<script type="text/javascript" src="./js/template/js/alertify.min.js" th:src="@{/js/template/js/alertify.min.js}"></script>
-<script type="text/javascript" src="./js/login/login.js" th:src="@{/js/login/login.js}"></script>
-<script type="text/javascript" src="./js/common/common.js" th:src="@{/js/common/common.js}"></script>
+<script type="text/javascript" src="./js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/vue/vue.min.js"></script>
+<script type="text/javascript" src="./js/template/js/alertify.min.js"></script>
+<script type="text/javascript" src="./js/ajax-hook/ajaxhook.js"></script>
+<script type="text/javascript" src="./js/login/login.js"></script>
+<script type="text/javascript" src="./js/common/common.js"></script>
 
 </head>
 <body>
@@ -31,7 +31,7 @@
 					<div class="header">
                       <div class="row-fluid">
                         <div class="span12">
-                         	<div align="center" ><img style="width:600px;height:80px;" th:attr="src=@{/images/img/logo/logo.png}" src="./images/img/logo/logo.png" /></div>
+                         	<div align="center" ><img style="width:600px;height:80px;" src="./images/img/logo/logo.png" /></div>
                         </div>
                       </div>
 					</div>

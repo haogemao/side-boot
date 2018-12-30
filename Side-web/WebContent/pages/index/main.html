@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-	xmlns:tiles="http://www.thymeleaf.org" 
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>管理台</title>
-<!-- <link href="../css/normalize.css" th:href="@{/css/normalize.css}" rel="stylesheet">
-<link href="../css/bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
-<link href="../css/jquery/jquery-ui.css" th:href="@{/css/jquery/jquery-ui.css}" rel="stylesheet"> -->
-<link href="./css/template/main.css" th:href="@{/css/template/main.css}" rel="stylesheet">
-<link href="./css/template/alertify.core.css" th:href="@{/css/template/alertify.core.css}" rel="stylesheet" id="toggleCSS">
-<link href="./css/template/icomoon/style.css" th:href="@{/css/template/icomoon/style.css}" rel="stylesheet">
+<link href="../../css/normalize.css" rel="stylesheet">
+<link href="../../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../../css/jquery/jquery-ui.css" rel="stylesheet">
+<link href="../../css/template/main.css" rel="stylesheet">
+<link href="../../css/template/alertify.core.css" rel="stylesheet" id="toggleCSS">
+<link href="../../css/template/icomoon/style.css" rel="stylesheet">
 
 
-<script type="text/javascript" src="./js/jquery/jquery.min.js" th:src="@{/js/jquery/jquery.min.js}"></script>
-<script type="text/javascript" src="./js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
-<script type="text/javascript" src="./js/vue/vue.min.js" th:src="@{/js/vue/vue.min.js}"></script>
-<script type="text/javascript" src=".js/template/js/alertify.min.js" th:src="@{/js/template/js/alertify.min.js}"></script>
-<script type="text/javascript" src="./js/main/main.js" th:src="@{/js/main/main.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-   /*<![CDATA[*/
-   ctxPath = /*[[@{/}]]*/ '';
-   /*]]>*/
-</script>
+<script type="text/javascript" src="../../js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="../../js/vue/vue.min.js"></script>
+<script type="text/javascript" src="../../js/template/js/alertify.min.js"></script>
+<script type="text/javascript" src="../../js/main/main.js"></script>
+<script type="text/javascript" src="../../js/ajax-hook/ajaxhook.js"></script>
+<script type="text/javascript" src="../../js/common/common.js"></script>
 </head>
 <body>
 	<header>
       <a href="#" class="logo">
-        <img src="./images/img/logo/logo.png" th:attr="src=@{/images/img/logo/logo.png}" alt="Logo"/>
+        <img src="../../images/img/logo/logo.png" alt="Logo"/>
       </a>
       <div class="btn-group">
-        <button class="btn btn-primary" th:text="${session.user_info.adminName}"></button>
+        <button id="userBtn" class="btn btn-primary"></button>
         <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
           <span class="caret">
           </span>
@@ -58,7 +53,7 @@
       <ul class="mini-nav">
         <li>
           <a href="#">
-            <div class="fs1" aria-hidden="true" data-icon="&#xe040;" th:icon="@{&#xe040;}"></div>
+            <div class="fs1" aria-hidden="true" data-icon="&#xe040;"></div>
             <!-- <span class="info-label badge badge-warning">
               3
             </span> -->
@@ -66,7 +61,7 @@
         </li>
         <li>
           <a href="#">
-            <div class="fs1" aria-hidden="true" data-icon="&#xe04c;" th:icon="@{&#xe04c;}"></div>
+            <div class="fs1" aria-hidden="true" data-icon="&#xe04c;"></div>
             <!-- <span class="info-label badge badge-info">
               5
             </span> -->
@@ -80,18 +75,18 @@
     	<div class="dashboard-container">
     		<div class="top-nav">
     			<ul>
-    				<li th:each="parent, parentsStatus : ${parents}" >
-    					<a href="#" th:attr="data-menuId=${parent.menuId.menuId}" class="selected" th:if="${parentsStatus.index==0}" th:utext="|<div class='fs1' aria-hidden='true' data-icon='${parent.menuId.icon}'></div>${parent.menuId.menuName}|"></a>
-    					<a href="#" th:attr="data-menuId=${parent.menuId.menuId}" th:if="${parentsStatus.index!=0}" th:utext="|<div class='fs1' aria-hidden='true' data-icon='${parent.menuId.icon}'></div>${parent.menuId.menuName}|"></a>
+    				<li>
+    					<a href="#" class="selected"></a>
+    					<a href="#"></a>
     				</li>
     			</ul>
     			<div class="clearfix"></div>
     		</div>
     		<div class="sub-nav">
     			<ul>
-    				<li th:each="firstChild, firstChildsStatus : ${firstChilds}">
-    					<a href="#" class="heading" th:if="${firstChildsStatus.index==0}" th:utext="${firstChild.menuId.menuName}" th:attr="data-path=${firstChild.menuId.menuPath}" ></a>
-    					<a href="#" th:if="${firstChildsStatus.index!=0}" th:utext="${firstChild.menuId.menuName}" th:attr="data-path=${firstChild.menuId.menuPath}" ></a>
+    				<li>
+    					<a href="#" class="heading" ></a>
+    					<a href="#" ></a>
     				</li>
     			</ul>
     		</div>
