@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.thymeleaf.util.StringUtils;
 
 import com.side.admin.IService.ISideAccountService;
 import com.side.admin.IService.ISideAdminUserService;
@@ -93,7 +92,7 @@ public class LoginController {
 		}
 		
 		//获取用户信息
-		if(!StringUtils.isEmptyOrWhitespace(userName)) {
+		if(!StringUtils.isEmpty(userName)) {
 			user = sideAdminUserService.findAdminUserByAdminCode(userName);
 			if(user != null) {
 				session.setAttribute("user_info", user);

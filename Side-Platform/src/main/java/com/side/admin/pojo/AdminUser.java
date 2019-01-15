@@ -17,11 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 /**
  * @author gmc
  *
  */
 @SuppressWarnings("serial")
+@DynamicUpdate
 @Entity
 @Table(name="side_admin_user")
 public class AdminUser implements Serializable {

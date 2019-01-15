@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>Side-ServiceRegister</name>
-	<description>Sidefor Spring Boot</description>
+	<description>Side for Spring Boot</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
