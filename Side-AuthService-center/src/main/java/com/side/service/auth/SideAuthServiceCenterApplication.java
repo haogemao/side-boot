@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages="com.side.*")
-@EnableJpaRepositories("com.side.*.*")
 public class SideAuthServiceCenterApplication {
 
 	public static void main(String[] args) {
