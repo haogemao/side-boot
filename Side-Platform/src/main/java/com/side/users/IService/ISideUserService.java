@@ -1,10 +1,10 @@
 /**
  * 
  */
-package com.side.admin.IService;
+package com.side.users.IService;
 
-import com.side.admin.pojo.SideUser;
 import com.side.basic.IbaseService.ISideBasicService;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc

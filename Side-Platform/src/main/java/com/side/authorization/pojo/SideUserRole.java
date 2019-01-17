@@ -16,8 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.side.admin.pojo.SideUser;
 import com.side.role.pojo.SideRole;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc

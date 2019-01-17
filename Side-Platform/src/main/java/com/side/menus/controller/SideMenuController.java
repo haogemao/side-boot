@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.side.admin.pojo.SideUser;
 import com.side.basic.SideException.SideCustException;
 import com.side.basic.common.josn.JsonTools;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.dto.MenuDto;
 import com.side.menus.pojo.SideMenus;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.side.admin.IDao;
+package com.side.users.IDao;
 
 import com.side.basic.IbaseDao.HibernateEntitryDao;
 
@@ -9,6 +9,6 @@ import com.side.basic.IbaseDao.HibernateEntitryDao;
  * @author gmc
  *
  */
-public interface ISideAccountDao extends HibernateEntitryDao {
+public interface ISideUserDao extends HibernateEntitryDao {
 
 }

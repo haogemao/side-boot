@@ -15,10 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.side.admin.IService.ISideAccountService;
-import com.side.admin.IService.ISideUserService;
-import com.side.admin.pojo.Account;
-import com.side.admin.pojo.SideUser;
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
@@ -32,6 +28,10 @@ import com.side.menus.IService.ISideMenuService;
 import com.side.menus.pojo.SideMenus;
 import com.side.role.IRoleService.IRoleService;
 import com.side.role.pojo.SideRole;
+import com.side.users.IService.ISideAccountService;
+import com.side.users.IService.ISideUserService;
+import com.side.users.pojo.Account;
+import com.side.users.pojo.SideUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DataSourceConfig.class, HibernateSessionConfig.class})

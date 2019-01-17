@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.side.admin.controller;
+package com.side.users.controller;
 
 import java.security.Principal;
 

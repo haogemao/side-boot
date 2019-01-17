@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.side.admin.IService.ISideUserService;
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.pojo.SideAuthorization;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.pojo.SideMenus;
+import com.side.users.IService.ISideUserService;
 
 /**
  * @author gmc
@@ -37,7 +37,7 @@ public class IndexController {
 	private ISideMenuService sideMenuService;
 	
 	@Autowired
-	@Qualifier("sideAdminUserService")
+	@Qualifier("sideUserService")
 	private ISideUserService userService;
 
 	@RequestMapping("/getAllParentMenus")

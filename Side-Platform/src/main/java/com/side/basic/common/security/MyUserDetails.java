@@ -7,7 +7,7 @@ import java.util.Collections;
 
 import org.springframework.security.core.userdetails.User;
 
-import com.side.admin.pojo.SideUser;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc

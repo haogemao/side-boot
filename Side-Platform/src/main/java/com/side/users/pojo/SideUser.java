@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.side.admin.pojo;
+package com.side.users.pojo;
 
 import java.io.Serializable;
 import java.util.Date;

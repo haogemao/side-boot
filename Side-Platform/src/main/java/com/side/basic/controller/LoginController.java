@@ -20,12 +20,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.side.admin.IService.ISideAccountService;
-import com.side.admin.IService.ISideUserService;
-import com.side.admin.pojo.SideUser;
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
+import com.side.users.IService.ISideAccountService;
+import com.side.users.IService.ISideUserService;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc

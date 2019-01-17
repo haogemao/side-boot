@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.side.admin.serviceImpl;
+package com.side.users.serviceImpl;
 
 import javax.annotation.Resource;
 
@@ -9,11 +9,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.mysql.jdbc.StringUtils;
-import com.side.admin.IDao.ISideAccountDao;
-import com.side.admin.IService.ISideAccountService;
-import com.side.admin.pojo.Account;
 import com.side.basic.baseServiceImpl.SideBasicServiceImpl;
 import com.side.basic.common.utils.DetachedCriteriaTS;
+import com.side.users.IDao.ISideAccountDao;
+import com.side.users.IService.ISideAccountService;
+import com.side.users.pojo.Account;
 
 
 /**

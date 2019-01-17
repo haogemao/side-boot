@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.side.admin.daoImpl;
+package com.side.users.daoImpl;
 
 import org.springframework.stereotype.Component;
 
-import com.side.admin.IDao.ISideAccountDao;
 import com.side.basic.baseDaoImpl.HibernateEntitryDaoImpl;
+import com.side.users.IDao.ISideAccountDao;
 
 /**
  * @author gmc
