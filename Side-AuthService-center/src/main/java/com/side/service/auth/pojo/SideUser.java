@@ -23,19 +23,19 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name="side_admin_user")
-public class AdminUser implements Serializable {
+@Table(name="side_user")
+public class SideUser implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Long adminid;
+	private Long userId;
 	
-	@Column(name="adminCode", length=32, nullable=false)
-	private String admincode;
+	@Column(name="userCode", length=32, nullable=false)
+	private String userCode;
 	
-	@Column(name="adminName",length=100, nullable=false)
-	private String adminname;
+	@Column(name="userName",length=100, nullable=false)
+	private String userName;
 	
 	@Column(name="createDate")
 	private Date createdate;
@@ -63,30 +63,6 @@ public class AdminUser implements Serializable {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public Long getAdminid() {
-		return adminid;
-	}
-
-	public void setAdminid(Long adminid) {
-		this.adminid = adminid;
-	}
-
-	public String getAdmincode() {
-		return admincode;
-	}
-
-	public void setAdmincode(String admincode) {
-		this.admincode = admincode;
-	}
-
-	public String getAdminname() {
-		return adminname;
-	}
-
-	public void setAdminname(String adminname) {
-		this.adminname = adminname;
 	}
 
 	public Date getCreatedate() {
@@ -127,5 +103,29 @@ public class AdminUser implements Serializable {
 
 	public void setAdminstatus(Integer adminstatus) {
 		this.adminstatus = adminstatus;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.side.service.auth.pojo.AdminUser;
+import com.side.service.auth.pojo.SideUser;
 import com.side.service.auth.pojo.SideUserRole;
 
 /**
@@ -16,5 +16,5 @@ import com.side.service.auth.pojo.SideUserRole;
  */
 public interface IUserRoleRepository extends JpaRepository<SideUserRole, Integer> {
 
-	public List<SideUserRole> findByUserId(AdminUser userId);
+	public List<SideUserRole> findByUserId(SideUser userId);
 }

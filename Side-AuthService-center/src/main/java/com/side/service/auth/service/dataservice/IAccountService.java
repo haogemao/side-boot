@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.side.service.auth.dao.IAccountRepository;
 import com.side.service.auth.pojo.Account;
-import com.side.service.auth.pojo.AdminUser;
+import com.side.service.auth.pojo.SideUser;
 
 /**
  * @author gmc
@@ -20,7 +20,7 @@ public class IAccountService {
 	@Autowired
 	private IAccountRepository accountRepository;
 	
-	public Account findByUserId(AdminUser userId) {
+	public Account findByUserId(SideUser userId) {
 		return accountRepository.findByUserId(userId);
 	}
 	

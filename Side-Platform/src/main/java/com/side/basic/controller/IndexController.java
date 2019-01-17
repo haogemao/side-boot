@@ -19,6 +19,7 @@ import com.side.authorization.pojo.SideAuthorization;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.pojo.SideMenus;
 import com.side.users.IService.ISideUserService;
+import com.side.users.pojo.SideUser;
 
 /**
  * @author gmc
@@ -54,6 +55,12 @@ public class IndexController {
 	@RequestMapping("/getChildParentMenus")
 	public List<SideMenus> getChildMenuByParent(@RequestParam("parentId") int parentId){
 		return sideMenuService.getChildByParentId(parentId);
+	}
+	
+	@RequestMapping("/getUserInfo")
+	public SideUser getUsers() {
+		String userCode = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return userService.findSideUserByCode(userCode);
 	}
 	
 }

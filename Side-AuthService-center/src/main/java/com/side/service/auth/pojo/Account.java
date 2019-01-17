@@ -55,7 +55,7 @@ public class Account implements Serializable {
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
  	@JoinColumn(name="userId", insertable=true, nullable=true)
-	private AdminUser userId;
+	private SideUser userId;
 	
 	@Column(nullable=false)
 	private Date createDate;
@@ -128,11 +128,11 @@ public class Account implements Serializable {
 		this.accBirthday = accBirthday;
 	}
 
-	public AdminUser getUserId() {
+	public SideUser getUserId() {
 		return userId;
 	}
 
-	public void setUserId(AdminUser userId) {
+	public void setUserId(SideUser userId) {
 		this.userId = userId;
 	}
 

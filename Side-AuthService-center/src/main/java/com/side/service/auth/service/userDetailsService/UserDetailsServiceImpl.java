@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.side.service.auth.pojo.Account;
-import com.side.service.auth.pojo.AdminUser;
+import com.side.service.auth.pojo.SideUser;
 import com.side.service.auth.pojo.SideUserRole;
 import com.side.service.auth.service.dataservice.IAccountService;
 import com.side.service.auth.service.dataservice.IUserRoleService;
@@ -39,20 +39,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
-		AdminUser adminUser = userService.findByAdminCode(username);
-		List<SideUserRole> roles = userRoleService.findByUserId(adminUser);
+		SideUser sideUser = userService.findByUserCode(username);
+		List<SideUserRole> roles = userRoleService.findByUserId(sideUser);
 		
-		if(adminUser == null) {
+		if(sideUser == null) {
 			throw new UsernameNotFoundException("不存在该用户!	");
 		}
 		
-		Account account = accountService.findByUserId(adminUser);
+		Account account = accountService.findByUserId(sideUser);
 		
 		for(SideUserRole role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getRoleId().getRoleCode()));
 		}
 		
-		return new org.springframework.security.core.userdetails.User(adminUser.getAdmincode(),
+		return new org.springframework.security.core.userdetails.User(sideUser.getUserCode(),
 				account.getAccPassword(), authorities);
 	}
 

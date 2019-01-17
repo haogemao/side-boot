@@ -64,28 +64,28 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void adminTestCase() {
 		SideUser admin = sideUserService.findSideUserByCode("00001");
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Account account = new Account();
 		try {
 			if(admin == null) {
 				admin = new SideUser();
-				admin.setUserCode("00002");
+				admin.setUserCode("00001");
 				admin.setUserName("系统测试员");
 				admin.setUserStatus(1);
 				admin.setCreateBy(1);
 				admin.setCreateDate(new Date());
 				admin.setAccount(account);
 				
-				account.setAccCode("000002");
+				account.setAccCode("000001");
 				account.setAccName("测试人员");
 				account.setAccStatus(1);
-				account.setAccPassword(UtilMD5.MD5("123456"));
+				account.setAccPassword(encoder.encode("123456"));
 				account.setCreateBy(1);
 				account.setCreateDate(new Date());
 				account.setUserId(admin);
 				
 				sideUserService.save(admin);
 			} else {
-				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 				admin.getAccount().setAccPassword(encoder.encode("123456"));
 				System.out.println("密码:" + encoder.encode("123456"));
 				sideUserService.update(admin);

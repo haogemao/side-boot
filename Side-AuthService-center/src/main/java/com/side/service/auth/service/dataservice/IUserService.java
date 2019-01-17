@@ -6,8 +6,8 @@ package com.side.service.auth.service.dataservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.side.service.auth.dao.IAdminUserRepository;
-import com.side.service.auth.pojo.AdminUser;
+import com.side.service.auth.dao.ISideUserRepository;
+import com.side.service.auth.pojo.SideUser;
 
 /**
  * @author gmc
@@ -18,10 +18,10 @@ import com.side.service.auth.pojo.AdminUser;
 public class IUserService {
 
 	@Autowired
-	IAdminUserRepository adminUserPosoitory;
+	ISideUserRepository sideUserPosoitory;
 	
-	public AdminUser findByAdminCode(String adminCode) {
-		return adminUserPosoitory.findByAdmincode(adminCode);
+	public SideUser findByUserCode(String userCode) {
+		return sideUserPosoitory.findByUsercode(userCode);
 	}
 	
 }

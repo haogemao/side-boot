@@ -8,7 +8,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 //import com.side.service.auth.config.DataSourceConfig;
-import com.side.service.auth.pojo.AdminUser;
 import com.side.service.auth.service.dataservice.IUserService;
 
 //@RunWith(SpringJUnit4ClassRunner.class)
