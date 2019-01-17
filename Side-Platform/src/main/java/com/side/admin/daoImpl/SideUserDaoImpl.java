@@ -1,18 +1,18 @@
 /**
  * 
  */
-package com.side.users.userDaoImpl;
+package com.side.admin.daoImpl;
 
 import org.springframework.stereotype.Component;
 
+import com.side.admin.IDao.ISideUserDao;
 import com.side.basic.baseDaoImpl.HibernateEntitryDaoImpl;
-import com.side.users.IUserDao.ISideUserDao;
 
 /**
  * @author gmc
  *
  */
-@Component("sideUserDao")
+@Component
 public class SideUserDaoImpl extends HibernateEntitryDaoImpl implements ISideUserDao {
 
 }

@@ -26,19 +26,19 @@ import org.hibernate.annotations.DynamicUpdate;
 @SuppressWarnings("serial")
 @DynamicUpdate
 @Entity
-@Table(name="side_admin_user")
-public class AdminUser implements Serializable {
+@Table(name="side_user")
+public class SideUser implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Long adminId;
+	private Long userId;
 	
 	@Column(length=32, nullable=false)
-	private String adminCode;
+	private String userCode;
 	
 	@Column(length=100, nullable=false)
-	private String adminName;
+	private String userName;
 	
 	@Column
 	private Date createDate;
@@ -53,35 +53,12 @@ public class AdminUser implements Serializable {
 	private Integer lastUpdateBy;
 	
 	@Column(nullable=false)
-	private Integer adminStatus;
+	private Integer userStatus;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
  	@JoinColumn(name="account", insertable=true, nullable=true)
 	private Account account;
 
-	public Long getAdminId() {
-		return adminId;
-	}
-
-	public void setAdminId(Long adminId) {
-		this.adminId = adminId;
-	}
-
-	public String getAdminCode() {
-		return adminCode;
-	}
-
-	public void setAdminCode(String adminCode) {
-		this.adminCode = adminCode;
-	}
-
-	public String getAdminName() {
-		return adminName;
-	}
-
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
-	}
 
 	public Date getCreateDate() {
 		return createDate;
@@ -115,19 +92,43 @@ public class AdminUser implements Serializable {
 		this.lastUpdateBy = lastUpdateBy;
 	}
 
-	public Integer getAdminStatus() {
-		return adminStatus;
-	}
-
-	public void setAdminStatus(Integer adminStatus) {
-		this.adminStatus = adminStatus;
-	}
-
 	public Account getAccount() {
 		return account;
 	}
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public String getUserCode() {
+		return userCode;
+	}
+
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Integer getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(Integer userStatus) {
+		this.userStatus = userStatus;
 	}
 }

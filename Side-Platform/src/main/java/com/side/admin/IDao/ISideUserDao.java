@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.side.users.IUserDao;
+package com.side.admin.IDao;
 
 import com.side.basic.IbaseDao.HibernateEntitryDao;
 

@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.side.authorization.pojo.SideAuthorization;
 
 /**
  * @author gmc
@@ -56,6 +57,9 @@ public class SideMenus implements Serializable {
 	
 	@Column(length=32, nullable=true)
 	private String icon; //菜单图标
+	
+	@OneToMany(mappedBy="menuId", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private Set<SideAuthorization> authorization;
 	
 	@Column(nullable=false)
 	private Integer createBy; //创建人
@@ -200,5 +204,13 @@ public class SideMenus implements Serializable {
 
 	public void setIsParent(Integer isParent) {
 		this.isParent = isParent;
+	}
+
+	public Set<SideAuthorization> getAuthorization() {
+		return authorization;
+	}
+
+	public void setAuthorization(Set<SideAuthorization> authorization) {
+		this.authorization = authorization;
 	}
 }

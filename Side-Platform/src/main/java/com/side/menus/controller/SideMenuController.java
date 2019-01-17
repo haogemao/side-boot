@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.side.admin.pojo.AdminUser;
+import com.side.admin.pojo.SideUser;
 import com.side.basic.SideException.SideCustException;
 import com.side.basic.common.josn.JsonTools;
 import com.side.menus.IService.ISideMenuService;
@@ -75,9 +75,9 @@ public class SideMenuController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<SideMenus> mode;
 		try {
-			AdminUser user = (AdminUser) session.getAttribute("user_info");
+			SideUser user = (SideUser) session.getAttribute("user_info");
 			if(user != null) {
-				dto.setCurrentUser(String.valueOf(user.getAdminId()));
+				dto.setCurrentUser(String.valueOf(user.getUserId()));
 			}
 			sideMenuService.editMenuByDto(dto);
 			

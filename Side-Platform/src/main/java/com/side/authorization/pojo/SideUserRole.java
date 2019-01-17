@@ -16,7 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.side.admin.pojo.AdminUser;
+import com.side.admin.pojo.SideUser;
 import com.side.role.pojo.SideRole;
 
 /**
@@ -35,7 +35,7 @@ public class SideUserRole implements Serializable {
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "userId", nullable=false)
-	private AdminUser userId;
+	private SideUser userId;
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name = "roleId", nullable=false)
@@ -50,11 +50,11 @@ public class SideUserRole implements Serializable {
 		this.userRoleId = userRoleId;
 	}
 
-	public AdminUser getUserId() {
+	public SideUser getUserId() {
 		return userId;
 	}
 
-	public void setUserId(AdminUser userId) {
+	public void setUserId(SideUser userId) {
 		this.userId = userId;
 	}
 

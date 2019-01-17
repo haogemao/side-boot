@@ -5,11 +5,13 @@ package com.side.authorization.serviceImpl;
 
 import java.util.List;
 
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.side.authorization.IDao.IAuthorizationDao;
 import com.side.authorization.IService.IAuthorizationService;
@@ -45,5 +47,21 @@ public class AuthorizationServiceImpl extends SideBasicServiceImpl<SideAuthoriza
 			authorizations = authorizationDao.findAll(criteria);
 		}
 		return authorizations;
+	}
+
+	@Override
+	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode) {
+		DetachedCriteriaTS<SideAuthorization> criteria = new DetachedCriteriaTS<SideAuthorization>(SideAuthorization.class);
+		if(StringUtils.isEmpty(roleCode)) {
+			return null;
+		}
+		criteria.getCriteria().createAlias("roleId", "role");
+		criteria.getCriteria().createAlias("menuId", "menu");
+		
+		criteria.add(Restrictions.eq("role.roleCode", roleCode));
+		criteria.add(Restrictions.eq("menu.isParent", 0));
+		
+		return authorizationDao.findAll(criteria);
+		
 	}
 }

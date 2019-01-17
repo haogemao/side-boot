@@ -14,6 +14,18 @@ import com.side.basic.IbaseService.ISideBasicService;
  */
 public interface IAuthorizationService extends ISideBasicService<SideAuthorization> {
 	
+	/**
+	 * 根据角色编码查询角色权限
+	 * @param roleCode
+	 * @return
+	 */
 	public List<SideAuthorization> findAuthorizationByRole(String roleCode);
+	
+	/**
+	 * 根据角色编码查询所有父级菜单权限
+	 * @param roleCode
+	 * @return
+	 */
+	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode);
 
 }

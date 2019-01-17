@@ -5,13 +5,19 @@ package com.side.role.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.side.authorization.pojo.SideAuthorization;
 
 /**
  * @author gmc
@@ -61,6 +67,9 @@ public class SideRole implements Serializable {
 	
 	@Column(length=32, nullable=true)
 	private Integer lastUpdateBy;
+	
+	@OneToMany(mappedBy="roleId", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private Set<SideAuthorization> authorization;
 
 	public Integer getRoleId() {
 		return roleId;
@@ -124,6 +133,14 @@ public class SideRole implements Serializable {
 
 	public void setLastUpdateBy(Integer lastUpdateBy) {
 		this.lastUpdateBy = lastUpdateBy;
+	}
+
+	public Set<SideAuthorization> getAuthorization() {
+		return authorization;
+	}
+
+	public void setAuthorization(Set<SideAuthorization> authorization) {
+		this.authorization = authorization;
 	}
 	
 	

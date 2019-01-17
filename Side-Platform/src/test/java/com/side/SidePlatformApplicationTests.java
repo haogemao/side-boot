@@ -1,6 +1,5 @@
 package com.side;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.side.admin.IService.ISideAccountService;
-import com.side.admin.IService.ISideAdminUserService;
+import com.side.admin.IService.ISideUserService;
 import com.side.admin.pojo.Account;
-import com.side.admin.pojo.AdminUser;
+import com.side.admin.pojo.SideUser;
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
@@ -33,8 +32,6 @@ import com.side.menus.IService.ISideMenuService;
 import com.side.menus.pojo.SideMenus;
 import com.side.role.IRoleService.IRoleService;
 import com.side.role.pojo.SideRole;
-import com.side.users.IUserService.ISideUserService;
-import com.side.users.pojo.SideUsers;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DataSourceConfig.class, HibernateSessionConfig.class})
@@ -42,16 +39,12 @@ import com.side.users.pojo.SideUsers;
 public class SidePlatformApplicationTests {
 
 	@Autowired
-	@Qualifier("sideUserService")
-	private ISideUserService sideUserService;
-	
-	@Autowired
 	@Qualifier("sideAccountService")
 	private ISideAccountService sideAccountService;
 	
 	@Autowired
-	@Qualifier("sideAdminUserService")
-	private ISideAdminUserService sideAdminUserService;
+	@Qualifier("sideUserService")
+	private ISideUserService sideUserService;
 	
 	@Autowired
 	@Qualifier("roleService")
@@ -69,32 +62,15 @@ public class SidePlatformApplicationTests {
 	private IAuthorizationService authorizationService;
 	
 	@Test
-	public void userTestCase() {
-		SideUsers user = null;
-		user = sideUserService.findUserByCode("000002");
-		if(user == null) {
-			user = new SideUsers();
-			user.setUserCode("000002");
-			user.setUserName("测试人员");
-			user.setLevel(1);
-			user.setCreateBy(1);
-			user.setCreateDate(new Date());
-			sideUserService.save(user);
-		} else {
-			System.out.println(user.getAccountId().getAccountName());
-		}
-	}
-	
-	@Test
 	public void adminTestCase() {
-		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("00001");
+		SideUser admin = sideUserService.findSideUserByCode("00001");
 		Account account = new Account();
 		try {
 			if(admin == null) {
-				admin = new AdminUser();
-				admin.setAdminCode("00002");
-				admin.setAdminName("系统测试员");
-				admin.setAdminStatus(1);
+				admin = new SideUser();
+				admin.setUserCode("00002");
+				admin.setUserName("系统测试员");
+				admin.setUserStatus(1);
 				admin.setCreateBy(1);
 				admin.setCreateDate(new Date());
 				admin.setAccount(account);
@@ -107,12 +83,12 @@ public class SidePlatformApplicationTests {
 				account.setCreateDate(new Date());
 				account.setUserId(admin);
 				
-				sideAdminUserService.save(admin);
+				sideUserService.save(admin);
 			} else {
 				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 				admin.getAccount().setAccPassword(encoder.encode("123456"));
 				System.out.println("密码:" + encoder.encode("123456"));
-				sideAdminUserService.update(admin);
+				sideUserService.update(admin);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,7 +112,7 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void userRoleTestCase() {
 		SideRole role = roleService.findRoleByCode("0001");
-		AdminUser admin = sideAdminUserService.findAdminUserByAdminCode("00001");
+		SideUser admin = sideUserService.findSideUserByCode("00001");
 		SideUserRole userRole = new SideUserRole();
 		userRole.setRoleId(role);
 		userRole.setUserId(admin);
@@ -288,12 +264,12 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void transactionalTestCase() {
-		SideRole role1 = new SideRole(2);
-		
-		List<SideRole> roleList = new ArrayList<SideRole>();
-		roleList.add(role1);
-		
-		
+	public void findAuthorizationByRoleCode() {
+		List<SideAuthorization> list = authorizationService.findParentAuthorizationByRole("0001");
+		if(!list.isEmpty()) {
+			for (SideAuthorization sideAuthorization : list) {
+				System.out.println("menu:" + sideAuthorization.getMenuId().getMenuName());
+			}
+		}
 	}
 }

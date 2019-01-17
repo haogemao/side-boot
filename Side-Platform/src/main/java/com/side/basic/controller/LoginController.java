@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.side.admin.IService.ISideAccountService;
-import com.side.admin.IService.ISideAdminUserService;
-import com.side.admin.pojo.AdminUser;
+import com.side.admin.IService.ISideUserService;
+import com.side.admin.pojo.SideUser;
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
@@ -36,8 +36,8 @@ import com.side.authorization.pojo.SideAuthorization;
 public class LoginController {
 	
 	@Autowired
-	@Qualifier("sideAdminUserService")
-	private ISideAdminUserService sideAdminUserService;
+	@Qualifier("sideUserService")
+	private ISideUserService sideUserService;
 	
 	@Autowired
 	@Qualifier("sideAccountService")
@@ -51,17 +51,6 @@ public class LoginController {
 	@Qualifier("userRoleService")
 	private IUserRoleService userRoleService;
 
-	@RequestMapping(value="login", name="login", path="login", method=RequestMethod.GET)
-	public String toLogin(ModelMap mode) {
-		return "index/login";
-	}
-	
-	@RequestMapping(name="loginFail", path="loginFail", method=RequestMethod.GET)
-	public String loginFail(ModelMap mode) {
-		mode.put("msg", "登录失败");
-		return "index/login";
-	}
-	
 	@RequestMapping(value="dologin", name="dologin", path="dologin", method=RequestMethod.GET)
 	public String doLogin(ModelMap mode, Principal principal, HttpSession session) {
 		
@@ -75,7 +64,7 @@ public class LoginController {
 		@SuppressWarnings("unchecked")
 		List<GrantedAuthority> roleList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		List<String> roles = new ArrayList<String>();
-		AdminUser user = null;
+		SideUser user = null;
 		
 		if(!roleList.isEmpty()) {
 			Iterator iterator =  roleList.iterator();
@@ -93,7 +82,7 @@ public class LoginController {
 		
 		//获取用户信息
 		if(!StringUtils.isEmpty(userName)) {
-			user = sideAdminUserService.findAdminUserByAdminCode(userName);
+			user = sideUserService.findSideUserByCode(userName);
 			if(user != null) {
 				session.setAttribute("user_info", user);
 			}
