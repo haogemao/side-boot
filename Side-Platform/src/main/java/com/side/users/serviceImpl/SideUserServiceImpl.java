@@ -33,9 +33,8 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 		DetachedCriteriaTS<SideUser> criteria = new DetachedCriteriaTS<SideUser>(SideUser.class);
 		
 		if(!StringUtils.isNullOrEmpty(code)) {
-			criteria.add(Restrictions.eq("adminCode", code));
+			criteria.add(Restrictions.eq("userCode", code));
 			adminUser = sideUserDao.find(criteria);
-			System.out.println("用户名:" + adminUser.getAccount().getAccName() + "&密码:" + adminUser.getAccount().getAccPassword());
 		}
 		
 		return adminUser;
