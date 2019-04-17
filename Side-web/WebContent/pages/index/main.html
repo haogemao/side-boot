@@ -19,6 +19,7 @@
 <script type="text/javascript" src="../../js/template/js/alertify.min.js"></script>
 <script type="text/javascript" src="../../js/main/main.js"></script>
 <script type="text/javascript" src="../../js/common/common.js"></script>
+<script type="text/javascript" src="../../js/axios/axios.js"></script>
 </head>
 <body>
 	<header>
@@ -26,7 +27,7 @@
         <img src="../../images/img/logo/logo.png" alt="Logo"/>
       </a>
       <div class="btn-group">
-        <button id="userBtn" class="btn btn-primary"></button>
+        <button id="userBtn" class="btn btn-primary" v-model="user_info" >{{user_info.userName}}</button>
         <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
           <span class="caret">
           </span>
