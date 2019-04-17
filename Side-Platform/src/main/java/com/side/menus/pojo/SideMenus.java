@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.side.authorization.pojo.SideAuthorization;
 
 /**
@@ -30,6 +31,7 @@ import com.side.authorization.pojo.SideAuthorization;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="side_menus", indexes= {@Index(columnList="id"),@Index(columnList="menuCode")})
+@JsonIgnoreProperties(value={"parentMenu","childMenus","hibernateLazyInitializer","handler","fieldHandler"})
 public class SideMenus implements Serializable {
 
 	@Id
@@ -58,6 +60,7 @@ public class SideMenus implements Serializable {
 	@Column(length=32, nullable=true)
 	private String icon; //菜单图标
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="menuId", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<SideAuthorization> authorization;
 	

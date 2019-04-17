@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.side.menus.pojo.SideMenus;
 import com.side.role.pojo.SideRole;
 
@@ -26,6 +27,7 @@ import com.side.role.pojo.SideRole;
 @SuppressWarnings("serial")
 @Entity
 @Table(name="side_authorization")
+@JsonIgnoreProperties(value={"roleId","menuId","hibernateLazyInitializer","handler","fieldHandler"})
 public class SideAuthorization implements Serializable{
 
 	@Id

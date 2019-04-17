@@ -29,13 +29,13 @@ public class SideUser implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	private Long userId;
+	private Long userid;
 	
 	@Column(name="userCode", length=32, nullable=false)
-	private String userCode;
+	private String usercode;
 	
 	@Column(name="userName",length=100, nullable=false)
-	private String userName;
+	private String username;
 	
 	@Column(name="createDate")
 	private Date createdate;
@@ -49,8 +49,8 @@ public class SideUser implements Serializable {
 	@Column(name="lastUpdateBy", length=32, nullable=true)
 	private Integer lastupdateby;
 	
-	@Column(name="adminStatus", nullable=false)
-	private Integer adminstatus;
+	@Column(name="userStatus", nullable=false)
+	private Integer userstatus;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
  	@JoinColumn(name="account", insertable=true, nullable=true)
@@ -97,35 +97,36 @@ public class SideUser implements Serializable {
 		this.lastupdateby = lastupdateby;
 	}
 
-	public Integer getAdminstatus() {
-		return adminstatus;
+	public Long getUserid() {
+		return userid;
 	}
 
-	public void setAdminstatus(Integer adminstatus) {
-		this.adminstatus = adminstatus;
+	public void setUserid(Long userid) {
+		this.userid = userid;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public String getUsercode() {
+		return usercode;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUsercode(String usercode) {
+		this.usercode = usercode;
 	}
 
-	public String getUserCode() {
-		return userCode;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserCode(String userCode) {
-		this.userCode = userCode;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public String getUserName() {
-		return userName;
+	public Integer getUserstatus() {
+		return userstatus;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUserstatus(Integer userstatus) {
+		this.userstatus = userstatus;
 	}
+
 }

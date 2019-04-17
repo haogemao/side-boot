@@ -5,8 +5,10 @@ package com.side.basic.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,15 +16,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
+import com.side.menus.pojo.SideMenus;
 import com.side.users.IService.ISideAccountService;
 import com.side.users.IService.ISideUserService;
 import com.side.users.pojo.SideUser;
@@ -31,7 +33,7 @@ import com.side.users.pojo.SideUser;
  * @author gmc
  *
  */
-@Controller
+@RestController
 @RequestMapping("/")
 public class LoginController {
 	
@@ -51,12 +53,13 @@ public class LoginController {
 	@Qualifier("userRoleService")
 	private IUserRoleService userRoleService;
 
-	@RequestMapping(value="dologin", name="dologin", path="dologin", method=RequestMethod.GET)
-	public String doLogin(ModelMap mode, Principal principal, HttpSession session) {
+	@RequestMapping(value="/dologin")
+	public Map<String, Object> doLogin(ModelMap mode, Principal principal, HttpSession session) {
 		
+		Map<String, Object> result = new HashMap<String, Object>();
 		List<SideAuthorization> authorizations = null;
-		List<SideAuthorization> parents = null;
-		List<SideAuthorization> firstChilds = null;
+		List<SideMenus> parents = null;
+		List<SideMenus> firstChilds = null;
 		
 		//获取用户名
 		String userName = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -84,30 +87,30 @@ public class LoginController {
 		if(!StringUtils.isEmpty(userName)) {
 			user = sideUserService.findSideUserByCode(userName);
 			if(user != null) {
-				session.setAttribute("user_info", user);
+				result.put("user_info", user);
 			}
 		}
 		
 		//用户角色权限
-		mode.put("parents", parents);
-		mode.put("firstChilds", firstChilds);
-		return "/index/main";
+		result.put("parents", parents);
+		result.put("firstChilds", firstChilds);
+		return result;
 	}
 	
-	private List<SideAuthorization> getAllParentMenu(List<SideAuthorization> authorizations){
-		List<SideAuthorization> parents = new ArrayList<SideAuthorization>();
+	private List<SideMenus> getAllParentMenu(List<SideAuthorization> authorizations){
+		List<SideMenus> parents = new ArrayList<SideMenus>();
 		if(!authorizations.isEmpty()) {
 			for(SideAuthorization authorization : authorizations) {
 				if(authorization.getMenuId().getIsParent() == 0) {
-					parents.add(authorization);
+					parents.add(authorization.getMenuId());
 				}
 			}
 		}
 		return parents;
 	}
 	
-	private List<SideAuthorization> getFirstParentMenuChild(List<SideAuthorization> authorizations){
-		List<SideAuthorization> childs = new ArrayList<SideAuthorization>();
+	private List<SideMenus> getFirstParentMenuChild(List<SideAuthorization> authorizations){
+		List<SideMenus> childs = new ArrayList<SideMenus>();
 		if(!authorizations.isEmpty()) {
 			SideAuthorization first = null;
 			int index = 0;
@@ -118,7 +121,7 @@ public class LoginController {
 				}
 				if(authorization.getMenuId().getIsParent() == 1) {
 					if(authorization.getMenuId().getParentMenu().getMenuId() == first.getMenuId().getMenuId()) {
-						childs.add(authorization);
+						childs.add(authorization.getMenuId());
 					}
 				} else {
 					continue;

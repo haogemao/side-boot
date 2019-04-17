@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import com.side.basic.common.josn.JsonTools;
 import com.side.menus.IService.ISideMenuService;
 import com.side.menus.dto.MenuDto;
 import com.side.menus.pojo.SideMenus;
+import com.side.users.IService.ISideUserService;
 import com.side.users.pojo.SideUser;
 
 /**
@@ -36,6 +39,10 @@ public class SideMenuController {
 	@Qualifier("sideMenuService")
 	@Autowired
 	private ISideMenuService sideMenuService;
+	
+	@Qualifier("sideUserService")
+	@Autowired
+	private ISideUserService sideUserService;
 	
 	@RequestMapping("/manager")
 	public String toList(ModelMap modelMap) {
@@ -70,12 +77,11 @@ public class SideMenuController {
 	
 	@RequestMapping("editMenuService")
 	@ResponseBody
-	public Map<String, Object> menuEdit(MenuDto dto, HttpSession session){
-		
+	public Map<String, Object> menuEdit(MenuDto dto){
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<SideMenus> mode;
 		try {
-			SideUser user = (SideUser) session.getAttribute("user_info");
+			SideUser user = sideUserService.findSideUserByCode((String)SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 			if(user != null) {
 				dto.setCurrentUser(String.valueOf(user.getUserId()));
 			}
@@ -108,9 +114,18 @@ public class SideMenuController {
 	
 	@RequestMapping("delMenuService")
 	@ResponseBody
-	public Map<String, String> menuDelete(MenuDto dto){
-		
-		return null;
+	public Map<String, Object> menuDelete(MenuDto dto){
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			sideMenuService.delMenuByDto(dto);
+			result.put("success", true);
+			result.put("msg", "删除成功");
+		} catch (SideCustException e) {
+			e.printStackTrace();
+			result.put("success", false);
+			result.put("msg", "删除失败");
+		}
+		return result;
 	}
 
 }

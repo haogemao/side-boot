@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -19,9 +18,9 @@ import com.side.authorization.IService.IAuthorizationService;
 import com.side.authorization.IService.IUserRoleService;
 import com.side.authorization.pojo.SideAuthorization;
 import com.side.authorization.pojo.SideUserRole;
+import com.side.basic.common.redis.ISideCacheService;
 import com.side.basic.common.utils.DetachedCriteriaTS;
 import com.side.basic.common.utils.PageMode;
-import com.side.basic.common.utils.UtilMD5;
 import com.side.basic.config.DataSourceConfig;
 import com.side.basic.config.HibernateSessionConfig;
 import com.side.menus.IService.ISideMenuService;
@@ -30,7 +29,6 @@ import com.side.role.IRoleService.IRoleService;
 import com.side.role.pojo.SideRole;
 import com.side.users.IService.ISideAccountService;
 import com.side.users.IService.ISideUserService;
-import com.side.users.pojo.Account;
 import com.side.users.pojo.SideUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -61,38 +59,49 @@ public class SidePlatformApplicationTests {
 	@Qualifier("authorizationService")
 	private IAuthorizationService authorizationService;
 	
+	@Autowired
+	@Qualifier("cacheService")
+	private ISideCacheService sideCacheService;
+	
 	@Test
 	public void adminTestCase() {
 		SideUser admin = sideUserService.findSideUserByCode("00001");
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		Account account = new Account();
-		try {
-			if(admin == null) {
-				admin = new SideUser();
-				admin.setUserCode("00001");
-				admin.setUserName("系统测试员");
-				admin.setUserStatus(1);
-				admin.setCreateBy(1);
-				admin.setCreateDate(new Date());
-				admin.setAccount(account);
-				
-				account.setAccCode("000001");
-				account.setAccName("测试人员");
-				account.setAccStatus(1);
-				account.setAccPassword(encoder.encode("123456"));
-				account.setCreateBy(1);
-				account.setCreateDate(new Date());
-				account.setUserId(admin);
-				
-				sideUserService.save(admin);
-			} else {
-				admin.getAccount().setAccPassword(encoder.encode("123456"));
-				System.out.println("密码:" + encoder.encode("123456"));
-				sideUserService.update(admin);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		System.out.println("admin name : " + admin.getUserName());
+		
+		SideUser user = (SideUser)sideCacheService.getSingleCache("user");
+		if(user != null) {
+			System.out.println("user code : " + user.getUserCode());
 		}
+		
+//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//		Account account = new Account();
+//		try {
+//			if(admin == null) {
+//				admin = new SideUser();
+//				admin.setUserCode("00001");
+//				admin.setUserName("系统测试员");
+//				admin.setUserStatus(1);
+//				admin.setCreateBy(1);
+//				admin.setCreateDate(new Date());
+//				admin.setAccount(account);
+//				
+//				account.setAccCode("000001");
+//				account.setAccName("测试人员");
+//				account.setAccStatus(1);
+//				account.setAccPassword(encoder.encode("123456"));
+//				account.setCreateBy(1);
+//				account.setCreateDate(new Date());
+//				account.setUserId(admin);
+//				
+//				sideUserService.save(admin);
+//			} else {
+//				admin.getAccount().setAccPassword(encoder.encode("123456"));
+//				System.out.println("密码:" + encoder.encode("123456"));
+//				sideUserService.update(admin);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	@Test

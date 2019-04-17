@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.side.authorization.pojo.SideAuthorization;
 
 /**
@@ -68,6 +70,7 @@ public class SideRole implements Serializable {
 	@Column(length=32, nullable=true)
 	private Integer lastUpdateBy;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="roleId", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<SideAuthorization> authorization;
 

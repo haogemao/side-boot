@@ -52,7 +52,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			authorities.add(new SimpleGrantedAuthority(role.getRoleId().getRoleCode()));
 		}
 		
-		return new org.springframework.security.core.userdetails.User(sideUser.getUserCode(),
+		return new org.springframework.security.core.userdetails.User(sideUser.getUsercode(),
 				account.getAccPassword(), authorities);
 	}
 
