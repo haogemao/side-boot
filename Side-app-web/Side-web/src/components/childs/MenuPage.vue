@@ -126,7 +126,7 @@
 						<div id="first_control" class="control-group warning" style="display: none;">
 							<label class="control-label">上级菜单</label>
 							<div class="controls">
-								<input type="text" disabled="disabled" name="parentMenu" id="parentMenu" v-model="menuObject.parentMenu">
+								<input type="text" disabled="disabled" name="parentMenu" id="parentMenu" v-model="menuObject.parentMenu.menuName">
 							</div>
 						</div>
 						<div class="control-group warning">
@@ -186,7 +186,7 @@
 						</div>
 						<hr>
 						<div class="next-prev-btn-container pull-right">
-							<button type="button" class="button" v-on:click="submit">提交</button>
+							<button type="button" class="button" v-on:click="menuSave">提交</button>
 							<button type="button" class="button" data-dismiss="modal">取消</button>
 						</div>
 						<div class="clearfix"></div>
@@ -224,7 +224,7 @@
 //	import '/static/js/bootstrap/bootstrap.min.js'
 	export default{
 		name: "menuPage",
-		data(){
+		data : function(){
 			return{
 				menuList : [],
 				childList : [],
@@ -382,27 +382,31 @@
 					this.$alertify.alert("请选择需要删除的记录");
 					return;
 				} else {
-					this.$alertify.confirm("提示!","你确定删除该记录吗？", 
-					()=>{
-						//发送请求
-						this.axios({
-							method : 'get',
-							url : '/side/menu/delMenuService',
-							params : this.menuObject
-						}).then(function(response){
-							if(response.data.success){
-								if(response.data.msg != null){
-									_this.$alertify.alert(response.data.msg);
-									_this.created();
+					_this.menuObject.menuId = _this.parentId;
+					_this.menuObject.isParent = 0;
+					this.$alertify.confirmWithTitle(
+						'提示!',
+						'你确定删除该菜单吗？',
+						() => {
+							$(".alertify").css("display", "none");
+							//发送请求
+							this.axios({
+								method : 'get',
+								url : '/side/menu/delMenuService',
+								params : _this.menuObject
+							}).then(response => {
+								if(response.data.success){
+									if(response.data.msg != null){
+										_this.$alertify.success(response.data.msg);
+										_this.parentSelect();
+									}
 								}
-							}
-						}).catch(response => {
-							this.$alertify.error("查询发送异常，请联系管理员");
-						});
-					},
-					()=>{
-						return;
-					});
+							}).catch(response => {
+								this.$alertify.error("查询发送异常，请联系管理员");
+							});
+						},
+						null
+					);
 				}
 			},
 			addChild : function(){
@@ -449,10 +453,34 @@
 					this.$alertify.alert("请选择需要删除的记录");
 					return;
 				} else {
-					
+					_this.menuObject.menuId = _this.childId;
+					_this.menuObject.isParent = 1;
+					this.$alertify.confirmWithTitle(
+						'提示!',
+						'你确定删除该菜单吗？',
+						() => {
+							$(".alertify").css("display", "none");
+							//发送请求
+							this.axios({
+								method : 'get',
+								url : '/side/menu/delMenuService',
+								params : _this.menuObject
+							}).then(response => {
+								if(response.data.success){
+									if(response.data.msg != null){
+										_this.$alertify.success(response.data.msg);
+										_this.childSelect();
+									}
+								}
+							}).catch(response => {
+								this.$alertify.error("查询发送异常，请联系管理员");
+							});
+						},
+						null
+					);
 				}
 			},
-			submit: function(){
+			menuSave: function(){
 				let _this = this;
 				if(_this.parentId != undefined && _this.parentId != '' && (_this.childId != undefined && _this.childId != '')){
 					this.menuObject.parentMenu = _this.parentId;

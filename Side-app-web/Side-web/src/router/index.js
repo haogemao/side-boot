@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import Main from '@/components/MainPage'
 import MenuPage from '@/components/childs/MenuPage'
+import RolePage from '@/components/childs/RolePage'
 import store from '../store/store'
 import * as types from '../store/types'
 
@@ -26,6 +26,11 @@ const routes = [
 	    			path: 'menus',
 	    			name: 'menus',
     				component : MenuPage
+	    		},
+	    		{
+	    			path: 'roles',
+	    			name: 'roles',
+	    			component : RolePage
 	    		}
     		]
     }

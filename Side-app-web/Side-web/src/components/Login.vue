@@ -27,7 +27,7 @@
 				</div>
 				
 				<div class="actions">
-					<button id="submit" type="button" class="btn btn-warning2" v-on:click="dologin">Sign in</button>
+					<button type="button" class="btn btn-warning2" v-on:click="dologin">Sign in</button>
 			      	<a class="link" href="#">Forgot Password?</a>
 			      	<div class="clearfix"></div>
   				</div>
@@ -39,9 +39,11 @@
 
 <script>
 	export default{
-		data : {
-			usercode : "",
-			pwd : ""
+		data : function() {
+				return{
+					usercode : "",
+					pwd : ""
+				}
 		},
 		methods : {
 			dologin : function(){

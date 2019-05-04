@@ -48,11 +48,7 @@
     		<div class="top-nav">
     			<ul>
     				<li v-for="(parentMenu, index) in parentMenuArray">
-    					<a href="#" v-if="index==0" class="selected">
-    						<div class="fs1" aria-hidden="true" :data-icon="parentMenu.icon"></div>
-    						{{parentMenu.menuName}}
-    					</a>
-    					<a href="#" v-else>
+    					<a href="#" v-bind:class="[parentNoSelectClass, parentSelectIndex==index ? parentSelectClass : parentNoSelectClass]" v-on:click="navigationBarSelect(parentMenu, index)">
     						<div class="fs1" aria-hidden="true" :data-icon="parentMenu.icon"></div>
     						{{parentMenu.menuName}}
     					</a>
@@ -63,8 +59,7 @@
     		<div class="sub-nav">
     			<ul>
     				<li v-for="(child, index) in childMenuArray">
-    					<a href="#" v-if="index==0" class="heading" >{{child.menuName}}</a>
-    					<a href="#" v-else>{{child.menuName}}</a>
+    					<a href="#" v-bind:class="[subNoSelectClass, childSelectIndex==index ? subSelectClass : subNoSelectClass]" v-on:click="subNavigationBarSelect(index)">{{child.menuName}}</a>
     				</li>
     			</ul>
     		</div>
@@ -85,13 +80,19 @@
 <script>
 	export default{
 		name : 'mainpage',
-		data() {
+		data : function() {
 			return {
 				user_info : null,
 				parentMenuArray : null,
 				childMenuArray : null,
 				icon1 : '\ue040',
-				icon2 : '\ue04c'
+				icon2 : '\ue04c',
+				parentSelectIndex: 0,
+				childSelectIndex: 0,
+				parentSelectClass: 'selected',
+				parentNoSelectClass: '',
+				subSelectClass: 'heading',
+				subNoSelectClass: ''
 			}
 		},
 		created : function(){
@@ -110,15 +111,31 @@
 				if(response.data.firstChilds != null && response.data.firstChilds.length > 0){
 					_this.$data.childMenuArray = response.data.firstChilds;
 				}
-				_this.router.push({
-					path: '/main/menus'
+				_this.router.replace({
+					path: _this.$data.childMenuArray[0].menuPath
 				});
 			}).catch(response => {
 				this.$alertify.error("查询发送异常，请联系管理员");
 			});
 		},
 		methods : {
-				
+				navigationBarSelect: function(menuId, index){
+					
+				},
+				subNavigationBarSelect: function(index){
+					this.$data.childSelectIndex = index;
+					if(this.$data.childMenuArray.length > 0){
+						var menu = this.$data.childMenuArray[index];
+						this.router.replace({
+							path: menu.menuPath
+						});
+						
+					} else {
+						this.$alertify.error("菜单数据异常");
+						return;
+					}
+					
+				}
 		}
 	}
 </script>
