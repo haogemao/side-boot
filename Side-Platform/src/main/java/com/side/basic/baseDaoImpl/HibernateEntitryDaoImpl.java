@@ -50,13 +50,9 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		super.setSessionFactory(sessionFactory);
 	}
 	
-//	private Session session = null;
 	
 	protected Session getCurrentSession()  {
-//		session = getHibernateTemplate().getSessionFactory().getCurrentSession();
-//		session = super.getSessionFactory().openSession();
 		return this.currentSession();
-//		return entityManager.unwrap(Session.class);
 	}
 	
 	/**
@@ -231,7 +227,6 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> findAll(DetachedCriteriaTS<T> detachedCriteria) {
-//		List<T> list = (List<T>) super.getHibernateTemplate().findByCriteria(detachedCriteria.getCriteria());
 		Criteria criteria = detachedCriteria.getExecutableCriteria(getCurrentSession());
 		return criteria.list();
 	}

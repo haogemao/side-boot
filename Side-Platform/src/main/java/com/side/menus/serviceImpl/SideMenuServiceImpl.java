@@ -131,7 +131,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 	@Transactional
 	public void delMenuByDto(MenuDto dto) throws SideCustException {
 		if(StringUtils.isNotBlank(dto.getMenuId())) {
-			SideMenus menu = sideMenuDao.get(SideMenus.class, Integer.valueOf(dto.getMenuCode()));
+			SideMenus menu = sideMenuDao.get(SideMenus.class, Integer.valueOf(dto.getMenuId()));
 			if(menu != null) {
 				sideMenuDao.delete(menu);
 			} else {

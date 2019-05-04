@@ -60,6 +60,9 @@ public class SideMenus implements Serializable {
 	@Column(length=32, nullable=true)
 	private String icon; //菜单图标
 	
+	@Column(length=500, nullable=true)
+	private String component; //组件名称
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="menuId", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private Set<SideAuthorization> authorization;
@@ -215,5 +218,13 @@ public class SideMenus implements Serializable {
 
 	public void setAuthorization(Set<SideAuthorization> authorization) {
 		this.authorization = authorization;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
 	}
 }

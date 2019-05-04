@@ -3,8 +3,6 @@
  */
 package com.side.role.roleServiceImpl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.criterion.MatchMode;
@@ -12,8 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.mysql.jdbc.StringUtils;
 import com.side.basic.baseServiceImpl.SideBasicServiceImpl;
@@ -54,10 +51,32 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 		
 		DetachedCriteriaTS<SideRole> criteria = new DetachedCriteriaTS<SideRole>(SideRole.class);
 		
-		if(!StringUtils.isNullOrEmpty(dto.getKey())) {
-			criteria.add(Restrictions.or(Restrictions.like("roleName", dto.getKey(), MatchMode.ANYWHERE), 
-										 Restrictions.like("roleCode", dto.getKey(), MatchMode.ANYWHERE)));
-		}
+		if(!ObjectUtils.isEmpty(dto)) {
+			
+			if ( !StringUtils.isNullOrEmpty( dto.getKey() ) ) {
+				criteria.add(Restrictions.or(Restrictions.like("roleName", dto.getKey(), MatchMode.ANYWHERE), 
+											 Restrictions.like("roleCode", dto.getKey(), MatchMode.ANYWHERE)));
+			} else {
+				
+				if(!StringUtils.isNullOrEmpty(dto.getRoleCode())) {
+					criteria.add(Restrictions.like("roleCode", dto.getRoleCode(), MatchMode.ANYWHERE));
+				}
+				
+				if(!StringUtils.isNullOrEmpty(dto.getRoleCode())) {
+					criteria.add(Restrictions.like("roleName", dto.getRoleName(), MatchMode.ANYWHERE));
+				}
+				
+				if(dto.getRoleId() != null) {
+					criteria.add(Restrictions.eq("roleId", dto.getRoleId()));
+				}
+				
+				if(dto.getRoleStatus() != null) {
+					criteria.add(Restrictions.eq("roleStatus", dto.getRoleStatus()));
+				}
+				
+			}
+			
+		} 
 		
 		return roleDao.findAll(criteria);
 	}
