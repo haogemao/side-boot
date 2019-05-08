@@ -33,11 +33,11 @@ public class SideUserRole implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer userRoleId;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	@JoinColumn(name = "userId", nullable=false)
 	private SideUser userId;
 	
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.MERGE)
 	@JoinColumn(name = "roleId", nullable=false)
 	private SideRole roleId;
 	

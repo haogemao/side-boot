@@ -4,6 +4,9 @@
 package com.side.role.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author gmc
@@ -19,6 +22,16 @@ public class RoleDto implements Serializable {
 	private String roleName;
 	
 	private Integer roleStatus;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createDate;
+	
+	private Integer createBy;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date lastUpdateDate;
+	
+	private Integer lastUpdateBy;
 	
 	private String key;
 
@@ -60,5 +73,37 @@ public class RoleDto implements Serializable {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+	public Date getLastUpdateDate() {
+		return lastUpdateDate;
+	}
+
+	public void setLastUpdateDate(Date lastUpdateDate) {
+		this.lastUpdateDate = lastUpdateDate;
+	}
+
+	public Integer getLastUpdateBy() {
+		return lastUpdateBy;
+	}
+
+	public void setLastUpdateBy(Integer lastUpdateBy) {
+		this.lastUpdateBy = lastUpdateBy;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Integer getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Integer createBy) {
+		this.createBy = createBy;
 	}
 }

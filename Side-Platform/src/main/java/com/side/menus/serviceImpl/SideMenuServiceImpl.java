@@ -33,7 +33,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 	private ISideMenuDao sideMenuDao;
 
 	@Override
-	public List<SideMenus> getParents() {
+	public List<SideMenus> getParents() throws Exception {
 		List<SideMenus> menus = new ArrayList<SideMenus>();
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 		criteria.add(Restrictions.eq("isParent", 0));
@@ -42,7 +42,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 	}
 
 	@Override
-	public List<SideMenus> getChildByParentId(Integer parentId) {
+	public List<SideMenus> getChildByParentId(Integer parentId) throws Exception {
 		List<SideMenus> menus = new ArrayList<SideMenus>();
 		SideMenus parentMenu = sideMenuDao.get(SideMenus.class, parentId);
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
@@ -52,7 +52,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 	}
 
 	@Override
-	public List<SideMenus> findMenuByKey(MenuDto dto) {
+	public List<SideMenus> findMenuByKey(MenuDto dto) throws SideCustException {
 		List<SideMenus> pageModel = null;
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 		if(dto != null) {

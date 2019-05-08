@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.side.basic.IbaseService.ISideBasicService;
 import com.side.basic.SideException.SideCustException;
-import com.side.basic.common.utils.PageMode;
 import com.side.menus.dto.MenuDto;
 import com.side.menus.pojo.SideMenus;
 
@@ -21,14 +20,14 @@ public interface ISideMenuService extends ISideBasicService<SideMenus> {
 	 * 获取所有父级菜单
 	 * @return
 	 */
-	public List<SideMenus> getParents();
+	public List<SideMenus> getParents() throws Exception;
 	
 	/**
 	 * 根据父级菜单获取所有子级菜单
 	 * @param parentId
 	 * @return
 	 */
-	public List<SideMenus> getChildByParentId(Integer parentId);
+	public List<SideMenus> getChildByParentId(Integer parentId) throws Exception;
 	
 	/**
 	 * 根据条件查询菜单

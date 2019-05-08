@@ -68,33 +68,39 @@ public class LoginController {
 		List<GrantedAuthority> roleList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		List<String> roles = new ArrayList<String>();
 		SideUser user = null;
-		
-		if(!roleList.isEmpty()) {
-			Iterator iterator =  roleList.iterator();
-			while(iterator.hasNext()) {
-				String roleCode = iterator.next().toString();
-				roles.add(roleCode);
+		try {
+			if(!roleList.isEmpty()) {
+				Iterator<GrantedAuthority> iterator =  roleList.iterator();
+				while(iterator.hasNext()) {
+					String roleCode = iterator.next().toString();
+					roles.add(roleCode);
+				}
 			}
-		}
-		//获取用户权限
-		if(!roles.isEmpty()) {
-			authorizations = authorizationService.findAuthorizationByRole(roles.get(0));
-			parents = getAllParentMenu(authorizations);
-			firstChilds = getFirstParentMenuChild(authorizations);
-		}
-		
-		//获取用户信息
-		if(!StringUtils.isEmpty(userName)) {
-			user = sideUserService.findSideUserByCode(userName);
-			if(user != null) {
-				result.put("user_info", user);
+			//获取用户权限
+			if(!roles.isEmpty()) {
+				authorizations = authorizationService.findAuthorizationByRole(roles.get(0));
+				parents = getAllParentMenu(authorizations);
+				firstChilds = getFirstParentMenuChild(authorizations);
 			}
+			
+			//获取用户信息
+			if(!StringUtils.isEmpty(userName)) {
+				user = sideUserService.findSideUserByCode(userName);
+				if(user != null) {
+					result.put("user_info", user);
+				}
+			}
+			
+			//用户角色权限
+			result.put("parents", parents);
+			result.put("firstChilds", firstChilds);
+			return result;
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 		
-		//用户角色权限
-		result.put("parents", parents);
-		result.put("firstChilds", firstChilds);
-		return result;
 	}
 	
 	private List<SideMenus> getAllParentMenu(List<SideAuthorization> authorizations){

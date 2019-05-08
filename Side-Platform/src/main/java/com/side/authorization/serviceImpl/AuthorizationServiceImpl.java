@@ -37,7 +37,7 @@ public class AuthorizationServiceImpl extends SideBasicServiceImpl<SideAuthoriza
 	private IRoleService roleService;
 
 	@Override
-	public List<SideAuthorization> findAuthorizationByRole(String roleCode) {
+	public List<SideAuthorization> findAuthorizationByRole(String roleCode) throws Exception {
 		List<SideAuthorization> authorizations = null;
 		SideRole role = roleService.findRoleByCode(roleCode);
 		if(role != null) {
@@ -50,7 +50,7 @@ public class AuthorizationServiceImpl extends SideBasicServiceImpl<SideAuthoriza
 	}
 
 	@Override
-	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode) {
+	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode) throws Exception {
 		DetachedCriteriaTS<SideAuthorization> criteria = new DetachedCriteriaTS<SideAuthorization>(SideAuthorization.class);
 		if(StringUtils.isEmpty(roleCode)) {
 			return null;

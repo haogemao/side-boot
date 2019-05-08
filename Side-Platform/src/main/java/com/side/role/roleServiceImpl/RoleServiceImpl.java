@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.mysql.jdbc.StringUtils;
@@ -32,7 +34,7 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 	private IRoleDao roleDao;
 
 	@Override
-	public SideRole findRoleByCode(String roleCode) {
+	public SideRole findRoleByCode(String roleCode) throws Exception {
 		
 		SideRole role = null;
 		
@@ -47,7 +49,7 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 	}
 
 	@Override
-	public List<SideRole> findRoleByKey(RoleDto dto) {
+	public List<SideRole> findRoleByKey(RoleDto dto) throws Exception{
 		
 		DetachedCriteriaTS<SideRole> criteria = new DetachedCriteriaTS<SideRole>(SideRole.class);
 		
@@ -79,6 +81,45 @@ public class RoleServiceImpl extends SideBasicServiceImpl<SideRole> implements I
 		} 
 		
 		return roleDao.findAll(criteria);
+	}
+
+	@Override
+	@Transactional
+	public void saveRole(RoleDto dto) throws Exception{
+		//roleId不为空时属于编辑、修改操作
+		if(dto.getRoleId() != null) {
+			
+			SideRole role = roleDao.get(SideRole.class, dto.getRoleId());
+			
+			if(!ObjectUtils.isEmpty(role)) {
+				role.setRoleCode(dto.getRoleCode());
+				role.setRoleName(dto.getRoleName());
+				role.setRoleStatus(dto.getRoleStatus());
+				role.setLastUpdateBy(dto.getLastUpdateBy());
+				role.setLastUpdateDate(dto.getLastUpdateDate());
+				roleDao.saveOrUpdate(role);
+			}
+			
+		} else {
+			SideRole role = new SideRole(dto.getRoleCode(), 
+											dto.getRoleName(), 
+											dto.getRoleStatus(), 
+											dto.getCreateDate(), 
+											dto.getCreateBy());
+			roleDao.save(role);
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void delRole(RoleDto dto) throws Exception {
+		if(dto.getRoleId() != null) {
+			SideRole role = roleDao.get(SideRole.class, dto.getRoleId());
+			if(role != null) {
+				roleDao.delete(role);
+			}
+		}
 	}
 	
 }

@@ -37,6 +37,7 @@ public class MenuDto implements Serializable {
 	
 	private String currentUser;
 	
+	@SuppressWarnings("unused")
 	private Date date;
 
 	public String getMenuId() {

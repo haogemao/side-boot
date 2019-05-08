@@ -19,13 +19,13 @@ public interface IAuthorizationService extends ISideBasicService<SideAuthorizati
 	 * @param roleCode
 	 * @return
 	 */
-	public List<SideAuthorization> findAuthorizationByRole(String roleCode);
+	public List<SideAuthorization> findAuthorizationByRole(String roleCode) throws Exception;
 	
 	/**
 	 * 根据角色编码查询所有父级菜单权限
 	 * @param roleCode
 	 * @return
 	 */
-	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode);
+	public List<SideAuthorization> findParentAuthorizationByRole(String roleCode) throws Exception;
 
 }

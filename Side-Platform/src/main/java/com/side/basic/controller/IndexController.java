@@ -44,17 +44,27 @@ public class IndexController {
 	@RequestMapping("/getAllParentMenus")
 	public List<SideAuthorization> getAllParentMenus() {
 		List<SideAuthorization> authorizationList = new ArrayList<SideAuthorization>();
-		@SuppressWarnings("unchecked")
-		List<GrantedAuthority> roleList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		if(!roleList.isEmpty()) {
-			authorizationList = authorizationService.findParentAuthorizationByRole(roleList.get(0).getAuthority());
+		try {
+			@SuppressWarnings("unchecked")
+			List<GrantedAuthority> roleList = (List<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+			if(!roleList.isEmpty()) {
+				authorizationList = authorizationService.findParentAuthorizationByRole(roleList.get(0).getAuthority());
+			}
+			return authorizationList;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return authorizationList;
+
 	}
 	
 	@RequestMapping("/getChildParentMenus")
 	public List<SideMenus> getChildMenuByParent(@RequestParam("parentId") int parentId){
-		return sideMenuService.getChildByParentId(parentId);
+		try {
+			return sideMenuService.getChildByParentId(parentId);
+		} catch(Exception e) {
+			return null;
+		}
 	}
 	
 	@RequestMapping("/getUserInfo")
