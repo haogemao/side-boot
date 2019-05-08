@@ -126,7 +126,7 @@
 						<div id="first_control" class="control-group warning" style="display: none;">
 							<label class="control-label">上级菜单</label>
 							<div class="controls">
-								<input type="text" disabled="disabled" name="parentMenu" id="parentMenu" v-model="menuObject.parentMenu.menuName">
+								<input type="text" disabled="disabled" name="parentMenu" id="parentMenu">
 							</div>
 						</div>
 						<div class="control-group warning">
@@ -221,7 +221,6 @@
 </template>
 
 <script>
-//	import '/static/js/bootstrap/bootstrap.min.js'
 	export default{
 		name: "menuPage",
 		data : function(){
@@ -344,6 +343,7 @@
 			},
 			addMenu : function(){
 				let _this = this;
+				_this.menuObject = {};
 				$("#first_control").hide();
 				$("#last_control").show();
 				$("#parentModal").modal('show');
@@ -412,6 +412,7 @@
 			addChild : function(){
 				let _this = this;
 				if(_this.parentId != null && _this.parentId != undefined){
+					_this.menuObject = {};
 					$("#first_control").show();
 					_this.parentMenu = _this.parentId;
 					$("#last_control").hide();
@@ -511,7 +512,6 @@
 								_this.menuList = eval(response.data.data);
 								$("#parentModal").modal('hide');
 							}
-							
 						}
 					}
 				}).catch(response => {

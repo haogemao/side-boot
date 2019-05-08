@@ -105,7 +105,7 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void roleTestCase() {
+	public void roleTestCase() throws Exception {
 		SideRole role = roleService.findRoleByCode("0001");
 		if(role == null) {
 			role = new SideRole();
@@ -119,7 +119,7 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void userRoleTestCase() {
+	public void userRoleTestCase() throws Exception  {
 		SideRole role = roleService.findRoleByCode("0001");
 		SideUser admin = sideUserService.findSideUserByCode("00001");
 		SideUserRole userRole = new SideUserRole();
@@ -163,7 +163,7 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void roleMenuTestCase() {
+	public void roleMenuTestCase() throws Exception  {
 		SideRole role = roleService.findRoleByCode("0001");
 		
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
@@ -180,7 +180,15 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void userAuthorizationTestCase() {
+	public void authorizationDelCase() throws Exception {
+		SideAuthorization authorization = authorizationService.get(SideAuthorization.class, 25);
+		if(authorization != null) {
+			authorizationService.delete(authorization);
+		}
+	}
+	
+	@Test
+	public void userAuthorizationTestCase() throws Exception  {
 		List<SideAuthorization> authorizations = authorizationService.findAuthorizationByRole("0001");
 		if(authorizations != null && authorizations.size() > 0) {
 			for(SideAuthorization authorization : authorizations) {
@@ -223,7 +231,7 @@ public class SidePlatformApplicationTests {
 		int pageNumber = 1;
 		int pageSize = 10;
 		params.put("menuCode", "userManager");
-		PageMode pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize);
+		PageMode<?> pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize);
 		if(pageMode != null) {
 			System.out.println("pageMode.records size : " + pageMode.getRecords().size());
 		}
@@ -236,7 +244,7 @@ public class SidePlatformApplicationTests {
 		int pageNumber = 1;
 		int pageSize = 10;
 		params.put("menuCode", "userManager");
-		PageMode pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize, SideMenus.class);
+		PageMode<SideMenus> pageMode = menuService.findBySQL(sql, params, pageNumber, pageSize, SideMenus.class);
 		if(pageMode != null) {
 			System.out.println("pageMode.records size : " + pageMode.getRecords().size());
 		}
@@ -273,7 +281,7 @@ public class SidePlatformApplicationTests {
 	}
 	
 	@Test
-	public void findAuthorizationByRoleCode() {
+	public void findAuthorizationByRoleCode() throws Exception  {
 		List<SideAuthorization> list = authorizationService.findParentAuthorizationByRole("0001");
 		if(!list.isEmpty()) {
 			for (SideAuthorization sideAuthorization : list) {

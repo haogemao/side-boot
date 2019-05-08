@@ -26,7 +26,7 @@ axios.interceptors.request.use(
   	//当发起请求为post请求时，对数据进行格式化处理
   	var accessToken = window.localStorage.getItem("access_token");
   	if(config.method=="post"){
-  		config.data = qs.stringify(config.data);
+		config.data = qs.stringify(config.data);
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
         if (accessToken != null) { //判断token是否存在
 	    		config.headers.Authorization = "Bearer " + accessToken;  //将token设置成请求头
