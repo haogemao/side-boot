@@ -10,7 +10,22 @@ export default new Vuex.Store({
     state: {
         user: {},
         token: null,
-        title: ''
+        title: '',
+        operation: {
+        		add: '1',
+        		edit: '2',
+        		del: '3',
+        		query: '0',
+        		imp: '4',
+        		exp: '5'
+        },
+        roleAuthorization: {
+        		roleId: null,
+        		menuId: null,
+        		operation: null,
+        		authorizationId: null
+        },
+        authorizationList: []
     },
     mutations: {
         [types.LOGIN]: (state, data) => {

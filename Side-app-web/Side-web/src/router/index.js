@@ -4,6 +4,7 @@ import Login from '@/components/Login'
 import Main from '@/components/MainPage'
 import MenuPage from '@/components/childs/MenuPage'
 import RolePage from '@/components/childs/RolePage'
+import AuthorizationPage from '@/components/childs/AuthorizationPage'
 import store from '../store/store'
 import * as types from '../store/types'
 
@@ -31,6 +32,11 @@ const routes = [
 	    			path: 'roles',
 	    			name: 'roles',
 	    			component : RolePage
+	    		},
+	    		{
+	    			path: 'authorization',
+	    			name: 'authorization',
+	    			component: AuthorizationPage
 	    		}
     		]
     }

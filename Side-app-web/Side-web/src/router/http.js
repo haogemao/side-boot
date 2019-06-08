@@ -17,17 +17,22 @@ axios.defaults.baseURL = 'http://localhost:8801';
 // http request 拦截器
 axios.interceptors.request.use(
   config => {
-  	//当发起请求是登录请求时
-  	if(config.url == "/auth-center/oauth/token"){
-      	config.data.client_id="client";
-      	config.data.client_secret="secret";
-      	config.data.grant_type="password";
-  	} 
   	//当发起请求为post请求时，对数据进行格式化处理
   	var accessToken = window.localStorage.getItem("access_token");
   	if(config.method=="post"){
-		config.data = qs.stringify(config.data);
-        config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  		
+  		//当发起请求是登录请求时
+	  	if(config.url == "/auth-center/oauth/token"){
+	      	config.data.client_id="client";
+	      	config.data.client_secret="secret";
+	      	config.data.grant_type="password";
+	      	config.data = qs.stringify(config.data);
+        		config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        		
+	  	} else{
+	  		config.data = JSON.stringify(config.data);
+	  		config.headers.post['Content-Type'] = 'application/json';
+	  	}
         if (accessToken != null) { //判断token是否存在
 	    		config.headers.Authorization = "Bearer " + accessToken;  //将token设置成请求头
 	    } 

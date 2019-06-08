@@ -274,7 +274,7 @@
 					}
 				}
 			}).catch(response => {
-				this.$this.$alertify.error("查询发送异常，请联系管理员");
+				this.$alertify.error("查询发送异常，请联系管理员");
 			});
 		},
 		methods : {
