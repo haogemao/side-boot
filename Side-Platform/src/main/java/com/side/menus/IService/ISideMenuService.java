@@ -48,5 +48,13 @@ public interface ISideMenuService extends ISideBasicService<SideMenus> {
 	 * @throws SideCustException
 	 */
 	public void delMenuByDto(MenuDto dto) throws SideCustException;
+	
+	/**
+	 * 根据类型查询子菜单
+	 * @param menuType
+	 * @return
+	 * @throws SideCustException
+	 */
+	public List<SideMenus> getChildMenusByMenuType(MenuDto dto) throws SideCustException;
 
 }

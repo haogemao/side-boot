@@ -78,6 +78,9 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 			if (dto.getIsParent() != null) {
 				criteria.add(Restrictions.eq("isParent", dto.getIsParent()));
 			}
+			if(dto.getMenuType() != null) {
+				criteria.add(Restrictions.eq("menuType", Integer.parseInt(dto.getMenuType())));
+			}
 		}
 		pageModel = sideMenuDao.findAll(criteria);
 		return pageModel;
@@ -140,6 +143,21 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 		} else {
 			throw new SideCustException("参数有误");
 		}
+	}
+
+	@Override
+	public List<SideMenus> getChildMenusByMenuType(MenuDto dto) throws SideCustException {
+		List<SideMenus> menus = new ArrayList<SideMenus>();
+		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
+		criteria.add(Restrictions.eq("isParent", 1));
+		
+		if(dto.getMenuType() != null) {
+			criteria.add(Restrictions.eq("menuType", dto.getMenuType()));
+		}
+		
+		menus = sideMenuDao.findAll(criteria);
+		
+		return menus;
 	}
 	
 }
