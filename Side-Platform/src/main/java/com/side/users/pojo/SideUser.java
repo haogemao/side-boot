@@ -17,8 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author gmc
  *
  */
-//@Cache(region="user", include="all", usage=CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("serial")
 @DynamicUpdate
 @Entity

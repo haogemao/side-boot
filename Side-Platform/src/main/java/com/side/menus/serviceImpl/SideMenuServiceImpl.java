@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +38,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 		List<SideMenus> menus = new ArrayList<SideMenus>();
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 		criteria.add(Restrictions.eq("isParent", 0));
+		criteria.addOrder(Order.asc("menuSort"));
 		menus = sideMenuDao.findAll(criteria);
 		return menus;
 	}
@@ -47,6 +49,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 		SideMenus parentMenu = sideMenuDao.get(SideMenus.class, parentId);
 		DetachedCriteriaTS<SideMenus> criteria = new DetachedCriteriaTS<SideMenus>(SideMenus.class);
 		criteria.add(Restrictions.eq("parentMenu", parentMenu));
+		criteria.addOrder(Order.asc("menuSort"));
 		menus = sideMenuDao.findAll(criteria);
 		return menus;
 	}
@@ -82,6 +85,7 @@ public class SideMenuServiceImpl extends SideBasicServiceImpl<SideMenus> impleme
 				criteria.add(Restrictions.eq("menuType", Integer.parseInt(dto.getMenuType())));
 			}
 		}
+		criteria.addOrder(Order.asc("menuSort"));
 		pageModel = sideMenuDao.findAll(criteria);
 		return pageModel;
 	}
