@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Side-Zuul:war">
+    <output-path>$PROJECT_DIR$/Side-Zuul/target</output-path>
+    <root id="archive" name="Side-Zuul-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Side-Zuul:war exploded" />
+    </root>
+  </artifact>
+</component>

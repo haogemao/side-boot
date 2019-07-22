@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Side-Platform:war">
+    <output-path>$PROJECT_DIR$/Side-Platform/target</output-path>
+    <root id="archive" name="Side-Platform-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Side-Platform:war exploded" />
+    </root>
+  </artifact>
+</component>

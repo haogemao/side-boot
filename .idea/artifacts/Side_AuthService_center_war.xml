@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Side-AuthService-center:war">
+    <output-path>$PROJECT_DIR$/Side-AuthService-center/target</output-path>
+    <root id="archive" name="Side-AuthService-center-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="Side-AuthService-center:war exploded" />
+    </root>
+  </artifact>
+</component>

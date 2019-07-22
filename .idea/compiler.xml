@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Side-AuthService-center" />
+        <module name="Side-Platform" />
+        <module name="Side-ServiceRegister" />
+        <module name="Side-Zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Side-AuthService-center" target="8" />
+      <module name="Side-Platform" target="8" />
+      <module name="Side-ServiceRegister" target="10" />
+      <module name="Side-Zuul" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
