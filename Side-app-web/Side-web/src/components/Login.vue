@@ -48,6 +48,8 @@
 		methods : {
 			dologin : function(){
 				let _this = this;
+//				let encryptor = new JSEncrypt();
+				this.jsEncrypt.setPublicKey(this.publicKey);
 				if(!this.usercode || !this.pwd){
 					this.$alertify.error("请输入账号密码!");
 				}
@@ -55,7 +57,7 @@
 					method : 'post',
 					data : {
 						username : this.usercode,
-						password : this.pwd
+						password : _this.jsEncrypt.encrypt(this.pwd)
 					},
 					url : '/auth-center/oauth/token'
 				}).then(function(response){

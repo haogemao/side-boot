@@ -49,10 +49,10 @@ public class SideUser implements Serializable {
 	private Date lastUpdateDate;
 	
 	@Column(length=32, nullable=false)
-	private Integer createBy;
+	private Long createBy;
 	
 	@Column(length=32, nullable=true)
-	private Integer lastUpdateBy;
+	private Long lastUpdateBy;
 	
 	@Column(nullable=false)
 	private Integer userStatus;
@@ -79,19 +79,19 @@ public class SideUser implements Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public Integer getCreateBy() {
+	public Long getCreateBy() {
 		return createBy;
 	}
 
-	public void setCreateBy(Integer createBy) {
+	public void setCreateBy(Long createBy) {
 		this.createBy = createBy;
 	}
 
-	public Integer getLastUpdateBy() {
+	public Long getLastUpdateBy() {
 		return lastUpdateBy;
 	}
 
-	public void setLastUpdateBy(Integer lastUpdateBy) {
+	public void setLastUpdateBy(Long lastUpdateBy) {
 		this.lastUpdateBy = lastUpdateBy;
 	}
 

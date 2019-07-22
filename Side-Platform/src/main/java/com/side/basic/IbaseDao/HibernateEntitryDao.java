@@ -96,54 +96,54 @@ public interface HibernateEntitryDao {
 	/**
 	 * 分页查询
 	 * @param criteria 参数对象
-	 * @param pi
-	 * @param ps
+	 * @param pageNumber 开始记录行
+	 * @param pageSize	每页记录数
 	 * @return
 	 */
 	public <T> PageMode<T> findForPage(DetachedCriteriaTS<T> criteria, int pageNumber, int pageSize);
 	
 	/**
 	 * 根据sql查询数据
-	 * @param sql
-	 * @param params
-	 * @param pageNumber
-	 * @param pageSize
-	 * @param clazz
+	 * @param sql 查询语句
+	 * @param params 查询参数
+	 * @param pageNumber 开始记录行
+	 * @param pageSize 每页记录数
+	 * @param clazz	实体类型
 	 * @return
 	 */
 	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize, Class<T> clazz);
 	
 	/**
 	 * 根据sql查询对象
-	 * @param sql
-	 * @param params
-	 * @param clazz
+	 * @param sql 查询语句
+	 * @param params 查询参数
+	 * @param clazz 实体类型
 	 * @return
 	 */
 	public <T> T findObjBySQL(String sql, Map<String, String> params, Class<T> clazz);
 	
 	/**
 	 * 根据sql查询数据集合
-	 * @param sql
-	 * @param params
-	 * @param pageNumber
-	 * @param pageSize
+	 * @param sql 查询语句
+	 * @param params 查询参数
+	 * @param pageNumber 开始记录行
+	 * @param pageSize 每页记录数
 	 * @return
 	 */
-	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize);
+	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize);
 	
 	/**
 	 * 根据sql查询对象
-	 * @param sql
-	 * @param params
+	 * @param sql 查询语句
+	 * @param params 查询参数
 	 * @return
 	 */
 	public Object findObjBySQL(String sql, Map<String, String> params);
 	
 	/**
 	 * 根据sql操作数据库
-	 * @param sql
-	 * @param params
+	 * @param sql 操作数据库sql(可以是insert/update/delete)
+	 * @param params 参数列表(参数名必须与表字段名相同)
 	 */
 	public void executeSql(String sql, Map<String, String> params);
 	

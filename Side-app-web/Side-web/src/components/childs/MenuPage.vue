@@ -405,7 +405,9 @@
 								this.$alertify.error("查询发送异常，请联系管理员");
 							});
 						},
-						null
+						() => {
+							$(".alertify").css("display", "none");
+						}
 					);
 				}
 			},
@@ -477,7 +479,9 @@
 								this.$alertify.error("查询发送异常，请联系管理员");
 							});
 						},
-						null
+						() => {
+							$(".alertify").css("display", "none");
+						}
 					);
 				}
 			},

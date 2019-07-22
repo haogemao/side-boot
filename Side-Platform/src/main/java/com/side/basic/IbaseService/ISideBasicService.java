@@ -26,27 +26,24 @@ public interface ISideBasicService<T> {
 	 * 更新
 	 * @param entity
 	 */
-	
 	public void update(T entity);
 	
 	/**
 	 * 批量更新
 	 * @param list
 	 */
-	
 	public void updateAll(List<T> list);
+	
 	/**
 	 * 删除
 	 * @param entity
 	 */
-	
 	public void delete(T entity);
 	
 	/**
 	 * 批量删除
 	 * @param list
 	 */
-	
 	public void deleteAll(List<T> list);
 	
 	/**

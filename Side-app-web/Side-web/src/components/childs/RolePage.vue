@@ -200,7 +200,9 @@
 								}
 							});
 						},
-						null
+						() => {
+							$(".alertify").css("display", "none");
+						}
 					);
 				}
 			},

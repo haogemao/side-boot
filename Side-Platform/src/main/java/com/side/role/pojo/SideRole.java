@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.side.authorization.pojo.SideAuthorization;
 
@@ -26,6 +28,7 @@ import com.side.authorization.pojo.SideAuthorization;
  */
 @SuppressWarnings("serial")
 @Entity
+@DynamicUpdate
 @Table(name="side_role")
 public class SideRole implements Serializable {
 	

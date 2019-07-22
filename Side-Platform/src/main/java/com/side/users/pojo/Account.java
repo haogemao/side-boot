@@ -18,12 +18,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 /**
  * @author gmc
  * @see 帐户实体
  */
 @SuppressWarnings("serial")
 @Entity
+@DynamicUpdate
 @Table(name="side_account", indexes= {@Index(columnList = "id"), 
 		@Index(columnList = "accCode"), 
 		@Index(columnList = "accName"),
@@ -50,7 +53,7 @@ public class Account implements Serializable {
 	@Column(nullable=true)
 	private Character accSex;
 	
-	@Column
+	@Column(nullable=true)
 	private Date accBirthday;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
@@ -61,13 +64,13 @@ public class Account implements Serializable {
 	private Date createDate;
 	
 	@Column(nullable=false)
-	private Integer createBy;
+	private Long createBy;
 	
 	@Column(nullable=true)
 	private Date lastUpdateDate;
 	
 	@Column(length=32, nullable=true)
-	private String lastUpdateBy;
+	private Long lastUpdateBy;
 	
 	@Column(nullable=false)
 	private Integer accStatus;
@@ -136,11 +139,11 @@ public class Account implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public Integer getCreateBy() {
+	public Long getCreateBy() {
 		return createBy;
 	}
 
-	public void setCreateBy(Integer createBy) {
+	public void setCreateBy(Long createBy) {
 		this.createBy = createBy;
 	}
 
@@ -152,11 +155,11 @@ public class Account implements Serializable {
 		this.lastUpdateDate = lastUpdateDate;
 	}
 
-	public String getLastUpdateBy() {
+	public Long getLastUpdateBy() {
 		return lastUpdateBy;
 	}
 
-	public void setLastUpdateBy(String lastUpdateBy) {
+	public void setLastUpdateBy(Long lastUpdateBy) {
 		this.lastUpdateBy = lastUpdateBy;
 	}
 

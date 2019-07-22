@@ -326,13 +326,13 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
+	public <T> PageMode<T> findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
 		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<PageMode>() {
 			@Override
-			public PageMode doInHibernate(Session session) throws HibernateException {
+			public PageMode<T> doInHibernate(Session session) throws HibernateException {
 				List list = null;
 				int count  = 0;
-				PageMode pageMode = null;
+				PageMode<T> pageMode = null;
 				NativeQuery query = getCurrentSession().createNativeQuery(sql);
 				
 				if(params != null && params.size() > 0) {
@@ -348,7 +348,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 				list = query.getResultList();
 				count = findCountBySQL(sql, params);
 				if(list != null && list.size() > 0) {
-					pageMode = new PageMode(list, pageNumber, pageSize, count);
+					pageMode = new PageMode<T>(list, pageNumber, pageSize, count);
 				}
 				return pageMode;
 			}

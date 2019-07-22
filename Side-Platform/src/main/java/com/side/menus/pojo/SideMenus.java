@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.side.authorization.pojo.SideAuthorization;
@@ -30,6 +32,7 @@ import com.side.authorization.pojo.SideAuthorization;
  */
 @SuppressWarnings("serial")
 @Entity
+@DynamicUpdate
 @Table(name="side_menus", indexes= {@Index(columnList="id"),@Index(columnList="menuCode")})
 @JsonIgnoreProperties(value={"parentMenu","childMenus","hibernateLazyInitializer","handler","fieldHandler"})
 public class SideMenus implements Serializable {

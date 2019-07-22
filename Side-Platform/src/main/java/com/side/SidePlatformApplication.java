@@ -15,11 +15,11 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 public class SidePlatformApplication {
 
 	public static void main(String[] args) {
-		System.out.println("================project startup=================");
+		System.out.println("================后台服务启动=================");
 		
 		SpringApplication.run(SidePlatformApplication.class, args);
 		
-		System.out.println("================project startup over=================");
+		System.out.println("================后台服务启动完成=================");
 	}
 	
 //    @Bean

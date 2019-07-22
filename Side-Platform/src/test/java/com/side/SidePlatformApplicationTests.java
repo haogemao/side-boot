@@ -29,6 +29,7 @@ import com.side.role.IRoleService.IRoleService;
 import com.side.role.pojo.SideRole;
 import com.side.users.IService.ISideAccountService;
 import com.side.users.IService.ISideUserService;
+import com.side.users.pojo.Account;
 import com.side.users.pojo.SideUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -71,6 +72,20 @@ public class SidePlatformApplicationTests {
 		SideUser user = (SideUser)sideCacheService.getSingleCache("user");
 		if(user != null) {
 			System.out.println("user code : " + user.getUserCode());
+		}
+		
+		try {
+			
+			admin.setUserName("超级管理员");
+//			Account account = null;
+//			if(admin.getAccount().getAccountId() > 0) {
+//				account = admin.getAccount();
+//				account.setAccPassword("1");
+//			}
+			sideUserService.userEditer(admin);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		
 //		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

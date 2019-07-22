@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.side.service.auth.service.passwordEncoder.MyPasswordEncoder;
 import com.side.service.auth.service.userDetailsService.MyDaoAuthenticationProvider;
 import com.side.service.auth.service.userDetailsService.UserDetailsServiceImpl;
 
@@ -43,7 +44,7 @@ public class AuthServerWebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		MyDaoAuthenticationProvider provider = new MyDaoAuthenticationProvider(userDetailsService, new BCryptPasswordEncoder() {
+		MyDaoAuthenticationProvider provider = new MyDaoAuthenticationProvider(userDetailsService, new MyPasswordEncoder() {
 			
 		});
 		auth.authenticationProvider(provider);

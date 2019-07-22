@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.side.role.pojo.SideRole;
 import com.side.users.pojo.SideUser;
 
@@ -25,6 +27,7 @@ import com.side.users.pojo.SideUser;
  */
 @SuppressWarnings("serial")
 @Entity
+@DynamicUpdate
 @Table(name="side_user_role")
 public class SideUserRole implements Serializable {
 

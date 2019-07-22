@@ -150,7 +150,12 @@
 		   <artifactId>druid-spring-boot-starter</artifactId>
 		   <version>1.1.10</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.side.common</groupId>
+			<artifactId>side.common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>

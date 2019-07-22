@@ -3,24 +3,27 @@
  */
 package com.side.service.auth.service.passwordEncoder;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.side.service.auth.common.UtilMD5;
+import com.side.common.UtilRSA;
 
 /**
  * @author gmc
  * 
  */
-public class MyPasswordEncoder implements PasswordEncoder {
+public class MyPasswordEncoder extends BCryptPasswordEncoder {
 
-	@Override
-	public String encode(CharSequence rawPassword) {
-		return UtilMD5.MD5((String)rawPassword);
-	}
-
-	@Override
+	//重写父类方法
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return encodedPassword.equals(UtilMD5.MD5((String)rawPassword));
+		try {
+			String pw = UtilRSA.decryptByPrivateKey(
+					Base64.decodeBase64(rawPassword.toString()), UtilRSA.THIS_PRIVATEKEY);
+			return super.matches(pw,encodedPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
