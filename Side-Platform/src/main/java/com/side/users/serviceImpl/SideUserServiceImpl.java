@@ -4,7 +4,9 @@
 package com.side.users.serviceImpl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -149,9 +151,19 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 	@Override
 	public PageMode<SideUser> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception {
 		
-		sideUserDao.findBySQL(UserSQL.FIND_SYSTEM_USER_BYSQL, params, pageNumber, pageSize, clazz)
+		PageMode<SideUser> pageMode = null;
+		StringBuffer sb = new StringBuffer(UserSQL.FIND_SYSTEM_USER_BYSQL);
+		Map<String, String> params = new HashMap<String, String>();
 		
-		return null;
+		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
+			sb.append(" and (a.usercode like '%?%' or a.username like '%?%')" );
+			params.put("usercode", dto.getSearchKey());
+			params.put("username", dto.getSearchKey());
+		}
+		
+		pageMode = sideUserDao.findBySQL(sb.toString(), params, pageNumber, pageSize, SideUser.class);
+		
+		return pageMode;
 	}
 
 

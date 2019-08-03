@@ -29,7 +29,7 @@ import com.side.role.IRoleService.IRoleService;
 import com.side.role.pojo.SideRole;
 import com.side.users.IService.ISideAccountService;
 import com.side.users.IService.ISideUserService;
-import com.side.users.pojo.Account;
+import com.side.users.dto.SideUserDto;
 import com.side.users.pojo.SideUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -301,6 +301,19 @@ public class SidePlatformApplicationTests {
 		if(!list.isEmpty()) {
 			for (SideAuthorization sideAuthorization : list) {
 				System.out.println("menu:" + sideAuthorization.getMenuId().getMenuName());
+			}
+		}
+	}
+	
+	@Test
+	public void findUserBySearchKey() throws Exception {
+		SideUserDto dto = new SideUserDto();
+		PageMode<SideUser> page = sideUserService.findSystemUserBySQL(dto, 1, 10);
+		if(page != null) {
+			System.out.println("总记录数:"+page.getRecords().size());
+			SideUser user = page.getRecords().get(0);
+			if(user != null) {
+				System.out.println(user.getUserCode() + "," + user.getUserName());
 			}
 		}
 	}
