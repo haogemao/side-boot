@@ -33,24 +33,27 @@
 							      </tr>
 							    </thead>
 							    <tbody>
-							      <tr class="gradeX warning">
+							      <tr class="gradeX warning" v-for="user in userList">
+							      	<td style="display: none;">
+										<input type="hidden" ref="uid" v-model="user.userId">
+									</td>
 							        <td>
-							          00001
+							          {{user.userCode}}
 							        </td>
 							        <td>
-							          例子用户
+							          {{user.userName}}
 							        </td>
 							        <td>
-							          系统管理员
+							          {{user.roleName}}
+							        </td>
+							        <td>
+							          {{user.userStatus}}
 							        </td>
 							        <td class="hidden-phone">
-							          正常
+							          {{user.createBy}}
 							        </td>
 							        <td class="hidden-phone">
-							          系统管理员
-							        </td>
-							        <td class="hidden-phone">
-							         2019-07-21
+							          {{user.createDate}}
 							        </td>
 							      </tr>
 							    </tbody>
@@ -67,7 +70,37 @@
 </template>
 
 <script>
-	
+	export default{
+		name : "userPage",
+		data : function(){
+			return {
+				userList : [],
+				searchText : "",
+				userInfo : {
+					userId : "",
+					userName : "",
+					userCode : "", 
+					userStatus : "",
+					searchKey : ""
+				}
+			}
+		},
+		create : function(){
+			let _this = this;
+			this.axios({
+				method : "get",
+				url : '/side/users/getUserList',
+				params : {key : _this.userInfo.searchKey}
+			}).then(response => {
+				_this.$data.userList = JSON.parse(response.data.data);
+			}).catch(response => {
+				
+			})
+		},
+		method : {
+			
+		}
+	}
 </script>
 
 <style>

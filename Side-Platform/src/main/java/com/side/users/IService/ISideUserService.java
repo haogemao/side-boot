@@ -48,4 +48,14 @@ public interface ISideUserService extends ISideBasicService<SideUser>{
 	 */
 	public void userEditer(SideUser user) throws Exception;
 	
+	/**
+	 * 根据SQL查询系统用户
+	 * @param dto 查询实体
+	 * @param pageNumber 当前记录
+	 * @param pageSize	当前页数
+	 * @return
+	 * @throws Exception
+	 */
+	public PageMode<SideUser> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception;
+	
 }

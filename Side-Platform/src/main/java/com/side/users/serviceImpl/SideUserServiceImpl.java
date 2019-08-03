@@ -24,6 +24,7 @@ import com.side.users.IService.ISideUserService;
 import com.side.users.dto.SideUserDto;
 import com.side.users.pojo.Account;
 import com.side.users.pojo.SideUser;
+import com.side.users.sql.UserSQL;
 
 /**
  * @author gmc
@@ -76,9 +77,9 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 			criteria.add(Restrictions.eq("userStatus", dto.getUserStatus()));
 		}
 		
-		if(!StringUtils.isNullOrEmpty(dto.getKey())) {
-			criteria.add(Restrictions.or(Restrictions.like("userCode", dto.getKey(), MatchMode.ANYWHERE), 
-										 Restrictions.like("userName", dto.getKey(), MatchMode.ANYWHERE)));
+		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
+			criteria.add(Restrictions.or(Restrictions.like("userCode", dto.getSearchKey(), MatchMode.ANYWHERE), 
+										 Restrictions.like("userName", dto.getSearchKey(), MatchMode.ANYWHERE)));
 		}
 		
 		list = sideUserDao.findAll(criteria);
@@ -107,9 +108,9 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 			criteria.add(Restrictions.eq("userStatus", dto.getUserStatus()));
 		}
 		
-		if(!StringUtils.isNullOrEmpty(dto.getKey())) {
-			criteria.add(Restrictions.or(Restrictions.like("userCode", dto.getKey(), MatchMode.ANYWHERE), 
-										 Restrictions.like("userName", dto.getKey(), MatchMode.ANYWHERE)));
+		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
+			criteria.add(Restrictions.or(Restrictions.like("userCode", dto.getSearchKey(), MatchMode.ANYWHERE), 
+										 Restrictions.like("userName", dto.getSearchKey(), MatchMode.ANYWHERE)));
 		}
 		
 		return sideUserDao.findForPage(criteria, pageNumber, pageSize);
@@ -143,6 +144,14 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 			sideUserDao.saveOrUpdate(old);
 		}
 		
+	}
+
+	@Override
+	public PageMode<SideUser> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception {
+		
+		sideUserDao.findBySQL(UserSQL.FIND_SYSTEM_USER_BYSQL, params, pageNumber, pageSize, clazz)
+		
+		return null;
 	}
 
 

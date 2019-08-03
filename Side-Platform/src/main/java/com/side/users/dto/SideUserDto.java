@@ -22,7 +22,7 @@ public class SideUserDto implements Serializable {
 	
 	private Integer account;
 	
-	private String key;
+	private String searchKey;
 
 	public Long getUserId() {
 		return userId;
@@ -64,12 +64,12 @@ public class SideUserDto implements Serializable {
 		this.account = account;
 	}
 
-	public String getKey() {
-		return key;
+	public String getSearchKey() {
+		return searchKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
 	}
 	
 }

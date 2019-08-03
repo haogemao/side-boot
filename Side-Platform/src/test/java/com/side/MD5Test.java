@@ -3,9 +3,8 @@
  */
 package com.side;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.side.basic.common.utils.UtilMD5;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gmc
@@ -19,9 +18,11 @@ public class MD5Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-		
-		System.out.println("加密后:" + encode.encode("123456"));
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < 5; i++) {
+			list.add(String.valueOf(i));
+		}
+		System.out.println(list.toString().replace("[", "").replace("]", ""));
 	}
 
 }

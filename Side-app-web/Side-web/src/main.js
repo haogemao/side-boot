@@ -12,6 +12,7 @@ import qs from 'qs'
 //import '../static/css/bootstrap/bootstrap.min.css'
 import '../static/js/bootstrap/bootstrap.js'
 import '../static/js/template/js/jquery.min.js'
+import '../static/js/template/js/jquery.dataTables.js'
 
 import VueAlertify from 'vue-alertify'
 
