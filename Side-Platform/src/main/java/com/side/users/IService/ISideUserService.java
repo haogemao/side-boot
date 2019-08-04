@@ -56,6 +56,6 @@ public interface ISideUserService extends ISideBasicService<SideUser>{
 	 * @return
 	 * @throws Exception
 	 */
-	public PageMode<SideUser> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception;
+	public PageMode<SideUserDto> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception;
 	
 }

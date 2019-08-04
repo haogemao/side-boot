@@ -11,6 +11,20 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class SideUserDto implements Serializable {
+	
+	public SideUserDto() {
+	}
+
+	public SideUserDto(Long userId, String userCode, String userName, Integer userStatus, Long account,
+			Long roleId, String roleName) {
+		this.userId = userId;
+		this.userCode = userCode;
+		this.userName = userName;
+		this.userStatus = userStatus;
+		this.account = account;
+		this.roleId = roleId;
+		this.roleName = roleName;
+	}
 
 	private Long userId;
 	
@@ -20,7 +34,11 @@ public class SideUserDto implements Serializable {
 	
 	private Integer userStatus;
 	
-	private Integer account;
+	private Long account;
+	
+	private Long roleId;
+	
+	private String roleName;
 	
 	private String searchKey;
 
@@ -56,11 +74,11 @@ public class SideUserDto implements Serializable {
 		this.userStatus = userStatus;
 	}
 
-	public Integer getAccount() {
+	public Long getAccount() {
 		return account;
 	}
 
-	public void setAccount(Integer account) {
+	public void setAccount(Long account) {
 		this.account = account;
 	}
 
@@ -70,6 +88,22 @@ public class SideUserDto implements Serializable {
 
 	public void setSearchKey(String searchKey) {
 		this.searchKey = searchKey;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 	
 }

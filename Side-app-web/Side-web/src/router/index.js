@@ -5,6 +5,7 @@ import Main from '@/components/MainPage'
 import MenuPage from '@/components/childs/MenuPage'
 import RolePage from '@/components/childs/RolePage'
 import AuthorizationPage from '@/components/childs/AuthorizationPage'
+import UserPage from '@/components/childs/UserPage'
 import store from '../store/store'
 import * as types from '../store/types'
 
@@ -37,6 +38,11 @@ const routes = [
 	    			path: 'authorization',
 	    			name: 'authorization',
 	    			component: AuthorizationPage
+	    		},
+	    		{
+	    			path: 'users',
+	    			name: 'users',
+	    			component: UserPage
 	    		}
     		]
     }
@@ -59,8 +65,8 @@ router.beforeEach((to, from, next) => {
         }
         else {
             next({
-                path: '/login',
-                query: {redirect: to.fullPath}
+                path: '/',
+                query: {redirect: 'http://localhost:8080/'}
             })
         }
     }

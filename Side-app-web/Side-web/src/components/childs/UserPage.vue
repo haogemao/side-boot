@@ -18,6 +18,9 @@
 							        <th style="width:20%">
 							          用户名称
 							        </th>
+							        <th style="width:16%; display: none;">
+							          角色id
+							        </th>
 							        <th style="width:16%">
 							          用户角色
 							        </th>
@@ -42,6 +45,9 @@
 							        </td>
 							        <td>
 							          {{user.userName}}
+							        </td>
+							        <td  style="display: none;">
+							          {{user.roleId}}
 							        </td>
 							        <td>
 							          {{user.roleName}}
@@ -85,19 +91,23 @@
 				}
 			}
 		},
-		create : function(){
+		created : function(){
 			let _this = this;
 			this.axios({
 				method : "get",
 				url : '/side/users/getUserList',
-				params : {key : _this.userInfo.searchKey}
+				params : {dto : _this.userInfo, pageNumber : 1, pageSize : 10}
 			}).then(response => {
-				_this.$data.userList = JSON.parse(response.data.data);
+				_this.$data.userList = JSON.parse(response.data.pageMode.records);
 			}).catch(response => {
-				
+				if (response.data.retMsg != null){
+					this.$alertify.error(response.data.retMsg);
+				} else {
+					this.$alertify.error("执行时发生异常，请联系管理员");
+				}
 			})
 		},
-		method : {
+		methods : {
 			
 		}
 	}

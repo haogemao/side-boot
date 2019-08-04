@@ -240,7 +240,10 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 				List<T> list = null;
 				int count  = 0;
 				PageMode<T> pageMode = null;
-				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+				
+				//增加自定义实体转换
+				@SuppressWarnings("unchecked")
+				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql).setResultSetMapping(clazz.getSimpleName());//setResultSetMapping指定数据集映射的类
 				
 				if(params != null && params.size() > 0) {
 					int i = 1;
@@ -267,7 +270,8 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<T>() {
 			@Override
 			public T doInHibernate(Session session) throws HibernateException {
-				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql, clazz);
+				@SuppressWarnings("unchecked")
+				NativeQuery<T> query = getCurrentSession().createNativeQuery(sql).setResultSetMapping(clazz.getSimpleName());//setResultSetMapping指定数据集映射的类;
 				if(params != null && params.size() > 0) {
 					int i = 1;
 					for(String key : params.keySet()) {
@@ -282,12 +286,13 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private <T> int findCountBySQL(String sql, Map<String, String> params) {
+	private int findCountBySQL(String sql, Map<String, String> params) {
 		return getHibernateTemplate().executeWithNativeSession(new HibernateCallback<Integer>() {
 			@Override
 			public Integer doInHibernate(Session session) throws HibernateException {
 				Object myCount = null;
-				StringBuffer sb = new StringBuffer("select count(1) from (");
+				StringBuffer sb = new StringBuffer(1000);
+				sb.append("select count(1) from (");
 				if(StringUtils.isNotEmpty(sql)) {
 					sb.append(sql);
 				}

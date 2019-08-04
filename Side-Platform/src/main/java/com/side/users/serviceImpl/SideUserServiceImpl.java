@@ -149,10 +149,11 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 	}
 
 	@Override
-	public PageMode<SideUser> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception {
+	public PageMode<SideUserDto> findSystemUserBySQL(SideUserDto dto, int pageNumber, int pageSize) throws Exception {
 		
-		PageMode<SideUser> pageMode = null;
-		StringBuffer sb = new StringBuffer(UserSQL.FIND_SYSTEM_USER_BYSQL);
+		PageMode<SideUserDto> pageMode = null;
+		StringBuffer sb = new StringBuffer(500);
+		sb.append(UserSQL.FIND_SYSTEM_USER_BYSQL);
 		Map<String, String> params = new HashMap<String, String>();
 		
 		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
@@ -161,7 +162,7 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 			params.put("username", dto.getSearchKey());
 		}
 		
-		pageMode = sideUserDao.findBySQL(sb.toString(), params, pageNumber, pageSize, SideUser.class);
+		pageMode = sideUserDao.findBySQL(sb.toString(), params, pageNumber, pageSize, SideUserDto.class);
 		
 		return pageMode;
 	}

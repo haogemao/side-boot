@@ -308,10 +308,10 @@ public class SidePlatformApplicationTests {
 	@Test
 	public void findUserBySearchKey() throws Exception {
 		SideUserDto dto = new SideUserDto();
-		PageMode<SideUser> page = sideUserService.findSystemUserBySQL(dto, 1, 10);
+		PageMode<SideUserDto> page = sideUserService.findSystemUserBySQL(dto, 1, 10);
 		if(page != null) {
 			System.out.println("总记录数:"+page.getRecords().size());
-			SideUser user = page.getRecords().get(0);
+			SideUserDto user = page.getRecords().get(0);
 			if(user != null) {
 				System.out.println(user.getUserCode() + "," + user.getUserName());
 			}

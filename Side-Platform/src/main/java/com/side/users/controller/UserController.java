@@ -34,13 +34,13 @@ public class UserController extends SideBaseController {
 	private ISideUserService sideUserService;
 
 	@GetMapping("/getUserList")
-	public ResultDto<SideUser> getUserList(@RequestParam("dto")SideUserDto dto, @RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize")int pageSize){
+	public ResultDto<SideUserDto> getUserList(SideUserDto dto, @RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize")int pageSize){
 		
-		ResultDto<SideUser> resultDto = new ResultDto<SideUser>();
-		PageMode<SideUser> pageMode = null;
+		ResultDto<SideUserDto> resultDto = new ResultDto<SideUserDto>();
+		PageMode<SideUserDto> pageMode = null;
 		
 		try {
-			pageMode = sideUserService.findUserForPages(dto, pageNumber, pageSize);
+			pageMode = sideUserService.findSystemUserBySQL(dto, pageNumber, pageSize);
 			
 			if(pageMode != null) {
 				resultDto.setRetCode(SideConstant.SUCCESS);
@@ -54,6 +54,7 @@ public class UserController extends SideBaseController {
 		} catch(Exception e) {
 			resultDto.setRetCode(SideConstant.FAIL);
 			resultDto.setRetMsg(SideConstant.FAIL_MSG);
+			e.printStackTrace();
 		}
 		
 		return resultDto;

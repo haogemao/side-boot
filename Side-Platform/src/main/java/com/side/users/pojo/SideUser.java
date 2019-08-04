@@ -1,5 +1,8 @@
 /**
- * 
+ * 增加@SqlResultSetMapping定义SideUserDto对象为数据映射对象，SideUserDto对象必须存在带参数的构造方法
+ * 参数名字、个数与SQL结果集必须一致。参数个数可以小于结果集字段数目
+ * 对于某些数据库，需要制定字段映射类型
+ * 对象映射名称以类名为主，底层dao根据类型寻找映射
  */
 package com.side.users.pojo;
 
@@ -8,6 +11,8 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
+import javax.persistence.ConstructorResult;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,17 +20,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.side.users.dto.SideUserDto;
 
 /**
  * @author gmc
- *
+ * 
  */
 @SuppressWarnings("serial")
+@SqlResultSetMapping(name="SideUserDto", classes= {
+		@ConstructorResult(targetClass=SideUserDto.class,
+				columns={@ColumnResult(name="userId", type=Long.class),
+						@ColumnResult(name="userCode", type=String.class),
+						@ColumnResult(name="userName", type=String.class),
+						@ColumnResult(name="userStatus", type=Integer.class),
+						@ColumnResult(name="account", type=Long.class),
+						@ColumnResult(name="roleId", type=Long.class),
+						@ColumnResult(name="roleName", type=String.class)
+				}
+		)
+})
 @DynamicUpdate
 @Entity
 @Table(name="side_user")
