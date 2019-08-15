@@ -157,9 +157,9 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 		Map<String, String> params = new HashMap<String, String>();
 		
 		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
-			sb.append(" and (a.usercode like '%?%' or a.username like '%?%')" );
-			params.put("usercode", dto.getSearchKey());
-			params.put("username", dto.getSearchKey());
+			sb.append(" and (a.usercode like ? or a.username like ?)" );
+			params.put("usercode", "%" + dto.getSearchKey() + "%");
+			params.put("username", "%" + dto.getSearchKey() + "%");
 		}
 		
 		pageMode = sideUserDao.findBySQL(sb.toString(), params, pageNumber, pageSize, SideUserDto.class);

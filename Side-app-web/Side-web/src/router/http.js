@@ -19,6 +19,9 @@ axios.interceptors.request.use(
   config => {
   	//当发起请求为post请求时，对数据进行格式化处理
   	var accessToken = window.localStorage.getItem("access_token");
+  	if (accessToken != null) { //判断token是否存在
+    		config.headers.Authorization = "Bearer " + accessToken;  //将token设置成请求头
+	} 
   	if(config.method=="post"){
   		
   		//当发起请求是登录请求时
@@ -33,17 +36,26 @@ axios.interceptors.request.use(
 	  		config.data = JSON.stringify(config.data);
 	  		config.headers.post['Content-Type'] = 'application/json';
 	  	}
-        if (accessToken != null) { //判断token是否存在
-	    		config.headers.Authorization = "Bearer " + accessToken;  //将token设置成请求头
-	    } 
+        
   	} 
   	if(config.method=="get"){
-  		if(config.url.indexOf("?") != -1){
-  			config.url = config.url+"&access_token="+accessToken
-  		} else {
-  			config.url = config.url+"?access_token="+accessToken
-  		}
-  		
+  		config.headers.get['Content-Type'] = 'application/json';
+		for (var param in config.params) {
+			let myParam = config.params[param];
+			if(myParam instanceof Object){
+				for(var field in myParam){
+					if(myParam[field] != null && myParam[field] != undefined && myParam[field] != ""){
+						config.params[field]=myParam[field];
+					}
+				}
+				config.params[param] = undefined;
+			}
+		}
+//		if(config.url.indexOf("?") != -1){
+//			config.url = config.url
+//		} else {
+//			config.url = config.url
+//		}
   	}
     return config;
   },

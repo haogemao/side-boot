@@ -118,7 +118,7 @@ public class PageMode<T> implements Serializable {
 		this.records = records;
 		
 		if(/*this.pageSize == MAX_PAGE_SIZE ||*/ this.pageCount == 1){
-			this.count = this.pageSize = this.records.size();
+			this.count = this.records.size();
 		}
 		
 		this.hasNextPage = this.pageCount > this.pageNumber;

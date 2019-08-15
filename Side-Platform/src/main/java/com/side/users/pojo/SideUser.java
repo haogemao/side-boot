@@ -41,7 +41,9 @@ import com.side.users.dto.SideUserDto;
 						@ColumnResult(name="userStatus", type=Integer.class),
 						@ColumnResult(name="account", type=Long.class),
 						@ColumnResult(name="roleId", type=Long.class),
-						@ColumnResult(name="roleName", type=String.class)
+						@ColumnResult(name="roleName", type=String.class),
+						@ColumnResult(name="createBy", type=Long.class),
+						@ColumnResult(name="createDate", type=Date.class)
 				}
 		)
 })

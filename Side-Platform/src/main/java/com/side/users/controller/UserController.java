@@ -61,11 +61,11 @@ public class UserController extends SideBaseController {
 	}
 	
 	@PostMapping("/userEditer")
-	public ResultDto<SideUser> userEdit(SideUser user){
+	public ResultDto<SideUserDto> userEdit(SideUser user){
 		
-		ResultDto<SideUser> resultDto = new ResultDto<SideUser>();
+		ResultDto<SideUserDto> resultDto = new ResultDto<SideUserDto>();
 		
-		PageMode<SideUser> pageMode = null;
+		PageMode<SideUserDto> pageMode = null;
 		
 		SideUserDto dto = new SideUserDto();
 		
@@ -78,7 +78,7 @@ public class UserController extends SideBaseController {
 			}
 			sideUserService.update(user);
 			
-			pageMode = sideUserService.findUserForPages(dto, 1, 10);
+			pageMode = sideUserService.findSystemUserBySQL(dto, 1, 10);
 			
 			if(pageMode != null) {
 				resultDto.setRetCode(SideConstant.SUCCESS);

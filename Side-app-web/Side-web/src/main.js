@@ -12,7 +12,7 @@ import qs from 'qs'
 //import '../static/css/bootstrap/bootstrap.min.css'
 import '../static/js/bootstrap/bootstrap.js'
 import '../static/js/template/js/jquery.min.js'
-import '../static/js/template/js/jquery.dataTables.js'
+//import '../static/js/template/js/jquery.dataTables.js'
 
 import VueAlertify from 'vue-alertify'
 
@@ -23,7 +23,7 @@ Vue.use(VueMaterial);
 Vue.prototype.axios = axios;
 Vue.prototype.router = router;
 Vue.prototype.store = store;
-Vue.prototype.jsEncrypt  = new  JSEncrypt();
+Vue.prototype.jsEncrypt = new JSEncrypt();
 Vue.prototype.publicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6G8Pb0kNtkSPHBJqqiH4m3YWMM2zBTKDZaqKzYs0hEBnmb8PN8zQtbKDHnmIkneyTubq9Nmqm7Iq8UiwkvAkMZ10bCvTNxJCr2BqcwqBOSYlc51Ny8wFHJZNlgQVfqbsgG4q8sdjW8/6WEQpNepYnMZuAFIB085TCRzRhl+meEQIDAQAB';
 
 Vue.config.productionTip = false

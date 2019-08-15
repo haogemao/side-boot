@@ -4,6 +4,8 @@
 package com.side.users.dto;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author gmc
@@ -16,7 +18,7 @@ public class SideUserDto implements Serializable {
 	}
 
 	public SideUserDto(Long userId, String userCode, String userName, Integer userStatus, Long account,
-			Long roleId, String roleName) {
+			Long roleId, String roleName, Long createBy, Date createDate) {
 		this.userId = userId;
 		this.userCode = userCode;
 		this.userName = userName;
@@ -24,6 +26,8 @@ public class SideUserDto implements Serializable {
 		this.account = account;
 		this.roleId = roleId;
 		this.roleName = roleName;
+		this.createBy = createBy;
+		this.createDate = createDate;
 	}
 
 	private Long userId;
@@ -39,6 +43,14 @@ public class SideUserDto implements Serializable {
 	private Long roleId;
 	
 	private String roleName;
+	
+	private Long createBy;
+	
+	private Date createDate;
+	
+	private String formatDate;
+	
+	private String formatStatus;
 	
 	private String searchKey;
 
@@ -104,6 +116,59 @@ public class SideUserDto implements Serializable {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public Long getCreateBy() {
+		return createBy;
+	}
+
+	public void setCreateBy(Long createBy) {
+		this.createBy = createBy;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getFormatDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(this.createDate != null) {
+			formatDate = format.format(getCreateDate());
+			return formatDate;
+		} else {
+			formatDate = format.format(getCreateDate());
+			return formatDate;
+		}
+	}
+
+	public void setFormatDate(String formatDate) {
+		this.formatDate = formatDate;
+	}
+
+	public String getFormatStatus() {
+		switch (this.getUserStatus()) {
+		case 0:
+			formatStatus = "失效";
+			break;
+		case 1:
+			formatStatus = "正常";
+			break;
+		case 2:
+			formatStatus = "冻结";
+			break;
+		default:
+			formatStatus = "正常";
+			break;
+		}
+		return formatStatus;
+	}
+
+	public void setFormatStatus(String formatStatus) {
+		this.formatStatus = formatStatus;
 	}
 	
 }
