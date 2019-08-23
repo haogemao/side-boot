@@ -410,6 +410,8 @@
             var row = title.substr(1, 1);
             var col = title.substr(3, 1);
             var cal = $(e.target).parents('.calendar');
+            var startDate = this.startDate;
+            var endDate = this.endDate;
 
             if (cal.hasClass('left')) {
                 startDate = this.leftCalendar.calendar[row][col];

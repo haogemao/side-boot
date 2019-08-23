@@ -13,17 +13,22 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ajv": "^6.8.1",
     "axios": "^0.18.1",
-    "bootstrap": "^3.3.7",
-    "jquery": ">=3.4.0",
+    "bootstrap-vue": "^2.0.0-rc.28",
     "jsencrypt": "^3.0.0-rc.1",
+    "moment": "^2.24.0",
     "popper.js": "^1.14.7",
     "qs": "^6.7.0",
-    "vue": "^2.5.2",
+    "vue": "^2.6.10",
     "vue-alertify": "^1.1.0",
     "vue-axios": "^2.1.4",
+    "vue-datepicker": "^1.3.0",
     "vue-material": "^1.0.0-beta-10.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.1",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^2.9.1"
   },
   "devDependencies": {
     "alertify": "^0.3.0",
@@ -52,7 +57,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.0.4",
     "jest-serializer-vue": "^0.3.0",
-    "jquery": "^3.4.0",
+    "jquery": "^3.4.1",
     "nightwatch": "^0.9.12",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
@@ -70,10 +75,9 @@
     "vue-jest": "^1.0.2",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.6.10",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": ">=3.4.1",
-    "webpack-dev-server": ">=3.1.11",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

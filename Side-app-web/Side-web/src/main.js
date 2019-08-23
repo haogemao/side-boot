@@ -9,10 +9,8 @@ import VueMaterial from 'vue-material'
 import JSEncrypt from 'jsencrypt'
 import $ from 'jquery'
 import qs from 'qs'
-//import '../static/css/bootstrap/bootstrap.min.css'
-import '../static/js/bootstrap/bootstrap.js'
-import '../static/js/template/js/jquery.min.js'
-//import '../static/js/template/js/jquery.dataTables.js'
+import './assets/js/template/js/jquery.min.js'
+import './assets/js/bootstrap/bootstrap.min.js'
 
 import VueAlertify from 'vue-alertify'
 
