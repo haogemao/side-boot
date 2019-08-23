@@ -3,6 +3,9 @@
  */
 package com.side.authorization.IService;
 
+import java.util.List;
+
+import com.side.authorization.dto.SideRoleUserDto;
 import com.side.authorization.pojo.SideUserRole;
 import com.side.basic.IbaseService.ISideBasicService;
 
@@ -12,6 +15,8 @@ import com.side.basic.IbaseService.ISideBasicService;
  */
 public interface IUserRoleService extends ISideBasicService<SideUserRole> {
 	
-	public SideUserRole findUserRoleByUserId(String userId);
+	public List<SideUserRole> findUserRoleByUserId(Long userId);
+	
+	public void saveUserRole(List<SideRoleUserDto> list) throws Exception;
 
 }

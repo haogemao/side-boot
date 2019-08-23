@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.side.authorization.pojo.SideAuthorization;
 
 /**
@@ -27,6 +28,7 @@ import com.side.authorization.pojo.SideAuthorization;
  *
  */
 @SuppressWarnings("serial")
+@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
 @Entity
 @DynamicUpdate
 @Table(name="side_role")

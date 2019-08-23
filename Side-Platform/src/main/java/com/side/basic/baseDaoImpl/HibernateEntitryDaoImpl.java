@@ -121,7 +121,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	 */
 	//@Transactional
 	public void saveOrUpdate(Object entity) {
-		super.getHibernateTemplate().saveOrUpdate(entity);
+		super.getHibernateTemplate().saveOrUpdate(getCurrentSession().merge(entity));
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class HibernateEntitryDaoImpl extends HibernateDaoSupport implements Hibe
 	public <T> void saveOrUpdateAll(Collection<T> entities) {
 		if (entities != null && entities.size() > 0) {
 			for (T t : entities) {
-				getHibernateTemplate().saveOrUpdate(t);
+				getHibernateTemplate().saveOrUpdate(getCurrentSession().merge(t));
 			}
 		}
 	}

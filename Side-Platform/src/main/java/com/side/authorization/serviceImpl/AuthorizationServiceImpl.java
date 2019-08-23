@@ -53,8 +53,9 @@ public class AuthorizationServiceImpl extends SideBasicServiceImpl<SideAuthoriza
 		SideRole role = roleService.findRoleByCode(roleCode);
 		if(role != null) {
 			DetachedCriteriaTS<SideAuthorization> criteria = new DetachedCriteriaTS<SideAuthorization>(SideAuthorization.class);
+			criteria.getCriteria().createAlias("menuId", "menu");
 			criteria.add(Restrictions.eqOrIsNull("roleId", role));
-			criteria.addOrder(Order.asc("menuId"));
+			criteria.addOrder(Order.asc("menu.menuSort"));
 			authorizations = authorizationDao.findAll(criteria);
 		}
 		return authorizations;
@@ -71,6 +72,8 @@ public class AuthorizationServiceImpl extends SideBasicServiceImpl<SideAuthoriza
 		
 		criteria.add(Restrictions.eq("role.roleCode", roleCode));
 		criteria.add(Restrictions.eq("menu.isParent", 0));
+		
+		criteria.addOrder(Order.desc("menu.menuSort"));
 		
 		return authorizationDao.findAll(criteria);
 		

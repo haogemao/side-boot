@@ -4,6 +4,7 @@
 package com.side.basic.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.side.basic.common.utils.PageMode;
@@ -56,7 +57,11 @@ public class ResultDto<T> implements Serializable {
 	}
 
 	public List<T> getRecord() {
-		return record;
+		if(record == null ) {
+			return new ArrayList<T>();
+		} else {
+			return record;
+		}
 	}
 
 	public void setRecord(List<T> record) {

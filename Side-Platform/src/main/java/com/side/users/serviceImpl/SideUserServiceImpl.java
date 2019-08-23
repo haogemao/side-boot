@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -119,6 +120,7 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 	}
 
 	@Override
+	@Transactional
 	public void userEditer(SideUser user) throws Exception {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		//新增
@@ -157,9 +159,12 @@ public class SideUserServiceImpl extends SideBasicServiceImpl<SideUser> implemen
 		Map<String, String> params = new HashMap<String, String>();
 		
 		if(!StringUtils.isNullOrEmpty(dto.getSearchKey())) {
-			sb.append(" and (a.usercode like ? or a.username like ?)" );
+			sb.replace(sb.indexOf("$1"), sb.indexOf("$1")+2, " and (a.usercode like ? or a.username like ? or r.roleName like ?)");
 			params.put("usercode", "%" + dto.getSearchKey() + "%");
 			params.put("username", "%" + dto.getSearchKey() + "%");
+			params.put("roleName", "%" + dto.getSearchKey() + "%");
+		} else {
+			sb.replace(sb.indexOf("$1"), sb.indexOf("$1")+2, "");
 		}
 		
 		pageMode = sideUserDao.findBySQL(sb.toString(), params, pageNumber, pageSize, SideUserDto.class);

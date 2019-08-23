@@ -3,8 +3,7 @@
  */
 package com.side;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * @author gmc
@@ -17,12 +16,8 @@ public class MD5Test {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		List<String> list = new ArrayList<String>();
-		for(int i = 0; i < 5; i++) {
-			list.add(String.valueOf(i));
-		}
-		System.out.println(list.toString().replace("[", "").replace("]", ""));
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		System.out.println(encoder.encode("1") + " length:" + encoder.encode("1").length());
 	}
 
 }

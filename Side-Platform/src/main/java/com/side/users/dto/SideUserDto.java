@@ -18,7 +18,7 @@ public class SideUserDto implements Serializable {
 	}
 
 	public SideUserDto(Long userId, String userCode, String userName, Integer userStatus, Long account,
-			Long roleId, String roleName, Long createBy, Date createDate) {
+			String roleId, String roleName, Long createBy, Date createDate) {
 		this.userId = userId;
 		this.userCode = userCode;
 		this.userName = userName;
@@ -40,7 +40,7 @@ public class SideUserDto implements Serializable {
 	
 	private Long account;
 	
-	private Long roleId;
+	private String roleId;
 	
 	private String roleName;
 	
@@ -102,11 +102,11 @@ public class SideUserDto implements Serializable {
 		this.searchKey = searchKey;
 	}
 
-	public Long getRoleId() {
+	public String getRoleId() {
 		return roleId;
 	}
 
-	public void setRoleId(Long roleId) {
+	public void setRoleId(String roleId) {
 		this.roleId = roleId;
 	}
 

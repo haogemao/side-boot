@@ -25,7 +25,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.side.users.dto.SideUserDto;
 
 /**
@@ -40,13 +41,14 @@ import com.side.users.dto.SideUserDto;
 						@ColumnResult(name="userName", type=String.class),
 						@ColumnResult(name="userStatus", type=Integer.class),
 						@ColumnResult(name="account", type=Long.class),
-						@ColumnResult(name="roleId", type=Long.class),
+						@ColumnResult(name="roleId", type=String.class),
 						@ColumnResult(name="roleName", type=String.class),
 						@ColumnResult(name="createBy", type=Long.class),
 						@ColumnResult(name="createDate", type=Date.class)
 				}
 		)
 })
+@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
 @DynamicUpdate
 @Entity
 @Table(name="side_user")
@@ -78,7 +80,6 @@ public class SideUser implements Serializable {
 	@Column(nullable=false)
 	private Integer userStatus;
 	
-	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
  	@JoinColumn(name="account", insertable=true, nullable=true)
 	private Account account;

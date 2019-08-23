@@ -20,11 +20,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author gmc
  * @see 帐户实体
  */
 @SuppressWarnings("serial")
+@JsonIgnoreProperties(value= {"hibernateLazyInitializer", "handler"})
 @Entity
 @DynamicUpdate
 @Table(name="side_account", indexes= {@Index(columnList = "id"), 
@@ -44,6 +48,7 @@ public class Account implements Serializable {
 	@Column(length=100, nullable=false)
 	private String accName;
 	
+//	@JsonIgnore
 	@Column(length=100, nullable=false)
 	private String accPassword;
 	
@@ -56,6 +61,7 @@ public class Account implements Serializable {
 	@Column(nullable=true)
 	private Date accBirthday;
 	
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
  	@JoinColumn(name="userId", insertable=true, nullable=true)
 	private SideUser userId;
