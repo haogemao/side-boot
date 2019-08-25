@@ -76,7 +76,7 @@
 								 </table>
 								 <div class="dataTables_info" id="data-table_info">{{pageInfo}}</div>
 								<div class="dataTables_paginate paging_full_numbers" id="data-table_paginate">
-									<a tabindex="0" class="first paginate_button paginate_button_disabled" id="data-table_first">First</a><a tabindex="0" class="previous paginate_button paginate_button_disabled" id="data-table_previous">Previous</a><span><a tabindex="0" class="paginate_active" v-for="index in pageCount">{{index}}</a></span><a tabindex="0" class="next paginate_button" id="data-table_next">Next</a><a tabindex="0" class="last paginate_button" id="data-table_last">Last</a>
+									<a tabindex="0" class="first paginate_button paginate_button_disabled" id="data-table_first" v-on:click="toFirst">First</a><a tabindex="0" class="previous paginate_button paginate_button_disabled" id="data-table_previous" v-on:click="toPrevious">Previous</a><span><a tabindex="0" class="paginate_active" v-for="index in pageCount" v-on:click="pageLoad(index)">{{index}}</a></span><a tabindex="0" class="next paginate_button" id="data-table_next" v-on:click="toNext">Next</a><a tabindex="0" class="last paginate_button" id="data-table_last" v-on:click="toLast">Last</a>
 								</div>
 		                      </div>
 		                      <div class="clearfix">
@@ -322,6 +322,8 @@
 														  .replace("$3",response.data.pageMode.count);
 				_this.$data.pageNumber = response.data.pageMode.pageNumber;
 				_this.$data.pageSize = response.data.pageMode.pageSize;
+				_this.$data.hasPreviousPage = response.data.pageMode.hasPreviousPage;
+				_this.$data.hasNextPage = response.data.pageMode.hasNextPage;
 			}).catch(response => {
 				if (response.data != null && response.data != undefined){
 					this.$alertify.error(response.data.retMsg);
@@ -345,6 +347,8 @@
 															  .replace("$3",response.data.pageMode.count);
 					_this.$data.pageNumber = response.data.pageMode.pageNumber;
 					_this.$data.pageSize = response.data.pageMode.pageSize;
+					_this.$data.hasPreviousPage = response.data.pageMode.hasPreviousPage;
+					_this.$data.hasNextPage = response.data.pageMode.hasNextPage;
 				}).catch(response => {
 					if (response.data != null && response.data != undefined){
 						this.$alertify.error(response.data.retMsg);
@@ -554,19 +558,42 @@
 				}
 			},
 			pageLoad : function(index){
-				
+				this.$data.pageNumber = index;
+				this.searchUser();
 			},
 			toFirst : function(){
+				if(this.hasPreviousPage){
+					this.$data.pageNumber = 1;
+					this.searchUser();
+				} else {
+					this.$alertify.success("已经是第一页");
+				}
 				
 			},
 			toLast : function(){
+				if(this.hasNextPage){
+					this.$data.pageNumber = this.pageCount;
+					this.searchUser();
+				} else {
+					this.$alertify.success("已经是最后一页");
+				}
 				
 			},
 			toNext : function(){
-				
+				if(this.hasNextPage){
+					this.$data.pageNumber = this.pageNumber+1;
+					this.searchUser();
+				} else {
+					this.$alertify.success("没有下一页");
+				}
 			},
 			toPrevious : function(){
-				
+				if(this.hasPreviousPage){
+					this.$data.pageNumber = this.pageNumber-1;
+					this.searchUser();
+				} else {
+					this.$alertify.success("没有上一页");
+				}
 			},
 			openDatePicker : function(){
 				let _this = this;
