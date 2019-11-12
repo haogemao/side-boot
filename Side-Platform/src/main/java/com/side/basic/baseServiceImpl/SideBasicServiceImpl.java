@@ -103,6 +103,7 @@ public class SideBasicServiceImpl<T> implements ISideBasicService<T> {
 		return hibernateEntitryDao.findObjBySQL(sql, params, clazz);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize) {
 		// TODO Auto-generated method stub
