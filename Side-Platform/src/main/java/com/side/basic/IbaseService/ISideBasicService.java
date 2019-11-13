@@ -115,6 +115,7 @@ public interface ISideBasicService<T> {
 	 * @param pageSize
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public PageMode findBySQL(String sql, Map<String, String> params, int pageNumber, int pageSize);
 	
 	/**
